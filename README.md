@@ -9,11 +9,11 @@
 
 ### Integrantes del equipo
 
-* Kairala, Nicolas [nicokairala](https://github.com/nicokairala)
-* Martin, Nicolas [nico2017](https://github.com/nico2017)
-* Villalba, Guillermo [GDVillalba](https://github.com/GDVillalba)
-* Moreno, Gaston [gaston2882](https://github.com/gaston2882)
-* Segovia, Elias [elias33985](https://github.com/elias33985)
+* Kairala, Nicolas ([nicokairala](https://github.com/nicokairala))
+* Martin, Nicolas ([nico2017](https://github.com/nico2017))
+* Villalba, Guillermo ([GDVillalba](https://github.com/GDVillalba))
+* Moreno, Gaston ([gaston2882](https://github.com/gaston2882))
+* Segovia, Elias ([elias33985](https://github.com/elias33985))
 
 ## Sobre la tecnología
 
