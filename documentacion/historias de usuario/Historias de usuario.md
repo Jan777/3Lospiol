@@ -27,9 +27,9 @@
 
 **Criterio de aceptacion:**
 
-1. Dadas las razas humano, orco y elfo, cuando un personaje humano sea creado inicialmente, entonces el humano ...
-2. Dadas las razas humano, orco y elfo, cuando un personaje orco sea creado inicialmente, entonces el orco... 
-3. Dadas las razas humano, orco y elfo, cuando un personaje elfo sea creado inicialmente, entonces el elfo... 
+1. Dadas las razas humano, orco y elfo, cuando un personaje humano sea creado inicialmente, entonces el humano tendra mas defensa que las otras razas.
+2. Dadas las razas humano, orco y elfo, cuando un personaje orco sea creado inicialmente, entonces el orco tendra mas vida y poder de ataque que las otras razas. 
+3. Dadas las razas humano, orco y elfo, cuando un personaje elfo sea creado inicialmente, entonces el elfo tendra mas inteligencia y mana que las otras razas. 
 
 **5_** Como jugador quiero que cada raza tenga su propia ciudad, y que no se comparta con las otras razas.
 
