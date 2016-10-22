@@ -20,7 +20,7 @@ import razas.Elfo;
 import razas.Humano;
 import razas.Orco;
 
-public abstract class Casta{
+public class Casta{
 	protected int CANT_MAX_HECHIZOS;
 	protected Map<String, HechizoOHab> hechizos = new HashMap<String, HechizoOHab>();
 	protected Personaje personajeCasta;

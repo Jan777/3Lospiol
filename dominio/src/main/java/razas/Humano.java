@@ -1,7 +1,6 @@
 package razas;
 
 import personaje.Personaje;
-import personaje.Raza;
 
 public class Humano extends Personaje{
 	
