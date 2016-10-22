@@ -1,5 +1,5 @@
 package personaje;
 
-public class Humano {
+public class Jugador {
 
 }
