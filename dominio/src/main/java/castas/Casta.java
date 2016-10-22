@@ -29,6 +29,7 @@ public abstract class Casta{
 		CANT_MAX_HECHIZOS=0;
 		if(raza.razaElegida.compareTo("Orco")==0){
 			this.personajeCasta=new Orco();
+			this.personajeCasta.setVida(120);
 			if(casta.compareTo("Paladin")==0){
 				this.agregarHechizo("Sanar", new Sanar());
 				this.agregarHechizo("Golpe heroico", new GolpeHeroico());
@@ -63,6 +64,7 @@ public abstract class Casta{
 		
 		if(raza.razaElegida.compareTo("Elfo")==0){
 			this.personajeCasta=new Elfo();
+			this.personajeCasta.setEnergia(120);
 			if(casta.compareTo("Paladin")==0){
 				this.agregarHechizo("Sanar", new Sanar());
 				this.agregarHechizo("Golpe heroico", new GolpeHeroico());
