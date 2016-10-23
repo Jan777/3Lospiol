@@ -4,8 +4,6 @@ import personaje.Personaje;
 
 public class ConAnillo extends PersonajeEquipado{
 	
-	
-	
 	public ConAnillo(Personaje personajeDecorado) {
 		super(personajeDecorado);
 	}

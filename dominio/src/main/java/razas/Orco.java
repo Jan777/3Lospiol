@@ -20,37 +20,37 @@ public class Orco extends Personaje{
 	
 	public boolean aplicarHechizo(String hechizo,Personaje afectado){
 		if(hechizo.compareTo("Golpe heroico")==0)
-			if(this.mana>37){
+			if(this.mana>=37){
 				this.casta.hechizar(hechizo, afectado);
 				this.consumirMana(37);
 				return true;
 			}
 		if(hechizo.compareTo("Sanar")==0)
-			if(this.mana>10){
+			if(this.mana>=10){
 				this.casta.hechizar(hechizo, afectado);
 				this.consumirMana(10);
 				return true;
 			}
 		if(hechizo.compareTo("Tormenta divina")==0)
-			if(this.mana>37){
+			if(this.mana>=37){
 				this.casta.hechizar(hechizo, afectado);
 				this.consumirMana(37);
 				return true;
 			}
 		if(hechizo.compareTo("Aumentar ataque")==0)
-			if(this.mana>15){
+			if(this.mana>=15){
 				this.casta.hechizar(hechizo, afectado);
 				this.consumirMana(15);
 				return true;
 			}
 		if(hechizo.compareTo("Desgarrar")==0)
-			if(this.mana>30){
+			if(this.mana>=30){
 				this.casta.hechizar(hechizo, afectado);
 				this.consumirMana(30);
 				return true;
 			}
 		if(hechizo.compareTo("Ejecutar")==0)
-			if(this.mana>25){
+			if(this.mana>=25){
 				this.casta.hechizar(hechizo, afectado);
 				this.consumirMana(25);
 				return true;

@@ -16,7 +16,7 @@ import castas.Paladin;
 
 public class PersonajeConHechizosTest {
 	
-	/*@Test
+	@Test
 	public void CrearPersonajeConCasta(){
 		Personaje paladin= new Humano(new Paladin());
 		Personaje guerreroAtacado=new Orco(new Guerrero()); 
@@ -35,12 +35,12 @@ public class PersonajeConHechizosTest {
 		Assert.assertTrue(paladin.aplicarHechizo("Tormenta divina", guerreroAtacado));
 		//ver mana actualizado
 		Assert.assertEquals(50-37,paladin.getMana());
-	}*/
-	
+	}
+	// no funciona no se porque 
 	@Test
 	public void equiparItemsAlPersonaje(){
 		Personaje orco=new Orco(new Guerrero());
-		PersonajeEquipado d2o= new ConEspada(orco);
+		orco = new ConEspada(orco);
 		Assert.assertEquals(10+5, orco.obtenerPuntosDeAtaque());
 		
 	}

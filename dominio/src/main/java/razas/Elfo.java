@@ -8,7 +8,7 @@ public class Elfo extends Personaje {
 	int ataquesRecibidos;
 	
 	public Elfo(Casta castaElegida){
-		this.salud=100;
+		this.salud=85;
 		this.ataque=10;
 		this.casta=castaElegida;
 		String casta=castaElegida.obtenerCastaElegida();
@@ -21,42 +21,42 @@ public class Elfo extends Personaje {
 		this.nivel=1;
 		this.ataquesRecibidos=0;
 		this.mana=0;
-		this.raza="Elfo";
 	}
 	
 	public boolean aplicarHechizo(String hechizo,Personaje afectado){
+		
 		if(hechizo.compareTo("Golpe heroico")==0)
-			if(this.mana>37){
+			if(this.mana>=37){
 				this.casta.hechizar(hechizo, afectado);
 				this.consumirMana(37);
 				return true;
 			}
 		if(hechizo.compareTo("Sanar")==0)
-			if(this.mana>10){
+			if(this.mana>=10){
 				this.casta.hechizar(hechizo, afectado);
 				this.consumirMana(10);
 				return true;
 			}
 		if(hechizo.compareTo("Tormenta divina")==0)
-			if(this.mana>37){
+			if(this.mana>=37){
 				this.casta.hechizar(hechizo, afectado);
 				this.consumirMana(37);
 				return true;
 			}
 		if(hechizo.compareTo("Bola de la oscuridad")==0)
-			if(this.mana>23){
+			if(this.mana>=23){
 				this.casta.hechizar(hechizo, afectado);
 				this.consumirMana(37);
 				return true;
 			}
 		if(hechizo.compareTo("Disminuir ataque")==0)
-			if(this.mana>14){
+			if(this.mana>=14){
 				this.casta.hechizar(hechizo, afectado);
 				this.consumirMana(14);
 				return true;
 			}
 		if(hechizo.compareTo("Latigazo mortal")==0)
-			if(this.mana>30){
+			if(this.mana>=30){
 				this.casta.hechizar(hechizo, afectado);
 				this.consumirMana(30);
 				return true;
@@ -67,7 +67,6 @@ public class Elfo extends Personaje {
 	
 	@Override
 	protected void despuesDeAtacar() {
-		salud++;
 		mana+=10;
 	}
 	
