@@ -22,6 +22,9 @@
 * Java 1.7
 * JUnit 4
 
+##Historia del juego 
+En un mundo donde los clanes orcos vivían en paz y honor, se toparon con otras criaturas jamas vistas, lo cual se torno hostil su relación con estos. Lo mismo ocurrió con los humanos y los elfos y de esa manera cada raza intentara defenderse para subsistir en sus tierras de donde provino.
+
 ## Sobre el proyecto
 
 Este workspace está compuesto por un conjunto de proyectos específicos. Las entregas deberán realizarse dentro del proyecto correspondiente, o si fuera necesario, dentro de un proyecto adicional que podrán crear para tal fin.  
