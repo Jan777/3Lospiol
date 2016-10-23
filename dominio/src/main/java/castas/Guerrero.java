@@ -1,13 +1,15 @@
 package castas;
 
-import personaje.Raza;
-
+import habDeGuerrero.AumentarAtaque;
+import habDeGuerrero.Desgarrar;
+import habDeGuerrero.Ejecutar;
 
 public class Guerrero extends Casta {
 	
-	public Guerrero(Raza razaElegida) {
-		super(razaElegida,"Guerrero");
+	public Guerrero() {
+		this.casta="Guerrero";
+		this.agregarHechizo("Aumentar ataque", new AumentarAtaque());
+		this.agregarHechizo("Desgarrar", new Desgarrar());
+		this.agregarHechizo("Ejecutar", new Ejecutar());
 	}
-
-
 }

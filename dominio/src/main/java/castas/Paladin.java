@@ -1,11 +1,16 @@
 package castas;
 
-import personaje.Raza;
+import hechizosYHabPaladin.GolpeHeroico;
+import hechizosYHabPaladin.Sanar;
+import hechizosYHabPaladin.TormentaDivina;
 
 public class Paladin extends Casta{
 	
-	public Paladin(Raza razaElegida) {
-		super(razaElegida,"Paladin");
+	public Paladin() {
+		this.casta="Paladin";
+		this.agregarHechizo("Sanar", new Sanar());
+		this.agregarHechizo("Golpe heroico", new GolpeHeroico());
+		this.agregarHechizo("Tormenta divina", new TormentaDivina());
 	}
 
 }

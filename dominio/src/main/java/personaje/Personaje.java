@@ -1,14 +1,18 @@
 package personaje;
 
-import interfaces.*;
-
+import castas.Casta;
+import interfaces.Atacable;
 public abstract class Personaje implements Atacable {
 
-	protected int salud=100;
-	protected int energia=100;
-	protected int nivel=1;
-	protected int exp=0;
-	protected int ataque=10;
+	protected int salud;
+	protected int energia;
+	protected int nivel;
+	protected int exp;
+	protected int ataque;
+	public Casta casta;
+	protected int mana;
+	protected int poderDeHechizo;
+	protected String raza;
 	
 	public final void atacar(Atacable atacado) {
 		if (puedeAtacar()) {
@@ -22,7 +26,9 @@ public abstract class Personaje implements Atacable {
 	
 	public abstract boolean puedeAtacar();
 	public abstract int calcularPuntosDeAtaque();
+	public abstract int calcularPuntosDeHechizos();
 	public abstract void serCurado();
+	public abstract boolean aplicarHechizo(String hechizo,Personaje afectado);
 	public abstract int obtenerPuntosDeDefensa();
 	
 	public boolean estaVivo() {
@@ -32,6 +38,10 @@ public abstract class Personaje implements Atacable {
 	@Override
 	public void serAtacado(int daño) {
 		this.salud -= daño;
+	}
+	
+	public void consumirMana(int i) {
+		this.mana-=i;
 	}
 
 	public void serEnergizado() {
@@ -56,7 +66,26 @@ public abstract class Personaje implements Atacable {
 		this.energia=i;	
 	}
 
-	public void setAtaque(int i) {
+	public void aumentarAtaque(int i) {
 		this.ataque+=i;
+	}
+
+	public void disminuirAtaque(int i) {
+		this.ataque-=i;
+		
+	}
+
+	public void setMana(int i) {
+		this.mana=i;
+		
+	}
+
+	public Object getMana() {
+		return mana;
+	}
+	
+
+	public int obtenerPuntosDeHechizos() {
+		return calcularPuntosDeHechizos();
 	}
 }
