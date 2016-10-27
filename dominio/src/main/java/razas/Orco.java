@@ -19,7 +19,7 @@ public class Orco extends Personaje{
 		this.exp=0;
 		this.nivel=1;
 		this.cantidadDeAtaques=0;
-		this.mana=0;
+		this.mana=3;
 		//this.poderDeHechizo =0;
 	}
 	/*

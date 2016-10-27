@@ -22,7 +22,7 @@ public class Humano extends Personaje{
 		this.energia=100;
 		this.exp=0;
 		this.nivel=1;
-		this.mana=0;
+		this.mana=1;
 	}
 	/*
 	public boolean aplicarHechizo(String hechizo,Personaje afectado){

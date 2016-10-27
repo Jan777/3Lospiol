@@ -1,4 +1,4 @@
-package testPersonajeConHechizos;
+package test;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,7 +30,7 @@ public class PersonajeConHechizosTest {
 		//probando con mana suficiente para lanzar hechizo
 		Assert.assertTrue(paladin.aplicarHechizo("Tormenta divina", guerreroAtacado));
 		//ver mana actualizado
-		Assert.assertEquals(50-37,paladin.getMana());
+		Assert.assertEquals(50-37,paladin.obtenerPuntosDeMana());
 	}
 	// no funciona no se porque 
 	@Test

@@ -26,7 +26,7 @@ public class Elfo extends Personaje {
 		this.exp=0;
 		this.nivel=1;
 		this.ataquesRecibidos=0;
-		this.mana=0;
+		this.mana=5;
 	}
 	/*
 	public boolean aplicarHechizo(String hechizo,Personaje afectado){
