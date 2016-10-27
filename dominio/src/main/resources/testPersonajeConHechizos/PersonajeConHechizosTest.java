@@ -3,16 +3,12 @@ package testPersonajeConHechizos;
 import org.junit.Assert;
 import org.junit.Test;
 
-import personaje.Personaje;
-import personajeEquipado.ConBastonAghanim;
-import personajeEquipado.ConEspada;
-import personajeEquipado.PersonajeEquipado;
-import razas.Humano;
-import razas.Orco;
-import razas.Elfo;
-import castas.Brujo;
 import castas.Guerrero;
 import castas.Paladin;
+import personaje.Personaje;
+import personajeEquipado.ConEspada;
+import razas.Humano;
+import razas.Orco;
 
 public class PersonajeConHechizosTest {
 	
@@ -21,7 +17,7 @@ public class PersonajeConHechizosTest {
 		Personaje paladin= new Humano(new Paladin());
 		Personaje guerreroAtacado=new Orco(new Guerrero()); 
 		paladin.atacar(guerreroAtacado);
-		Assert.assertEquals(110,guerreroAtacado.getSalud());
+		Assert.assertEquals(115,guerreroAtacado.getSalud());
 	}
 	
 	@Test
@@ -41,7 +37,7 @@ public class PersonajeConHechizosTest {
 	public void equiparItemsAlPersonaje(){
 		Personaje orco=new Orco(new Guerrero());
 		orco = new ConEspada(orco);
-		Assert.assertEquals(10+5, orco.obtenerPuntosDeAtaque());
+		Assert.assertEquals(12+5, orco.obtenerPuntosDeAtaque());
 		
 	}
 }

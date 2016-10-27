@@ -4,8 +4,12 @@ import personaje.HechizoOHab;
 import personaje.Personaje;
 
 public class DisminuirAtaque extends HechizoOHab {
+	
+	public DisminuirAtaque(){
+		this.costo = 15;
+	}
 	@Override
-	public void afectar(Personaje personaje) {
-		personaje.disminuirAtaque(4+personaje.obtenerPuntosDeHechizos()-1);
+	public void afectar(Personaje personaje ,int poderDeHabilidad) {
+		personaje.disminuirAtaque((int)(poderDeHabilidad / 2));
 	}
 }

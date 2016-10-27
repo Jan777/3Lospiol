@@ -12,6 +12,8 @@ public class Brujo extends Casta{
 	
 	public Brujo() {
 		this.casta="Brujo";
+		this.habilidadCasta = "Poder de Hechizo";
+		this.poderDeHabilidad = 4;
 		this.agregarHechizo("Bola de la oscuridad", new BolaDeLaOscuridad());
 		this.agregarHechizo("Disminuir ataque", new DisminuirAtaque());
 		this.agregarHechizo("Latigaso mortal", new LatigazoMortal());

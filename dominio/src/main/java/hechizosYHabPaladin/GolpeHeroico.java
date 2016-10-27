@@ -4,9 +4,14 @@ import personaje.HechizoOHab;
 import personaje.Personaje;
 
 public class GolpeHeroico extends HechizoOHab{
+	
+	public GolpeHeroico(){
+		this.costo = 37;
+	}
+	
 	@Override
-	public void afectar(Personaje personaje) {
-		personaje.setVida(personaje.getSalud()-43);
+	public void afectar(Personaje personaje,int poderDeHabilidad) {
+		personaje.setVida(poderDeHabilidad * 5);
 	}
 	
 

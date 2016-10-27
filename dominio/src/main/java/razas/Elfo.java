@@ -8,21 +8,27 @@ public class Elfo extends Personaje {
 	int ataquesRecibidos;
 	
 	public Elfo(Casta castaElegida){
+		this.MaxSalud = 85;
+		this.MaxEnergia = 120;
 		this.salud=85;
 		this.ataque=10;
+		this.defensa=8;
+		this.inteligencia=12;
 		this.casta=castaElegida;
+		/*
 		String casta=castaElegida.obtenerCastaElegida();
 		if(casta.compareTo("Brujo")==0)
 			this.poderDeHechizo=4;
 		else
 			this.poderDeHechizo=0;
+		*/
 		this.energia=120;
 		this.exp=0;
 		this.nivel=1;
 		this.ataquesRecibidos=0;
 		this.mana=0;
 	}
-	
+	/*
 	public boolean aplicarHechizo(String hechizo,Personaje afectado){
 		
 		if(hechizo.compareTo("Golpe heroico")==0)
@@ -63,21 +69,21 @@ public class Elfo extends Personaje {
 			}
 		return false;
 	}
-	
+	*/
 	
 	@Override
 	protected void despuesDeAtacar() {
 		mana+=10;
 	}
-	
+	/*
 	@Override
 	public int calcularPuntosDeHechizos() {
 		return poderDeHechizo;
-	}
+	}*/
 	
 	@Override
 	public int calcularPuntosDeAtaque() {
-		return ataque + ataquesRecibidos;
+		return ataque + ataquesRecibidos + this.ataqueAfectado;
 	}
 
 	@Override
@@ -96,9 +102,6 @@ public class Elfo extends Personaje {
 		return 0;
 	}
 
-	@Override
-	public void serCurado() {
-		this.salud=100;
-	}
+	
 
 }

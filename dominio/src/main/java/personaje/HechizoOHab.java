@@ -2,5 +2,11 @@ package personaje;
 
 
 public abstract class HechizoOHab {
-	public abstract void afectar(Personaje personaje);
+	protected int costo;
+	
+	public abstract void afectar(Personaje personaje,int poderDeHabilidad);
+	
+	public int costoHabilidad(){
+		return costo;
+	}
 }

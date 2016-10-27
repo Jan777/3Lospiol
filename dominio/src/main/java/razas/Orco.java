@@ -8,16 +8,21 @@ public class Orco extends Personaje{
 	private int cantidadDeAtaques;
 	
 	public Orco(Casta castaElegida){
+		this.MaxSalud = 120;
+		this.MaxEnergia = 100;
 		this.salud=120;
 		this.ataque=12;
+		this.defensa=10;
+		this.inteligencia=5;
 		this.casta=castaElegida;
 		this.energia=100;
 		this.exp=0;
 		this.nivel=1;
 		this.cantidadDeAtaques=0;
 		this.mana=0;
+		//this.poderDeHechizo =0;
 	}
-	
+	/*
 	public boolean aplicarHechizo(String hechizo,Personaje afectado){
 		if(hechizo.compareTo("Golpe heroico")==0)
 			if(this.mana>=37){
@@ -56,7 +61,7 @@ public class Orco extends Personaje{
 				return true;
 			}
 		return false;
-	}
+	}*/
 	
 	@Override
 	protected void despuesDeAtacar() {
@@ -68,11 +73,11 @@ public class Orco extends Personaje{
 	public int calcularPuntosDeAtaque() {
 		return ataque + cantidadDeAtaques;
 	}
-	
+	/*
 	@Override
 	public int calcularPuntosDeHechizos() {
 		return 0;
-	}
+	}*/
 
 	@Override
 	public boolean puedeAtacar() {
@@ -83,11 +88,7 @@ public class Orco extends Personaje{
 	public int obtenerPuntosDeDefensa() {
 		return 0;
 	}
-
-	@Override
-	public void serCurado() {
-		this.salud=120;
-	}
+	
 
 
 }

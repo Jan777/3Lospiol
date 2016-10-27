@@ -10,6 +10,9 @@ import personaje.Personaje;
 
 public class Casta{
 	public String casta;
+	public String habilidadCasta;
+	protected int poderDeHabilidad;
+	
 	protected Map<String, HechizoOHab> hechizos = new HashMap<String, HechizoOHab>();
 	
 	public void agregarHechizo(String conjuro, HechizoOHab hechizo) {
@@ -21,11 +24,26 @@ public class Casta{
 	}
 	
 
-	public void hechizar(String conjuro, Personaje personaje) {
-		this.hechizos.get(conjuro).afectar(personaje);
+	public int hechizar(String conjuro, Personaje personaje, int mana) {
+		int manaActualizado = mana-this.hechizos.get(conjuro).costoHabilidad();
+		if(manaActualizado >= 0)
+		{
+			this.hechizos.get(conjuro).afectar(personaje, this.poderDeHabilidad);
+			return manaActualizado;
+		}
+		
+		return mana;
 	}
 
-	public String obtenerCastaElegida() {
+	public String nombreCastaElegida() {
 		return casta;
+	}
+	
+	public String nombreHabilidad() {
+		return habilidadCasta;
+	}
+	
+	public int poderHabilidad() {
+		return poderDeHabilidad;
 	}
 }

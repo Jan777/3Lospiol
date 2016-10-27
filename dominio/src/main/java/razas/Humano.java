@@ -6,20 +6,25 @@ import personaje.Personaje;
 public class Humano extends Personaje{
 	
 	public Humano(Casta castaElegida){
+		this.MaxSalud = 100;
+		this.MaxEnergia = 100;
 		this.salud=100;
 		this.ataque=10;
+		this.defensa=10;
+		this.inteligencia=10;
 		this.casta=castaElegida;
-		String casta=castaElegida.obtenerCastaElegida();
+		//String casta=castaElegida.obtenerCastaElegida();
+		/*
 		if(casta.compareTo("brujo")==0)
 			this.poderDeHechizo=4;
 		else
-			this.poderDeHechizo=0;
+			this.poderDeHechizo=0;*/
 		this.energia=100;
 		this.exp=0;
 		this.nivel=1;
 		this.mana=0;
 	}
-	
+	/*
 	public boolean aplicarHechizo(String hechizo,Personaje afectado){
 		if(hechizo.compareTo("Golpe heroico")==0)
 			if(this.mana>=37){
@@ -76,7 +81,7 @@ public class Humano extends Personaje{
 				return true;
 			}
 		return false;
-	}
+	}*/
 	
 	@Override
 	protected void despuesDeAtacar() {
@@ -85,13 +90,13 @@ public class Humano extends Personaje{
 	
 	@Override
 	public int calcularPuntosDeAtaque() {
-		return ataque;
+		return ataque + this.ataqueAfectado;
 	}
-	
+	/*
 	@Override
 	public int calcularPuntosDeHechizos() {
 		return poderDeHechizo;
-	}
+	}*/
 
 	@Override
 	public boolean puedeAtacar() {
@@ -102,10 +107,6 @@ public class Humano extends Personaje{
 	public int obtenerPuntosDeDefensa() {
 		return 5;
 	}
-
-	@Override
-	public void serCurado() {
-		this.salud=100;
-		
-	}
+	
+	
 }

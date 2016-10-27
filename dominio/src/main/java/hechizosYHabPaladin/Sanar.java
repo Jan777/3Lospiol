@@ -4,8 +4,13 @@ import personaje.HechizoOHab;
 import personaje.Personaje;
 
 public class Sanar extends HechizoOHab{
+	
+	public Sanar(){
+		this.costo = 10;
+	}
+	
 	@Override
-	public void afectar(Personaje personaje) {
-		personaje.setVida(personaje.getSalud()+15);
+	public void afectar(Personaje personaje,int poderDeHabilidad) {
+		personaje.setVida((int)(poderDeHabilidad * 1.5));
 	}
 }
