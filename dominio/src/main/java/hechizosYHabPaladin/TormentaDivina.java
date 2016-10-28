@@ -11,6 +11,6 @@ public class TormentaDivina extends HechizoOHab {
 	
 	@Override
 	public void afectar(Personaje personaje,int poderDeHabilidad) {
-		personaje.serAtacado(poderDeHabilidad * 4);
+		personaje.serAtacado(40);
 	}
 }

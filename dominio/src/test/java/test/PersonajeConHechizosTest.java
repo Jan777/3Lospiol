@@ -15,9 +15,9 @@ public class PersonajeConHechizosTest {
 	@Test
 	public void CrearPersonajeConCasta(){
 		Personaje paladin= new Humano(new Paladin());
-		Personaje guerreroAtacado=new Orco(new Guerrero()); 
-		paladin.atacar(guerreroAtacado);
-		Assert.assertEquals(115,guerreroAtacado.getSalud());
+		Personaje guerrero=new Orco(new Guerrero()); 
+		guerrero.atacar(paladin);
+		Assert.assertEquals(91,paladin.getSalud());
 	}
 	
 	@Test
@@ -32,7 +32,6 @@ public class PersonajeConHechizosTest {
 		//ver mana actualizado
 		Assert.assertEquals(50-37,paladin.obtenerPuntosDeMana());
 	}
-	// no funciona no se porque 
 	@Test
 	public void equiparItemsAlPersonaje(){
 		Personaje orco=new Orco(new Guerrero());

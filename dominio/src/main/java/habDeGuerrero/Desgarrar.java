@@ -11,7 +11,7 @@ public class Desgarrar extends HechizoOHab{
 	
 	@Override
 	public void afectar(Personaje personaje,int poderDeHabilidad) {
-		personaje.serAtacado(poderDeHabilidad * 5);
+		personaje.serAtacado(36);
 
 	}
 }

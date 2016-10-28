@@ -24,11 +24,11 @@ public class Casta{
 	}
 	
 
-	public int hechizar(String conjuro, Personaje personaje, int mana) {
+	public int hechizar(String conjuro, Personaje personaje, int mana, int poder) {
 		int manaActualizado = mana-this.hechizos.get(conjuro).costoHabilidad();
 		if(manaActualizado >= 0)
 		{
-			this.hechizos.get(conjuro).afectar(personaje, this.poderDeHabilidad);
+			this.hechizos.get(conjuro).afectar(personaje, this.poderDeHabilidad+poder/2);
 			return manaActualizado;
 		}
 		

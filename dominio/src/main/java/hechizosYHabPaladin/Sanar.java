@@ -11,6 +11,6 @@ public class Sanar extends HechizoOHab{
 	
 	@Override
 	public void afectar(Personaje personaje,int poderDeHabilidad) {
-		personaje.setVida((int)(poderDeHabilidad * 1.5));
+		personaje.setVida(12);
 	}
 }

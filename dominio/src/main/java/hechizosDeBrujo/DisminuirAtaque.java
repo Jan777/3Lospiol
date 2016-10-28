@@ -10,6 +10,6 @@ public class DisminuirAtaque extends HechizoOHab {
 	}
 	@Override
 	public void afectar(Personaje personaje ,int poderDeHabilidad) {
-		personaje.disminuirAtaque((int)(poderDeHabilidad / 2));
+		personaje.disminuirAtaque(6);
 	}
 }

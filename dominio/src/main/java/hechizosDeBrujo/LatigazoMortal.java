@@ -12,8 +12,6 @@ public class LatigazoMortal extends HechizoOHab{
 	
 	@Override
 	public void afectar(Personaje personaje,int poderDeHabilidad) {
-		
-		personaje.serAtacado(poderDeHabilidad * 4);
-		//personaje.setVida(personaje.getSalud()-20-personaje.obtenerPuntosDeHechizos());
+		personaje.serAtacado(35+poderDeHabilidad);
 	}
 }

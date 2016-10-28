@@ -11,9 +11,9 @@ public class Ejecutar extends HechizoOHab{
 	
 	@Override
 	public void afectar(Personaje personaje,int poderDeHabilidad) {
-		if(Math.random() < 0.5)
-			personaje.serAtacado(poderDeHabilidad * 10);
+		if(personaje.getSalud() < 40)
+			personaje.serAtacado(33);
 		else
-			personaje.serAtacado(2);
+			personaje.serAtacado(14);
 	}
 }

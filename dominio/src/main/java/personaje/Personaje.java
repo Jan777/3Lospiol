@@ -5,12 +5,14 @@ import interfaces.Atacable;
 
 public abstract class Personaje implements Atacable {
 
-	protected int MaxSalud;
-	protected int MaxEnergia;
+	protected int maxSalud;
+	protected int maxEnergia;
 	protected int salud;
 	protected int energia;
 	protected int nivel;
 	protected int exp;
+	protected int expMax;
+	protected int manaMax;
 	protected int ataque;
 	protected int defensa;
 	protected boolean defender = false;
@@ -54,9 +56,9 @@ public abstract class Personaje implements Atacable {
 	@Override
 	public void serAtacado(int daño) {
 		if (this.defender)
-			this.salud -= (daño - this.defensa);
+			this.salud -= (daño - this.defensa/2);
 		else
-			this.salud -= (daño - (this.defensa / 2));
+			this.salud -= (daño - (this.defensa / 3));
 		if (this.salud < 0)
 			this.salud = 0;
 	}
@@ -66,12 +68,24 @@ public abstract class Personaje implements Atacable {
 	}
 
 	public void serCurado() {
-		this.salud = this.MaxSalud;
+		this.salud = this.maxSalud;
 
 	}
 
 	public void serEnergizado() {
-		this.energia = this.MaxEnergia;
+		this.energia = this.maxEnergia;
+	}
+	
+	public void subirdeNivel(){
+		this.exp=0;
+		this.expMax+=20;
+		this.maxSalud+=20;
+		this.maxEnergia+=20;
+		this.inteligencia+=5;
+		this.ataque+=10;
+		this.defensa+=5;
+		this.nivel++;
+		this.manaMax+=20;
 	}
 
 	public int getSalud() {
@@ -86,8 +100,8 @@ public abstract class Personaje implements Atacable {
 		this.salud += i;
 		if (this.salud < 0)
 			this.salud = 0;
-		if (this.salud > this.MaxSalud)
-			this.salud = this.MaxSalud;
+		if (this.salud > this.maxSalud)
+			this.salud = this.maxSalud;
 	}
 
 	public void setEnergia(int i) {
@@ -113,8 +127,7 @@ public abstract class Personaje implements Atacable {
 	}
 
 	public int obtenerPuntosDeHechizos() {
-		return this.casta.poderHabilidad();
-
+		return this.casta.poderHabilidad()+this.inteligencia/2;
 	}
 
 	public int calcularPuntosDeHechizos() {
@@ -123,7 +136,7 @@ public abstract class Personaje implements Atacable {
 
 	public boolean aplicarHechizo(String hechizo, Personaje afectado) {
 		int manaIni = this.mana;
-		this.mana = this.casta.hechizar(hechizo, afectado, mana);
+		this.mana = this.casta.hechizar(hechizo, afectado, mana,this.inteligencia);
 		return manaIni != this.mana;
 	}
 

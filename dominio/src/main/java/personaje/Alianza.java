@@ -4,26 +4,21 @@ import java.util.*;
 
 public class Alianza {
 
-	protected List<Personaje> personajesAliados;
+	private List<Jugador> jugadores;
+	private String nombre;
 
-	public Alianza(List<Personaje> personajes) {
-		this.personajesAliados = personajes;
+	public Alianza(String nombre,Jugador primerJugadorAliado) {
+		this.jugadores =new LinkedList<Jugador>();
+		this.agregarJugador(primerJugadorAliado);
+		this.nombre=nombre;
 	}
 	
-
-	public void agregarPersonaje(Personaje personaje) {
-		this.personajesAliados.add(personaje);
+	public boolean eliminarJugador(Jugador jugadorAEliminar){
+		return jugadores.remove(jugadorAEliminar);
 	}
-
-	public void atacarEnemigo(Personaje personajeAtacado) {
-
-		for (Personaje personaje : personajesAliados) {
-
-			personaje.atacar(personajeAtacado);
-		}
+	
+	public void agregarJugador(Jugador jugador) {
+		if(jugadores.size()<50)
+			this.jugadores.add(jugador);
 	}
-
-	public void atacarEnemigo(List<Personaje> personajes) {
-	}
-
 }

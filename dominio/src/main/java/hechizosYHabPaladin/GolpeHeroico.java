@@ -11,7 +11,7 @@ public class GolpeHeroico extends HechizoOHab{
 	
 	@Override
 	public void afectar(Personaje personaje,int poderDeHabilidad) {
-		personaje.setVida(poderDeHabilidad * 5);
+		personaje.serAtacado(40);
 	}
 	
 

@@ -12,9 +12,7 @@ public class BolaDeLaOscuridad extends HechizoOHab{
 	
 	@Override
 	public void afectar(Personaje personaje,int poderDeHabilidad) {
-		int ataque = poderDeHabilidad * 3;
-		personaje.serAtacado(ataque);
-		//personaje.setVida(personaje.getSalud()-30-personaje.obtenerPuntosDeHechizos());
+		personaje.serAtacado(30+poderDeHabilidad);
 	}
 	
 	
