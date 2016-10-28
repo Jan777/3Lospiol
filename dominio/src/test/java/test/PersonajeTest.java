@@ -3,6 +3,9 @@ package test;
 import org.junit.*;
 
 import castas.*;
+import personaje.Personaje;
+import personajeEquipado.ConArmadura;
+import personajeEquipado.ConCascoDeLaMuerte;
 import razas.*;
 
 public class PersonajeTest {
@@ -50,6 +53,16 @@ public class PersonajeTest {
 		// El Elfo tendrá mas mana que las otras razas
 		Assert.assertTrue(elfo.obtenerPuntosDeMana() > humano.obtenerPuntosDeMana()
 				&& elfo.obtenerPuntosDeMana() > orco.obtenerPuntosDeMana());
+	}
+
+	@Test
+	public void queAgregaItems() {
+		Personaje personaje = new Humano(new Guerrero());
+		Assert.assertEquals(10, personaje.obtenerPuntosDeDefensa());
+		personaje = new ConArmadura(personaje);
+		Assert.assertEquals(23, personaje.obtenerPuntosDeDefensa());
+		personaje = new ConCascoDeLaMuerte(personaje);
+		Assert.assertEquals(27, personaje.obtenerPuntosDeDefensa());
 	}
 
 }
