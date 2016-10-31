@@ -13,7 +13,7 @@ public class Elfo extends Personaje {
 		this.expMax=100;
 		this.manaMax=80;
 		this.salud=85;
-		this.inteligencia=6;
+		this.inteligencia=12;
 		this.ataque=10;
 		this.defensa=2;
 		this.casta=castaElegida;
@@ -21,7 +21,7 @@ public class Elfo extends Personaje {
 		this.exp=0;
 		this.nivel=1;
 		this.ataquesRecibidos=0;
-		this.mana=0;
+		this.mana=2;
 	}
 	@Override
 	protected void despuesDeAtacar() {
