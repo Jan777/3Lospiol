@@ -2,7 +2,9 @@ package test;
 
 import org.junit.*;
 
+import batalla.Batalla;
 import castas.*;
+import personaje.Alianza;
 import personaje.Personaje;
 import personajeEquipado.ConAnillo;
 import personajeEquipado.ConArmadura;
@@ -107,6 +109,27 @@ public class PersonajeTest {
 		Assert.assertTrue(personaje.tiene(ConEspada.class));
 		personaje = personaje.desequipar(ConEspada.class);
 		Assert.assertFalse(personaje.tiene(ConEspada.class));
+	}
+	
+	@Test
+	public void queFuncionaLaAlianza(){
+		Alianza FPV = new Alianza();
+		Alianza Cambiemos = new Alianza();
+		Personaje Macri = new Elfo(new Guerrero());
+		Personaje Carrio = new Elfo(new Brujo());
+		Personaje Cristina = new Humano(new Guerrero());
+		Personaje Scioli = new Humano(new Paladin());
+		
+		FPV.agregarAliado(Cristina);
+		FPV.agregarAliado(Scioli);
+		Cambiemos.agregarAliado(Macri);
+		Cambiemos.agregarAliado(Carrio);
+		
+		Batalla batalla = new Batalla(FPV,Cambiemos);
+	
+		batalla.batalla();
+		
+		
 	}
 
 }
