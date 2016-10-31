@@ -4,8 +4,10 @@ import org.junit.*;
 
 import castas.*;
 import personaje.Personaje;
+import personajeEquipado.ConAnillo;
 import personajeEquipado.ConArmadura;
 import personajeEquipado.ConCascoDeLaMuerte;
+import personajeEquipado.ConEspada;
 import razas.*;
 
 public class PersonajeTest {
@@ -63,6 +65,22 @@ public class PersonajeTest {
 		Assert.assertEquals(23, personaje.obtenerPuntosDeDefensa());
 		personaje = new ConCascoDeLaMuerte(personaje);
 		Assert.assertEquals(27, personaje.obtenerPuntosDeDefensa());
+	}
+
+	@Test
+	public void quePuedoQuitarUnItem() {
+		Personaje personaje = new Humano(new Guerrero());
+		personaje = new ConEspada(personaje);
+		personaje = new ConAnillo(personaje);
+		personaje = new ConArmadura(personaje);
+
+		Assert.assertTrue(personaje.tiene(ConArmadura.class));
+		personaje = personaje.desequipar(ConArmadura.class);
+		Assert.assertFalse(personaje.tiene(ConArmadura.class));
+
+		Assert.assertTrue(personaje.tiene(ConEspada.class));
+		personaje = personaje.desequipar(ConEspada.class);
+		Assert.assertFalse(personaje.tiene(ConEspada.class));
 	}
 
 }

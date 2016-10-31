@@ -56,7 +56,7 @@ public abstract class Personaje implements Atacable {
 	@Override
 	public void serAtacado(int daño) {
 		if (this.defender)
-			this.salud -= (daño - this.defensa/2);
+			this.salud -= (daño - this.defensa / 2);
 		else
 			this.salud -= (daño - (this.defensa / 3));
 		if (this.salud < 0)
@@ -75,17 +75,17 @@ public abstract class Personaje implements Atacable {
 	public void serEnergizado() {
 		this.energia = this.maxEnergia;
 	}
-	
-	public void subirdeNivel(){
-		this.exp=0;
-		this.expMax+=20;
-		this.maxSalud+=20;
-		this.maxEnergia+=20;
-		this.inteligencia+=5;
-		this.ataque+=10;
-		this.defensa+=5;
+
+	public void subirdeNivel() {
+		this.exp = 0;
+		this.expMax += 20;
+		this.maxSalud += 20;
+		this.maxEnergia += 20;
+		this.inteligencia += 5;
+		this.ataque += 10;
+		this.defensa += 5;
 		this.nivel++;
-		this.manaMax+=20;
+		this.manaMax += 20;
 	}
 
 	public int getSalud() {
@@ -127,7 +127,7 @@ public abstract class Personaje implements Atacable {
 	}
 
 	public int obtenerPuntosDeHechizos() {
-		return this.casta.poderHabilidad()+this.inteligencia/2;
+		return this.casta.poderHabilidad() + this.inteligencia / 2;
 	}
 
 	public int calcularPuntosDeHechizos() {
@@ -136,12 +136,20 @@ public abstract class Personaje implements Atacable {
 
 	public boolean aplicarHechizo(String hechizo, Personaje afectado) {
 		int manaIni = this.mana;
-		this.mana = this.casta.hechizar(hechizo, afectado, mana,this.inteligencia);
+		this.mana = this.casta.hechizar(hechizo, afectado, mana, this.inteligencia);
 		return manaIni != this.mana;
 	}
 
 	public int obtenerPuntosDeInteligencia() {
 		return this.inteligencia;
+	}
+
+	public boolean tiene(Class decorado) {
+		return false;
+	}
+
+	public Personaje desequipar(Class decorado) {
+		return this;
 	}
 
 }
