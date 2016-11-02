@@ -16,6 +16,7 @@ import personajeEquipado.ConAnillo;
 import personajeEquipado.ConArmadura;
 import personajeEquipado.ConCascoDeLaMuerte;
 import personajeEquipado.ConEspada;
+import personajeEquipado.PersonajeEquipado;
 import razas.Elfo;
 import razas.Humano;
 import razas.Orco;
@@ -45,7 +46,7 @@ public class PersonajeTest {
 		Jugador jugador = new Jugador("pepe", "Humano", "Brujo");
 
 		Assert.assertEquals("pepe", jugador.getNombre());
-		Assert.assertEquals(100, jugador.getPersonaje().getSalud());
+		Assert.assertEquals(100, jugador.getPersonaje().obtenerPuntosDeSalud());
 	}
 
 	/**
@@ -102,16 +103,20 @@ public class PersonajeTest {
 		Personaje humano = new Humano(new Guerrero());
 		Personaje humanoAtacado = new Humano(new Brujo());
 		humanoAtacado = new ConCascoDeLaMuerte(humanoAtacado);
-		humanoAtacado = new ConAnillo(humanoAtacado);
 		humanoAtacado = new ConEspada(humanoAtacado);
+		humanoAtacado = new ConAnillo(humanoAtacado);
 		while (humanoAtacado.getSalud() != 0) {
 			humano.atacar(humanoAtacado);
 		}
-		// Determinar como hacer el item mas poderoso
-		humanoAtacado = humanoAtacado.desequipar(ConEspada.class);
-		Assert.assertFalse(humanoAtacado.tiene(ConEspada.class));
-		Assert.assertTrue(humanoAtacado.tiene(ConAnillo.class));
-		Assert.assertTrue(humanoAtacado.tiene(ConCascoDeLaMuerte.class));
+		String nombreDelItem[] = new String[1];
+		humanoAtacado = humanoAtacado
+				.desequiparItem((PersonajeEquipado) humanoAtacado.desequiparItemConMayorPrioridad(), nombreDelItem);
+		Assert.assertEquals("ConEspada", nombreDelItem[0]);
+		Assert.assertEquals(0, humano.getCantidadDeItems());
+		Assert.assertEquals(10, humano.obtenerPuntosDeAtaque());
+		Assert.assertEquals(2, humanoAtacado.getCantidadDeItems());
+		Assert.assertEquals(14, humanoAtacado.obtenerPuntosDeDefensa());
+		Assert.assertEquals(25, humanoAtacado.obtenerPuntosDeAtaque());
 	}
 
 	/**
@@ -134,37 +139,6 @@ public class PersonajeTest {
 
 	}
 
-	@Ignore
-	public void queAgregaItems() {
-		Personaje personaje = new Humano(new Guerrero());
-		Assert.assertEquals(10, personaje.obtenerPuntosDeDefensa());
-		personaje = new ConArmadura(personaje);
-		Assert.assertEquals(23, personaje.obtenerPuntosDeDefensa());
-		personaje = new ConCascoDeLaMuerte(personaje);
-		Assert.assertEquals(27, personaje.obtenerPuntosDeDefensa());
-	}
-
-	// TODO: Por alguna razón, si se desequipa un item que se insertó primero
-	// y después se pregunta si el item insertado después sigue, da error.
-	// Probé desequipando primero la espada y después el resto, o
-	// el anillo y después la armadura.
-	// Cuando es al revés, si funciona.
-	@Test
-	public void quePuedoQuitarUnItem() {
-		Personaje personaje = new Humano(new Guerrero());
-		personaje = new ConEspada(personaje);
-		personaje = new ConAnillo(personaje);
-		personaje = new ConArmadura(personaje);
-
-		Assert.assertTrue(personaje.tiene(ConAnillo.class));
-		personaje = personaje.desequipar(ConAnillo.class);
-		Assert.assertFalse(personaje.tiene(ConAnillo.class));
-
-		Assert.assertTrue(personaje.tiene(ConEspada.class));
-		personaje = personaje.desequipar(ConEspada.class);
-		Assert.assertFalse(personaje.tiene(ConEspada.class));
-	}
-
 	@Test
 	public void queFuncionaLaAlianza() {
 		Alianza FPV = new Alianza();
@@ -182,6 +156,35 @@ public class PersonajeTest {
 		Batalla batalla = new Batalla(FPV, Cambiemos);
 
 		batalla.batalla();
+
+	}
+
+	@Test
+	public void quePuedoAgregarYQuitarUnItem() {
+
+		Personaje personaje = new Humano(new Guerrero());
+		personaje = new ConEspada(personaje);
+		Assert.assertEquals(100, personaje.obtenerPuntosDeSalud());
+		Assert.assertEquals(15, personaje.obtenerPuntosDeAtaque());
+		Assert.assertEquals(10, personaje.obtenerPuntosDeDefensa());
+
+		personaje = new ConCascoDeLaMuerte(personaje);
+		personaje = new ConArmadura(personaje);
+
+		Assert.assertEquals(15, personaje.obtenerPuntosDeAtaque());
+		Assert.assertEquals(27, personaje.obtenerPuntosDeDefensa());
+		String[] nombreDelItem = new String[1];
+		personaje = personaje.desequiparItem((PersonajeEquipado) personaje.desequiparItemConMayorPrioridad(),
+				nombreDelItem);
+		Assert.assertEquals(10, personaje.obtenerPuntosDeAtaque());
+		Assert.assertEquals(27, personaje.obtenerPuntosDeDefensa());
+		Assert.assertEquals(2, personaje.getCantidadDeItems());
+		Assert.assertEquals("ConEspada", nombreDelItem[0]);
+		personaje = new ConEspada(personaje);
+		Assert.assertEquals(15, personaje.obtenerPuntosDeAtaque());
+		Assert.assertEquals(27, personaje.obtenerPuntosDeDefensa());
+		Assert.assertEquals(3, personaje.getCantidadDeItems());
+		//
 
 	}
 

@@ -6,6 +6,8 @@ public class ConAnillo extends PersonajeEquipado{
 	
 	public ConAnillo(Personaje personajeDecorado) {
 		super(personajeDecorado);
+		this.prioridad = 2;
+		this.nombreDelItem = "ConAnillo";
 	}
 
 	@Override
@@ -13,4 +15,8 @@ public class ConAnillo extends PersonajeEquipado{
 		return super.obtenerPuntosDeAtaque()+15;
 	}
 
+	@Override
+	public int getCantidadDeItems() {
+		return personajeDecorado.getCantidadDeItems()+1;
+}
 }

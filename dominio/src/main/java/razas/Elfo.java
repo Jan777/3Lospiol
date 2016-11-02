@@ -46,7 +46,7 @@ public class Elfo extends Personaje {
 
 	@Override
 	public int obtenerPuntosDeDefensa() {
-		return 0;
+		return this.defensa;
 	}
 
 	

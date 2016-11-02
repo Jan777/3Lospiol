@@ -2,6 +2,7 @@ package personaje;
 
 import castas.Casta;
 import interfaces.Atacable;
+import personajeEquipado.PersonajeEquipado;
 
 public abstract class Personaje implements Atacable {
 
@@ -130,6 +131,11 @@ public abstract class Personaje implements Atacable {
 	public int obtenerPuntosDeAtaque() {
 		return calcularPuntosDeAtaque();
 	}
+	
+	public int obtenerPuntosDeSalud() {
+		return salud;
+	}
+
 
 	public void setVida(int i) {
 		this.salud += i;
@@ -179,12 +185,40 @@ public abstract class Personaje implements Atacable {
 		return this.inteligencia;
 	}
 
-	public boolean tiene(Class decorado) {
-		return false;
+	// public boolean tiene(Class decorado) {
+	// return false;
+	// }
+	//
+	// public Personaje desequipar(Class decorado) {
+	// return this;
+	// }
+	
+	public Personaje desequiparItem(PersonajeEquipado personaje, String[] nombreDelItem) {
+		return null;
 	}
 
-	public Personaje desequipar(Class decorado) {
-		return this;
+	public int getCantidadDeItems() {
+		return 0;
+	}
+
+	public String getNombreItem() {
+		return null;
+	}
+
+	public Personaje getPersonajeDecorado() {
+		return null;
+	}
+
+	public void setPersonajeDecorado(Personaje p) {
+
+	}
+
+	public Personaje desequiparItemConMayorPrioridad() {
+		return null;
+	}
+
+	public int getPrioridad() {
+		return 0;
 	}
 
 }
