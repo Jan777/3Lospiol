@@ -1,18 +1,38 @@
 package test;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import batalla.Batalla;
-import castas.*;
+import castas.Brujo;
+import castas.Guerrero;
+import castas.Paladin;
+import login.Login;
 import personaje.Alianza;
 import personaje.Personaje;
 import personajeEquipado.ConAnillo;
 import personajeEquipado.ConArmadura;
 import personajeEquipado.ConCascoDeLaMuerte;
 import personajeEquipado.ConEspada;
-import razas.*;
+import razas.Elfo;
+import razas.Humano;
+import razas.Orco;
 
 public class PersonajeTest {
+
+	/**
+	 * Como jugador quiero poder tener una cuenta con la cual, mediante nombre
+	 * de usuario y contraseña para poder entrar al mundo.
+	 * 
+	 * @throws InterruptedException
+	 */
+	@Test
+	public void historiaDeUsuarioNº1() throws InterruptedException {
+
+		Login login = new Login();
+		login.main(null);
+	}
 
 	/**
 	 * Como jugador quiero que haya 3 razas para elegir, las cuales seran
@@ -110,26 +130,25 @@ public class PersonajeTest {
 		personaje = personaje.desequipar(ConEspada.class);
 		Assert.assertFalse(personaje.tiene(ConEspada.class));
 	}
-	
+
 	@Test
-	public void queFuncionaLaAlianza(){
+	public void queFuncionaLaAlianza() {
 		Alianza FPV = new Alianza();
 		Alianza Cambiemos = new Alianza();
 		Personaje Macri = new Elfo(new Guerrero());
 		Personaje Carrio = new Elfo(new Brujo());
 		Personaje Cristina = new Humano(new Guerrero());
 		Personaje Scioli = new Humano(new Paladin());
-		
+
 		FPV.agregarAliado(Cristina);
 		FPV.agregarAliado(Scioli);
 		Cambiemos.agregarAliado(Macri);
 		Cambiemos.agregarAliado(Carrio);
-		
-		Batalla batalla = new Batalla(FPV,Cambiemos);
-	
+
+		Batalla batalla = new Batalla(FPV, Cambiemos);
+
 		batalla.batalla();
-		
-		
+
 	}
 
 }
