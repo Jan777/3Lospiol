@@ -10,6 +10,7 @@ import castas.Guerrero;
 import castas.Paladin;
 import login.Login;
 import personaje.Alianza;
+import personaje.Jugador;
 import personaje.Personaje;
 import personajeEquipado.ConAnillo;
 import personajeEquipado.ConArmadura;
@@ -28,10 +29,22 @@ public class PersonajeTest {
 	 * @throws InterruptedException
 	 */
 	@Test
-	public void historiaDeUsuarioNº1() throws InterruptedException {
+	public void historiaDeUsuarioNº1(){
 
 		Login login = new Login();
 		login.main(null);
+	}
+	
+	/**2_** Como jugador quiero poder crear un personaje pudiendo elegir la casta que prefiera 
+	 * y ponerle un nombre a mi personaje.
+	 */
+	@Test
+	public void historiaDeUsuarioNº2(){
+
+		Jugador jugador = new Jugador("pepe","Humano","Brujo");
+		
+		Assert.assertEquals("pepe",jugador.getNombre());
+		Assert.assertEquals(100,jugador.getPersonaje().getSalud());
 	}
 
 	/**
