@@ -29,8 +29,42 @@ public abstract class Personaje implements Atacable {
 			atacado.serAtacado(calcularPuntosDeAtaque());
 			energia -= calcularPuntosDeAtaque();
 			despuesDeAtacar();
-
+			exp+=20;
+			if (exp == 100)
+				nivel++;
 		}
+	}
+
+	public int getNivel() {
+		return nivel;
+	}
+
+	public void setNivel(int nivel) {
+		this.nivel = nivel;
+	}
+
+	public int getExp() {
+		return exp;
+	}
+
+	public void setExp(int exp) {
+		this.exp = exp;
+	}
+
+	public int getAtaque() {
+		return ataque;
+	}
+
+	public void setAtaque(int ataque) {
+		this.ataque = ataque;
+	}
+
+	public int getDefensa() {
+		return defensa;
+	}
+
+	public void setDefensa(int defensa) {
+		this.defensa = defensa;
 	}
 
 	public void defender() {
@@ -38,6 +72,7 @@ public abstract class Personaje implements Atacable {
 	}
 
 	protected void despuesDeAtacar() {
+		exp += 20;
 	}
 
 	public abstract boolean puedeAtacar();

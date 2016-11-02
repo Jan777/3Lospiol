@@ -29,22 +29,23 @@ public class PersonajeTest {
 	 * @throws InterruptedException
 	 */
 	@Test
-	public void historiaDeUsuarioNº1(){
+	public void historiaDeUsuarioNº1() {
 
 		Login login = new Login();
 		login.main(null);
 	}
-	
-	/**2_** Como jugador quiero poder crear un personaje pudiendo elegir la casta que prefiera 
-	 * y ponerle un nombre a mi personaje.
+
+	/**
+	 * 2_** Como jugador quiero poder crear un personaje pudiendo elegir la
+	 * casta que prefiera y ponerle un nombre a mi personaje.
 	 */
 	@Test
-	public void historiaDeUsuarioNº2(){
+	public void historiaDeUsuarioNº2() {
 
-		Jugador jugador = new Jugador("pepe","Humano","Brujo");
-		
-		Assert.assertEquals("pepe",jugador.getNombre());
-		Assert.assertEquals(100,jugador.getPersonaje().getSalud());
+		Jugador jugador = new Jugador("pepe", "Humano", "Brujo");
+
+		Assert.assertEquals("pepe", jugador.getNombre());
+		Assert.assertEquals(100, jugador.getPersonaje().getSalud());
 	}
 
 	/**
@@ -111,6 +112,26 @@ public class PersonajeTest {
 		Assert.assertFalse(humanoAtacado.tiene(ConEspada.class));
 		Assert.assertTrue(humanoAtacado.tiene(ConAnillo.class));
 		Assert.assertTrue(humanoAtacado.tiene(ConCascoDeLaMuerte.class));
+	}
+
+	/**
+	 * 13_** Como jugador, quiero al ganar una batalla me sea dada una cantidad
+	 * de puntos de experiencia para subir de nivel.
+	 */
+	@Test
+	public void historiaDeUsuarioNº13() {
+		Humano humano = new Humano(new Guerrero());
+		Elfo elfo = new Elfo(new Brujo());
+		Orco orco = new Orco(new Paladin());
+
+		humano.atacar(elfo);
+		humano.atacar(orco);
+		humano.atacar(elfo);
+		humano.atacar(orco);
+		humano.atacar(elfo);
+
+		Assert.assertEquals(2, humano.getNivel());
+
 	}
 
 	@Ignore
