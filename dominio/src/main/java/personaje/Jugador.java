@@ -1,14 +1,11 @@
 package personaje;
 
-import java.awt.Image;
-import java.awt.event.KeyEvent;
 import java.net.Socket;
-
-import javax.swing.ImageIcon;
 
 import castas.Brujo;
 import castas.Guerrero;
 import castas.Paladin;
+import mapa.Punto;
 import razas.Humano;
 
 public class Jugador {
@@ -18,7 +15,9 @@ public class Jugador {
 	private String estado;
 	private String casta;
 	private String raza;
+	private Punto posicion;
 
+	// Constructores
 	public Jugador(String nombre, String raza, String casta) {
 		Nombre = nombre;
 		this.casta = casta;
@@ -67,6 +66,15 @@ public class Jugador {
 			break;
 		}
 		}
+	}
+
+	// Getters and Setters
+	public Punto getPosicion() {
+		return posicion;
+	}
+
+	public void setPosicion(Punto posicion) {
+		this.posicion = posicion;
 	}
 
 	public String getNombre() {

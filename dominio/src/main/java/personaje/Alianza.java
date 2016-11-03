@@ -6,16 +6,17 @@ public class Alianza {
 
 	// Utilizado para la alianza con Personajes
 	private LinkedList<Personaje> aliados;
-	//
 	private List<Jugador> jugadores;
 	private String nombre;
 
+	// Constructores
 	public Alianza(String nombre, Jugador primerJugadorAliado) {
 		this.jugadores = new LinkedList<Jugador>();
 		this.agregarJugador(primerJugadorAliado);
 		this.nombre = nombre;
 	}
 
+	// Metodos adicionales
 	public boolean eliminarJugador(Jugador jugadorAEliminar) {
 		return jugadores.remove(jugadorAEliminar);
 	}

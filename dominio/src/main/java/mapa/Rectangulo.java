@@ -1,21 +1,18 @@
 package mapa;
 
 public class Rectangulo {
-
 	int base;
 	int altura;
-	Punto puntoInicial;
+	private Punto puntoInicial;
 
+	// Constructores
 	public Rectangulo(Punto puntoInicial, int base, int altura) {
 		this.puntoInicial = puntoInicial;
 		this.base = base;
 		this.altura = altura;
 	}
 
-	public double area() {
-		return base * altura;
-	}
-
+	// Getters and Setters
 	public double getBase() {
 		return base;
 	}
@@ -32,4 +29,8 @@ public class Rectangulo {
 		this.altura = altura;
 	}
 
+	// Metodos adicionales
+	public double area() {
+		return base * altura;
+	}
 }

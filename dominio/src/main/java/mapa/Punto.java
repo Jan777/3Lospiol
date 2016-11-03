@@ -4,11 +4,13 @@ public class Punto {
 
 	private double x, y;
 
+	// Constructores
 	public Punto(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
 
+	// Getters and Setters
 	public double getX() {
 		return x;
 	}
@@ -30,6 +32,7 @@ public class Punto {
 		return "Punto2D [x=" + x + ", y=" + y + "]";
 	}
 
+	// Metodos adicionales
 	public double modulo() {
 		return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
 	}

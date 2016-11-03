@@ -24,20 +24,29 @@ public abstract class Personaje implements Atacable {
 	protected int defensaAfectada = 0;
 
 	public final void atacar(Personaje atacado) {
-		if (puedeAtacar()&&atacado.estaVivo()==true) {
+		if (puedeAtacar() && atacado.estaVivo() == true) {
 			atacado.serAtacado(calcularPuntosDeAtaque());
 			energia -= calcularPuntosDeAtaque();
 			despuesDeAtacar();
+		} else {
+			if (atacado.estaVivo() == false) {
+				this.exp += 50;
+				if (this.exp == this.expMax)
+					this.subirdeNivel();
 			}
-		else{
-				if (atacado.estaVivo()==false){
-					this.exp+=50;
-					if(this.exp==this.expMax)
-						this.subirdeNivel();
-				}
-			}
+		}
 	}
-	
+
+	// Metodos Abstractos
+	public abstract boolean puedeAtacar();
+
+	public abstract void despuesDeAtacar();
+
+	public abstract int calcularPuntosDeAtaque();
+
+	public abstract int obtenerPuntosDeDefensa();
+
+	// Getters and Setters
 	public int getNivel() {
 		return nivel;
 	}
@@ -70,17 +79,79 @@ public abstract class Personaje implements Atacable {
 		this.defensa = defensa;
 	}
 
+	public int getSalud() {
+		return this.salud;
+	}
+
+	public int obtenerPuntosDeAtaque() {
+		return calcularPuntosDeAtaque();
+	}
+
+	public int obtenerPuntosDeSalud() {
+		return salud;
+	}
+
+	public int obtenerPuntosDeInteligencia() {
+		return this.inteligencia;
+	}
+
+	public void setVida(int i) {
+		this.salud += i;
+		if (this.salud < 0)
+			this.salud = 0;
+		if (this.salud > this.maxSalud)
+			this.salud = this.maxSalud;
+	}
+
+	public void setEnergia(int i) {
+		this.energia = i;
+	}
+
+	public void setMana(int i) {
+		this.mana = i;
+
+	}
+
+	public int obtenerPuntosDeMana() {
+		return mana;
+	}
+
+	public int obtenerPuntosDeHechizos() {
+		return this.casta.poderHabilidad() + this.inteligencia / 2;
+	}
+
+	public int calcularPuntosDeHechizos() {
+		return this.casta.poderHabilidad();
+	}
+
+	public int getCantidadDeItems() {
+		return 0;
+	}
+
+	public String getNombreItem() {
+		return null;
+	}
+
+	public Personaje getPersonajeDecorado() {
+		return null;
+	}
+
+	public void setPersonajeDecorado(Personaje p) {
+
+	}
+
+	public int getPrioridad() {
+		return 0;
+	}
+
+	// Metodos adicionales
 	public void defender() {
 		this.defender = true;
 	}
-	public abstract boolean puedeAtacar();
-	public abstract int calcularPuntosDeAtaque();
-	public abstract void despuesDeAtacar();
 	// public abstract int calcularPuntosDeHechizos();
 
 	// public abstract boolean aplicarHechizo(String hechizo,Personaje
 	// afectado);
-	public abstract int obtenerPuntosDeDefensa();
 
 	public boolean estaVivo() {
 		return this.salud > 0;
@@ -121,31 +192,6 @@ public abstract class Personaje implements Atacable {
 		this.manaMax += 20;
 	}
 
-	public int getSalud() {
-		return this.salud;
-	}
-
-	public int obtenerPuntosDeAtaque() {
-		return calcularPuntosDeAtaque();
-	}
-	
-	public int obtenerPuntosDeSalud() {
-		return salud;
-	}
-
-
-	public void setVida(int i) {
-		this.salud += i;
-		if (this.salud < 0)
-			this.salud = 0;
-		if (this.salud > this.maxSalud)
-			this.salud = this.maxSalud;
-	}
-
-	public void setEnergia(int i) {
-		this.energia = i;
-	}
-
 	public void aumentarAtaque(int i) {
 		this.ataqueAfectado += i;
 	}
@@ -155,31 +201,10 @@ public abstract class Personaje implements Atacable {
 
 	}
 
-	public void setMana(int i) {
-		this.mana = i;
-
-	}
-
-	public int obtenerPuntosDeMana() {
-		return mana;
-	}
-
-	public int obtenerPuntosDeHechizos() {
-		return this.casta.poderHabilidad() + this.inteligencia / 2;
-	}
-
-	public int calcularPuntosDeHechizos() {
-		return this.casta.poderHabilidad();
-	}
-
 	public boolean aplicarHechizo(String hechizo, Personaje afectado) {
 		int manaIni = this.mana;
 		this.mana = this.casta.hechizar(hechizo, afectado, mana, inteligencia);
 		return manaIni != this.mana;
-	}
-
-	public int obtenerPuntosDeInteligencia() {
-		return this.inteligencia;
 	}
 
 	// public boolean tiene(Class decorado) {
@@ -189,35 +214,13 @@ public abstract class Personaje implements Atacable {
 	// public Personaje desequipar(Class decorado) {
 	// return this;
 	// }
-	
+
 	public Personaje desequiparItem(PersonajeEquipado personaje, String[] nombreDelItem) {
 		return null;
-	}
-
-	public int getCantidadDeItems() {
-		return 0;
-	}
-
-	public String getNombreItem() {
-		return null;
-	}
-
-	public Personaje getPersonajeDecorado() {
-		return null;
-	}
-
-	public void setPersonajeDecorado(Personaje p) {
-
 	}
 
 	public Personaje desequiparItemConMayorPrioridad() {
 		return null;
 	}
-
-	public int getPrioridad() {
-		return 0;
-	}
-
-	
 
 }
