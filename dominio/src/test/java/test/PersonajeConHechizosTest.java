@@ -3,6 +3,7 @@ package test;
 import org.junit.Assert;
 import org.junit.Test;
 
+import castas.Brujo;
 import castas.Guerrero;
 import castas.Paladin;
 import personaje.Personaje;
@@ -22,15 +23,15 @@ public class PersonajeConHechizosTest {
 	
 	@Test
 	public void probarHechizandoOponentes(){
-		Personaje paladin= new Humano(new Paladin());
+		Personaje brujo= new Humano(new Brujo());
 		Personaje guerreroAtacado=new Orco(new Guerrero()); 
 		//probando con mana menor al requerido para lanzar el hechizo
-		Assert.assertFalse("No tiene mana suficiente", paladin.aplicarHechizo("Tormenta divina", guerreroAtacado));
-		paladin.setMana(50);
+		Assert.assertFalse("No tiene mana suficiente", brujo.aplicarHechizo("Latigaso mortal", guerreroAtacado));
+		brujo.setMana(50);
 		//probando con mana suficiente para lanzar hechizo
-		Assert.assertTrue(paladin.aplicarHechizo("Tormenta divina", guerreroAtacado));
+		Assert.assertTrue(brujo.aplicarHechizo("Latigaso mortal", guerreroAtacado));
 		//ver mana actualizado
-		Assert.assertEquals(50-37,paladin.obtenerPuntosDeMana());
+		Assert.assertEquals(50-30,brujo.obtenerPuntosDeMana());
 	}
 	@Test
 	public void equiparItemsAlPersonaje(){

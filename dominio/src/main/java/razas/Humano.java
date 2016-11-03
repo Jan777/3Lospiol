@@ -17,11 +17,12 @@ public class Humano extends Personaje {
 		this.exp = 0;
 		this.nivel = 1;
 		this.mana = 0;
+		this.expMax=100;
 	}
 
 
 	@Override
-	protected void despuesDeAtacar() {
+	public void despuesDeAtacar() {
 		mana += 10;
 	}
 

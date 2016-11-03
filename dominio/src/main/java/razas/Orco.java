@@ -21,10 +21,11 @@ public class Orco extends Personaje{
 		this.nivel=1;
 		this.cantidadDeAtaques=0;
 		this.mana=0;
+		this.expMax=100;
 	}
 	
 	@Override
-	protected void despuesDeAtacar() {
+	public void despuesDeAtacar() {
 		cantidadDeAtaques++;
 		mana+=10;
 	}
@@ -40,6 +41,6 @@ public class Orco extends Personaje{
 
 	@Override
 	public int obtenerPuntosDeDefensa() {
-		return 0;
+		return this.defensa;
 	}
 }

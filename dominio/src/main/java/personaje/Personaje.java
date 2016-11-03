@@ -22,20 +22,22 @@ public abstract class Personaje implements Atacable {
 	protected int mana;
 	protected int ataqueAfectado = 0;
 	protected int defensaAfectada = 0;
-	// protected int poderDeHechizo;
-	// protected String raza;
 
-	public final void atacar(Atacable atacado) {
-		if (puedeAtacar()) {
+	public final void atacar(Personaje atacado) {
+		if (puedeAtacar()&&atacado.estaVivo()==true) {
 			atacado.serAtacado(calcularPuntosDeAtaque());
 			energia -= calcularPuntosDeAtaque();
 			despuesDeAtacar();
-			exp+=20;
-			if (exp == 100)
-				nivel++;
-		}
+			}
+		else{
+				if (atacado.estaVivo()==false){
+					this.exp+=50;
+					if(this.exp==this.expMax)
+						this.subirdeNivel();
+				}
+			}
 	}
-
+	
 	public int getNivel() {
 		return nivel;
 	}
@@ -71,14 +73,9 @@ public abstract class Personaje implements Atacable {
 	public void defender() {
 		this.defender = true;
 	}
-
-	protected void despuesDeAtacar() {
-		exp += 20;
-	}
-
 	public abstract boolean puedeAtacar();
-
 	public abstract int calcularPuntosDeAtaque();
+	public abstract void despuesDeAtacar();
 	// public abstract int calcularPuntosDeHechizos();
 
 	// public abstract boolean aplicarHechizo(String hechizo,Personaje
@@ -177,7 +174,7 @@ public abstract class Personaje implements Atacable {
 
 	public boolean aplicarHechizo(String hechizo, Personaje afectado) {
 		int manaIni = this.mana;
-		this.mana = this.casta.hechizar(hechizo, afectado, mana, this.inteligencia);
+		this.mana = this.casta.hechizar(hechizo, afectado, mana, inteligencia);
 		return manaIni != this.mana;
 	}
 
@@ -220,5 +217,7 @@ public abstract class Personaje implements Atacable {
 	public int getPrioridad() {
 		return 0;
 	}
+
+	
 
 }

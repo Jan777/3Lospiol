@@ -67,7 +67,6 @@ public class Login extends JFrame {
 		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				dispose();
 			}
 		});

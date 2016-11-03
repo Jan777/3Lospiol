@@ -142,5 +142,10 @@ public class PersonajeEquipado extends Personaje {
 		return this;
 	}
 
+	@Override
+	public void despuesDeAtacar() {
+		this.personajeDecorado.despuesDeAtacar();
+	}
+
 	
 }

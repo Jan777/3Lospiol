@@ -1,7 +1,6 @@
 package test;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import batalla.Batalla;
@@ -44,7 +43,6 @@ public class PersonajeTest {
 	public void historiaDeUsuarioNº2() {
 
 		Jugador jugador = new Jugador("pepe", "Humano", "Brujo");
-
 		Assert.assertEquals("pepe", jugador.getNombre());
 		Assert.assertEquals(100, jugador.getPersonaje().obtenerPuntosDeSalud());
 	}
@@ -128,14 +126,19 @@ public class PersonajeTest {
 		Humano humano = new Humano(new Guerrero());
 		Elfo elfo = new Elfo(new Brujo());
 		Orco orco = new Orco(new Paladin());
-
-		humano.atacar(elfo);
-		humano.atacar(orco);
-		humano.atacar(elfo);
-		humano.atacar(orco);
-		humano.atacar(elfo);
-
-		Assert.assertEquals(2, humano.getNivel());
+		
+		while(humano.estaVivo()){
+			orco.atacar(humano);
+			orco.serEnergizado();
+		}
+		orco.atacar(humano);
+		while(elfo.estaVivo()){
+			orco.atacar(elfo);
+			orco.serEnergizado();
+		}
+		orco.atacar(elfo);
+		//el orco mato a 2 jugadores y sube un nivel
+		Assert.assertEquals(2, orco.getNivel());
 
 	}
 
