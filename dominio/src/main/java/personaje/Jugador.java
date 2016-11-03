@@ -1,6 +1,10 @@
 package personaje;
 
+import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.net.Socket;
+
+import javax.swing.ImageIcon;
 
 import castas.Brujo;
 import castas.Guerrero;
@@ -19,7 +23,6 @@ public class Jugador {
 		Nombre = nombre;
 		this.casta = casta;
 		this.raza = raza;
-
 		switch (raza) {
 		case "Humano": {
 			switch (casta) {

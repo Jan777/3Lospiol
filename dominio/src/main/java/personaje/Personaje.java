@@ -55,7 +55,7 @@ public abstract class Personaje implements Atacable {
 	}
 
 	public int getAtaque() {
-		return ataque;
+		return obtenerPuntosDeAtaque();
 	}
 
 	public void setAtaque(int ataque) {
@@ -63,7 +63,7 @@ public abstract class Personaje implements Atacable {
 	}
 
 	public int getDefensa() {
-		return defensa;
+		return obtenerPuntosDeDefensa();
 	}
 
 	public void setDefensa(int defensa) {
