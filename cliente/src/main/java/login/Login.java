@@ -1,6 +1,7 @@
 package login;
 
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -11,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.ImageIcon;
 
 public class Login extends JFrame {
 
@@ -27,6 +29,7 @@ public class Login extends JFrame {
 			public void run() {
 				try {
 					Login frame = new Login();
+
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,6 +42,7 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
+
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -81,6 +85,18 @@ public class Login extends JFrame {
 		});
 		btnRegistro.setBounds(240, 164, 89, 23);
 		contentPane.add(btnRegistro);
+
+		JLabel lblFondo = new JLabel("");
+		lblFondo.setBounds(0, 0, 434, 261);
+		contentPane.add(lblFondo);
+
+		ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/fondoInicio.jpg"));
+		Image imagen = icono.getImage();
+		ImageIcon iconoEscalonado = new ImageIcon(
+				imagen.getScaledInstance(lblFondo.getWidth(), lblFondo.getHeight(), Image.SCALE_DEFAULT));
+
+		lblFondo.setIcon(iconoEscalonado);
+		this.repaint();
 	}
 
 	public void abrirVentanaRegistro() {

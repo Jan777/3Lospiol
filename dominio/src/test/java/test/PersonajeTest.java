@@ -7,7 +7,7 @@ import batalla.Batalla;
 import castas.Brujo;
 import castas.Guerrero;
 import castas.Paladin;
-import login.Login;
+//import login.Login;
 import personaje.Alianza;
 import personaje.Jugador;
 import personaje.Personaje;
@@ -28,12 +28,12 @@ public class PersonajeTest {
 	 * 
 	 * @throws InterruptedException
 	 */
-	@Test
-	public void historiaDeUsuarioNº1() {
-
-		Login login = new Login();
-		login.main(null);
-	}
+//	@Test
+//	public void historiaDeUsuarioNº1() {
+//
+//		Login login = new Login();
+//		login.main(null);
+//	}
 
 	/**
 	 * 2_** Como jugador quiero poder crear un personaje pudiendo elegir la
