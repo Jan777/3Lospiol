@@ -1,34 +1,60 @@
 package cliente;
 
-import java.io.PrintStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
+
+import com.google.gson.Gson;
 
 public class Cliente {
 
 	private Socket cliente;
-	private static final int PUERTO = 4059;
+	private String nombre;
+	private final int PUERTO = 4509;
+	private String usuario;
+	private DataOutputStream dataOutputStream;
+	private Gson gson;
 
-	public Cliente(String direccion) {
-		try {
-			this.cliente = new Socket(direccion, Cliente.PUERTO);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+	public int getPuerto() {
+		return PUERTO;
 	}
 
-	public void enviarMensajeAlServidor() {
+	public String getUsuario() {
+		return this.usuario;
+	}
 
+	public Cliente(String usuario) throws UnknownHostException, IOException {
+		this.usuario = usuario;
+		cliente = new Socket("localhost", PUERTO);
+	}
+
+	public Socket getSocket() {
+		return cliente;
+	}
+
+	public String getNombre() {
+		return this.nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void enviarMensaje(Object mensaje) throws IOException {
+		this.dataOutputStream = new DataOutputStream(this.cliente.getOutputStream());
+		mensaje = "Hola";
+		this.gson = new Gson();
+		dataOutputStream.writeUTF(gson.toJson(mensaje));
+//		System.out.println(gson.toJson(mensaje));
+	}
+
+	public void cerrarCliente() {
 		try {
-			PrintStream ps = new PrintStream(cliente.getOutputStream());
-			String mensaje = ""; // Obtengo el mensaje del cliente
-			if (mensaje != "exit") {
-				ps.println(mensaje);
-			}
-
+			cliente.close();
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
-
 	}
 
 }
