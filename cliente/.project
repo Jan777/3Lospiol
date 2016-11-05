@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/main/java/login/fondoInicio.jpg</name>
+			<type>1</type>
+			<location>C:/Users/Elías/Desktop/Programación avanzada/ECLIPSE/Taller/cliente/src/main/java/imagenes/fondoInicio.jpg</location>
+		</link>
+	</linkedResources>
 </projectDescription>

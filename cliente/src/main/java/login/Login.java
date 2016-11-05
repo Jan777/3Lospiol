@@ -90,7 +90,7 @@ public class Login extends JFrame {
 		lblFondo.setBounds(0, 0, 434, 261);
 		contentPane.add(lblFondo);
 
-		ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/fondoInicio.jpg"));
+		ImageIcon icono = new ImageIcon(getClass().getResource("/Imagenes/fondoInicio.jpg"));
 		Image imagen = icono.getImage();
 		ImageIcon iconoEscalonado = new ImageIcon(
 				imagen.getScaledInstance(lblFondo.getWidth(), lblFondo.getHeight(), Image.SCALE_DEFAULT));

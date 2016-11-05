@@ -14,4 +14,16 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>src/main/java/mapa/fondo.jpg</name>
+			<type>1</type>
+			<location>C:/Users/Elías/Desktop/fondo.jpg</location>
+		</link>
+		<link>
+			<name>src/main/java/personaje/ElfoGuerrero.gif</name>
+			<type>1</type>
+			<location>C:/Users/Elías/Desktop/ElfoGuerrero.gif</location>
+		</link>
+	</linkedResources>
 </projectDescription>
