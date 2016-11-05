@@ -77,7 +77,7 @@ public class Jugador {
 			break;
 		}
 		}
-		ImageIcon img = new ImageIcon(this.getClass().getResource("ElfoGuerrero.gif"));
+		ImageIcon img = new ImageIcon(this.getClass().getResource("/gifs/ElfoGuerrero.gif"));
 		imagen = img.getImage();
 	}
 
