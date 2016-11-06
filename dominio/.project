@@ -16,54 +16,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>src/main/java/gifs/ElfoBrujo.gif</name>
+			<name>CrearCuenta.json</name>
 			<type>1</type>
-			<location>C:/Users/Elías/Desktop/Programación avanzada/ECLIPSE/Taller/dominio/ElfoBrujo.gif</location>
-		</link>
-		<link>
-			<name>src/main/java/gifs/ElfoGuerrero.gif</name>
-			<type>1</type>
-			<location>C:/Users/Elías/Desktop/Programación avanzada/ECLIPSE/Taller/dominio/ElfoGuerrero.gif</location>
-		</link>
-		<link>
-			<name>src/main/java/gifs/ElfoPaladin.gif</name>
-			<type>1</type>
-			<location>C:/Users/Elías/Desktop/Programación avanzada/ECLIPSE/Taller/dominio/ElfoPaladin.gif</location>
-		</link>
-		<link>
-			<name>src/main/java/gifs/HumanoBrujo.gif</name>
-			<type>1</type>
-			<location>C:/Users/Elías/Desktop/Programación avanzada/ECLIPSE/Taller/dominio/HumanoBrujo.gif</location>
-		</link>
-		<link>
-			<name>src/main/java/gifs/HumanoGuerrero.gif</name>
-			<type>1</type>
-			<location>C:/Users/Elías/Desktop/Programación avanzada/ECLIPSE/Taller/dominio/HumanoGuerrero.gif</location>
-		</link>
-		<link>
-			<name>src/main/java/gifs/HumanoPaladin.gif</name>
-			<type>1</type>
-			<location>C:/Users/Elías/Desktop/Programación avanzada/ECLIPSE/Taller/dominio/HumanoPaladin.gif</location>
-		</link>
-		<link>
-			<name>src/main/java/gifs/OrcoGuerrero.gif</name>
-			<type>1</type>
-			<location>C:/Users/Elías/Desktop/Programación avanzada/ECLIPSE/Taller/dominio/OrcoGuerrero.gif</location>
-		</link>
-		<link>
-			<name>src/main/java/gifs/OrcoMago.gif</name>
-			<type>1</type>
-			<location>C:/Users/Elías/Desktop/Programación avanzada/ECLIPSE/Taller/dominio/OrcoMago.gif</location>
-		</link>
-		<link>
-			<name>src/main/java/gifs/OrcoPaladin.gif</name>
-			<type>1</type>
-			<location>C:/Users/Elías/Desktop/Programación avanzada/ECLIPSE/Taller/dominio/OrcoPaladin.gif</location>
-		</link>
-		<link>
-			<name>src/main/java/mapa/fondo.jpg</name>
-			<type>1</type>
-			<location>C:/Users/Elías/Desktop/fondo.jpg</location>
+			<location>D:/GitKraken proyectos/jrpg/documentacion/mensajeria/CrearCuenta.json</location>
 		</link>
 	</linkedResources>
 </projectDescription>
