@@ -2,29 +2,30 @@ package personaje;
 
 import java.util.*;
 
+
 public class Alianza {
 
 	// Utilizado para la alianza con Personajes
 	private LinkedList<Personaje> aliados;
-	private List<Jugador> jugadores;
+//	private List<Jugador> jugadores;
 	private String nombre;
 
 	// Constructores
-	public Alianza(String nombre, Jugador primerJugadorAliado) {
-		this.jugadores = new LinkedList<Jugador>();
-		this.agregarJugador(primerJugadorAliado);
+	public Alianza(String nombre/*, Jugador primerJugadorAliado*/) {
+	//	this.jugadores = new LinkedList<Jugador>();
+	//	this.agregarJugador(primerJugadorAliado);
 		this.nombre = nombre;
 	}
 
 	// Metodos adicionales
-	public boolean eliminarJugador(Jugador jugadorAEliminar) {
-		return jugadores.remove(jugadorAEliminar);
-	}
+//	public boolean eliminarJugador(/*Jugador jugadorAEliminar*/) {
+//		return jugadores.remove(jugadorAEliminar);
+//	}
 
-	public void agregarJugador(Jugador jugador) {
-		if (jugadores.size() < 50)
-			this.jugadores.add(jugador);
-	}
+//	public void agregarJugador(Jugador jugador) {
+//		if (jugadores.size() < 50)
+//			this.jugadores.add(jugador);
+//	}
 
 	// Métodos para una alianza con Personajes
 

@@ -1,6 +1,6 @@
 package mapa;
 
-import personaje.Jugador;
+import cliente.Jugador;
 
 public class CiudadOrco extends Mapa { // esquina abajo izq
 

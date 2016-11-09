@@ -1,11 +1,16 @@
-package personaje;
+package cliente;
 
+import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.net.Socket;
+
+import javax.swing.ImageIcon;
 
 import castas.Brujo;
 import castas.Guerrero;
 import castas.Paladin;
 import mapa.Punto;
+import personaje.Personaje;
 import razas.Humano;
 
 public class Jugador {
@@ -16,12 +21,19 @@ public class Jugador {
 	private String casta;
 	private String raza;
 	private Punto posicion;
+	private String animacion;
+	private int desplazamientoX;
+	private int desplazamientoY;
+	private Image imagen;
 
 	// Constructores
 	public Jugador(String nombre, String raza, String casta) {
 		Nombre = nombre;
 		this.casta = casta;
 		this.raza = raza;
+		posicion = new Punto(40, 60);
+		desplazamientoX = 0;
+		desplazamientoY = 0;
 		switch (raza) {
 		case "Humano": {
 			switch (casta) {
@@ -66,6 +78,8 @@ public class Jugador {
 			break;
 		}
 		}
+		ImageIcon img = new ImageIcon(this.getClass().getResource("/imagenes/ElfoGuerrero.gif"));
+		imagen = img.getImage();
 	}
 
 	// Getters and Setters
@@ -103,5 +117,44 @@ public class Jugador {
 
 	public Personaje getPersonaje() {
 		return personaje;
+	}
+
+	public Image getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(Image imagen) {
+		this.imagen = imagen;
+	}
+
+	// Metodos Adicionales
+	public void mover() {
+		posicion.desplazar(desplazamientoX, desplazamientoY);
+	}
+
+	public void keyPressed(KeyEvent e) {
+		int key = e.getKeyCode();
+
+		if (key == KeyEvent.VK_LEFT)
+			desplazamientoX -= 1;
+		if (key == KeyEvent.VK_RIGHT)
+			desplazamientoX += 1;
+		if (key == KeyEvent.VK_UP)
+			desplazamientoY -= 1;
+		if (key == KeyEvent.VK_DOWN)
+			desplazamientoY += 1;
+	}
+
+	public void keyReleased(KeyEvent e) {
+		int key = e.getKeyCode();
+
+		if (key == KeyEvent.VK_LEFT)
+			desplazamientoX = 0;
+		if (key == KeyEvent.VK_RIGHT)
+			desplazamientoX = 0;
+		if (key == KeyEvent.VK_UP)
+			desplazamientoY = 0;
+		if (key == KeyEvent.VK_DOWN)
+			desplazamientoY = 0;
 	}
 }

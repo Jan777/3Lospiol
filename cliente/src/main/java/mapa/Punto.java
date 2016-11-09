@@ -2,28 +2,28 @@ package mapa;
 
 public class Punto {
 
-	private double x, y;
+	private int x, y;
 
 	// Constructores
-	public Punto(double x, double y) {
+	public Punto(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
 	// Getters and Setters
-	public double getX() {
+	public int getX() {
 		return x;
 	}
 
-	public void setX(double x) {
+	public void setX(int x) {
 		this.x = x;
 	}
 
-	public double getY() {
+	public int getY() {
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(int y) {
 		this.y = y;
 	}
 
@@ -48,6 +48,12 @@ public class Punto {
 	public Punto desplazar(Punto p) {
 		this.x += p.getX();
 		this.y += p.getY();
+		return this;
+	}
+
+	public Punto desplazar(int deltaX, int deltaY) {
+		this.x += deltaX;
+		this.y += deltaY;
 		return this;
 	}
 
