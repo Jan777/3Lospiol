@@ -1,4 +1,4 @@
-package mapa;
+package gui;
 
 import java.awt.EventQueue;
 import java.awt.Graphics;
@@ -17,7 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
-import cliente.Jugador;
+import jugador.Jugador;
+import mapa.Obstaculo;
+import mapa.Punto;
 
 public class Mapa extends JFrame implements ActionListener {
 

@@ -1,6 +1,7 @@
 package mapa;
 
-import cliente.Jugador;
+import gui.Mapa;
+import jugador.Jugador;
 
 public class CiudadElfo extends Mapa { // esquina abajo der
 

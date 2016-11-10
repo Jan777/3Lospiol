@@ -13,7 +13,6 @@ public class Cliente {
 	private String nombre;
 	private final int PUERTO = 4509;
 	private String usuario;
-	private DataOutputStream dataOutputStream;
 	private Gson gson;
 
 	public int getPuerto() {
@@ -42,7 +41,7 @@ public class Cliente {
 	}
 
 	public void enviarMensaje(Object mensaje) throws IOException {
-		this.dataOutputStream = new DataOutputStream(this.cliente.getOutputStream());
+		DataOutputStream dataOutputStream = new DataOutputStream(this.cliente.getOutputStream());
 		mensaje = "Hola";
 		this.gson = new Gson();
 		dataOutputStream.writeUTF(gson.toJson(mensaje));
