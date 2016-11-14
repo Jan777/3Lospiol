@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>CrearCuenta.json</name>
-			<type>1</type>
-			<location>D:/GitKraken proyectos/jrpg/documentacion/mensajeria/CrearCuenta.json</location>
-		</link>
-	</linkedResources>
 </projectDescription>

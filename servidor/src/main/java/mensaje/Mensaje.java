@@ -1,4 +1,4 @@
-package cliente;
+package mensaje;
 
 public class Mensaje {
 	private String nombreMensaje;

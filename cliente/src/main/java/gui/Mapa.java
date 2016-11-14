@@ -75,14 +75,14 @@ public class Mapa extends JFrame implements ActionListener {
 		lblFondo.setSize(ANCHO, ALTO);
 		contentPane.add(lblFondo);
 
-		ImageIcon img = new ImageIcon(this.getClass().getResource("/Imagenes/fondoInicio.jpg"));
-		//Cambiar fondo del mapa
-		
-		fondo = img.getImage();
-		ImageIcon iconoEscalonado = new ImageIcon(
-				fondo.getScaledInstance(lblFondo.getWidth(), lblFondo.getHeight(), Image.SCALE_DEFAULT));
-
-		lblFondo.setIcon(iconoEscalonado);
+//		ImageIcon img = new ImageIcon(this.getClass().getResource("/Imagenes/fondoInicio.jpg"));
+//		//Cambiar fondo del mapa
+//		
+//		fondo = img.getImage();
+//		ImageIcon iconoEscalonado = new ImageIcon(
+//				fondo.getScaledInstance(lblFondo.getWidth(), lblFondo.getHeight(), Image.SCALE_DEFAULT));
+//
+//		lblFondo.setIcon(iconoEscalonado);
 	}
 
 	// Getters and Setters

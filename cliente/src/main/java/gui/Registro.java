@@ -18,6 +18,7 @@ import cliente.Mensaje;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 import java.net.Socket;
 
 public class Registro extends JFrame {
@@ -28,7 +29,6 @@ public class Registro extends JFrame {
 	private JPasswordField passwordField;
 	private JPasswordField repetirPasswordField;
 	private Login login;
-	private Gson gson;
 	private Mensaje mensaje;
 
 	/**
@@ -84,7 +84,13 @@ public class Registro extends JFrame {
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (validarDatosCompletos() && validarContraseñas()) {
-					escribirUsuario();
+					try {
+						validarNombreDeUsuario();
+					} catch (IOException e1) {
+
+						e1.printStackTrace();
+					}
+
 					dispose();
 				}
 			}
@@ -126,13 +132,13 @@ public class Registro extends JFrame {
 		this.login = login;
 		run();
 	}
-	
-	private boolean validarNombreDeUsuario(){
-		//mensaje.setId("");
-		this.mensaje.setMensaje("nombreDeUsuariop");
-		this.login.enviarMensajeAlServidor(mensaje);
-		String respuesta = this.login.leerRespuestaDeServidor();
-		System.out.println(respuesta);
+
+	private boolean validarNombreDeUsuario() throws IOException {
+		this.mensaje.cambiarMensaje("validarUsuario", "Usuario");
+		this.mensaje.setNombreMensaje(this.textFieldUsuario.getText());
+		this.login.enviarMensaje("ValidaUsuario");
+		// String respuesta = this.login.leerRespuesta();
+
 		return true;
 	}
 
@@ -145,6 +151,7 @@ public class Registro extends JFrame {
 		return true;
 	}
 
+	@SuppressWarnings("deprecation")
 	public boolean validarDatosCompletos() {
 		if (this.passwordField.getText().length() > 0 && this.repetirPasswordField.getText().length() > 0
 				&& this.textFieldEmail.getText().length() > 0 && this.textFieldUsuario.getText().length() > 0) {

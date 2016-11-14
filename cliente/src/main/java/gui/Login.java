@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.Cursor;
 import java.awt.EventQueue;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.Socket;
@@ -17,11 +16,9 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 
 import cliente.Mensaje;
 
-import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -66,6 +63,7 @@ public class Login extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("deprecation")
 	public Login() {
 
 		setVisible(true);
@@ -174,25 +172,29 @@ public class Login extends JFrame {
 			this.passwordField.setEchoChar('*');
 	}
 
-	public String leerRespuestaDeServidor() {
+	public void leerRespuesta() throws IOException {
+		String entrada;
+		entrada = this.dataInputStream.readUTF();
+		mensaje = gson.fromJson(entrada, Mensaje.class);
 
-		try {
-			this.mensaje = gson.fromJson(this.dataInputStream.readUTF(), Mensaje.class);
-		} catch (JsonSyntaxException | IOException e) {
-			e.printStackTrace();
+		if (mensaje.getNombreMensaje().equals("ValidarUsuario")) {
 		}
-		return this.mensaje.getMensaje();
+	}
+
+	public void enviarMensaje(String nombreMensaje) throws IOException {
+		if (nombreMensaje.equals("Cargar")) {
+			String json = gson.toJson("MensajeUsuario");
+			// CAMBIAR "MensajeUsuario"
+			mensaje.cambiarMensaje(nombreMensaje, json);
+			enviar(mensaje);
+		}
 
 	}
 
-	public void enviarMensajeAlServidor(Mensaje mensaje) {
-		try {
-			this.dataOutputStream.writeUTF(gson.toJson(mensaje));
-			this.dataOutputStream.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void enviar(Mensaje mensj) throws IOException {
+		String msg = gson.toJson(mensj);
+		this.dataOutputStream.writeUTF(msg);
+		this.dataOutputStream.flush();
 	}
 
 	public void leerConfiguracion() throws FileNotFoundException {
