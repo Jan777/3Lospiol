@@ -6,21 +6,21 @@ import java.awt.image.ImageObserver;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import personaje.Personaje;
+import personaje.PersonajeDibujable;
 
 public class Mapa  {
 	
 	private String img;
 	 private int ancho,alto;
 	 private int anchoCuadro = 800,altoCuadro = 600;
-	 private HashMap<String,Personaje> colisionables;
+	 private HashMap<String,PersonajeDibujable> colisionables;
 	 
 	 public Mapa(){
 		 BuscarImagen buscar = new BuscarImagen();
 		 img = "stage2.png";
 		 	alto = buscar.altoMapa(img);
 		 	ancho = buscar.anchoMapa(img);
-	       this.colisionables = new HashMap<String, Personaje>();
+	       this.colisionables = new HashMap<String, PersonajeDibujable>();
 	 }
 	
 	 public Mapa(Mapa map){
@@ -30,7 +30,7 @@ public class Mapa  {
 		 this.colisionables = map.colisionables; 	       
 	 }
 	 
-	 public int xRespectoPersonajeMapa(Personaje pers){
+	 public int xRespectoPersonajeMapa(PersonajeDibujable pers){
 		 int xRealitivo = pers.getPosicionX() - (this.anchoCuadro / 2);
 		 if(xRealitivo < 0)
 		 {
@@ -43,7 +43,7 @@ public class Mapa  {
 		 return xRealitivo;
 	 }
 	 
-	 public int yRespectoPersonajeMapa(Personaje pers){
+	 public int yRespectoPersonajeMapa(PersonajeDibujable pers){
 		 int yRealitivo = pers.getPosicionY() - (this.altoCuadro / 2);
 		 if(yRealitivo < 0)
 		 {
@@ -56,22 +56,22 @@ public class Mapa  {
 		 return yRealitivo;
 	 }
 	 
-	 public boolean sePuedeUbicar(Personaje pers,int x, int y)
+	 public boolean sePuedeUbicar(PersonajeDibujable pers,int x, int y)
 	 {
 		 
 		 return true;
 	 }
 	 
-	public void pintarMapa(Graphics g, Personaje pers, ImageObserver observer){              
+	public void pintarMapa(Graphics g, PersonajeDibujable pers, ImageObserver observer){              
 		Graphics2D g2 = (Graphics2D)g;     
 		int xRelativo = this.xRespectoPersonajeMapa(pers);
 		int yRelativo = this.yRespectoPersonajeMapa(pers);
 		BuscarImagen buscar = new BuscarImagen();
 		g2.drawImage(buscar.subImgMapa(img, xRelativo, yRelativo, anchoCuadro, altoCuadro),0, 0, observer);
                 
-		Personaje d;
+		PersonajeDibujable d;
 		
-		for (Entry<String, Personaje> dibujar : colisionables.entrySet()){
+		for (Entry<String, PersonajeDibujable> dibujar : colisionables.entrySet()){
 			
 			d = dibujar.getValue();
 			int x = d.getPosicionX();
@@ -85,7 +85,7 @@ public class Mapa  {
     }
 		
 	public void agregarDibujable(Dibujable d){
-		colisionables.put(d.getID(), (Personaje)d);		
+		colisionables.put(d.getID(), (PersonajeDibujable)d);		
 	}
 	
 	public void quitar(String id){
@@ -95,6 +95,6 @@ public class Mapa  {
 	public void actualizarMapa(Dibujable d){
 	//	colisionables.replace(d.getID(), (Personaje)d);
 		colisionables.remove(d.getID());
-		colisionables.put(d.getID(), (Personaje)d);		
+		colisionables.put(d.getID(), (PersonajeDibujable)d);		
 	}
 }

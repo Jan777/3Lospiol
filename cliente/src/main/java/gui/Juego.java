@@ -26,7 +26,7 @@ public class Juego extends JFrame{
     
     public static void main(String args[]) throws UnknownHostException, IOException{
         new Juego(1);
-        new Juego(3);
+        //new Juego(3);
         
     }
 }
