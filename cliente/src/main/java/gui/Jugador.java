@@ -17,6 +17,7 @@ import com.google.gson.Gson;
 
 import cliente.Mensaje;
 import mapa.Mapa;
+import personaje.Personaje;
 import personaje.PersonajeDibujable;
 
 public class Jugador extends JPanel implements Runnable {
@@ -24,7 +25,9 @@ public class Jugador extends JPanel implements Runnable {
 	* 
 	*/
 	private static final long serialVersionUID = 1L;
+	private String ID;
 	private PersonajeDibujable pers;
+	private Personaje persBatalla;
 	private Mapa map;
 	private Thread hilo;
 	private final int DELAY = 10;
@@ -66,6 +69,37 @@ public class Jugador extends JPanel implements Runnable {
 		});
 
 	}
+	
+	public Jugador(Socket sock, String id, PersonajeDibujable p, Personaje pb) throws UnknownHostException, IOException {
+
+		cliente = sock;
+		ID = id;
+		in = new DataInputStream(cliente.getInputStream());
+		out = new DataOutputStream(cliente.getOutputStream());
+
+		setBackground(Color.WHITE);
+		setDoubleBuffered(true);
+		pers = p;
+		persBatalla = pb;
+		map = new Mapa();
+		enviarMensaje("Cargar");
+		leerRespuesta();
+
+		addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+
+				if (arg0.getButton() == MouseEvent.BUTTON3) {
+					System.out.println("Detected Mouse Right Click! " + pers.getPosicionYMouse());
+				}
+				pers.setXY(arg0.getX() + map.xRespectoPersonajeMapa(pers),
+						arg0.getY() + map.yRespectoPersonajeMapa(pers));
+			}
+		});
+
+	}
+	
 
 	public void leerRespuesta() throws IOException {
 		entrada = in.readUTF();
