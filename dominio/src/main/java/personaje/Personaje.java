@@ -33,12 +33,11 @@ public abstract class Personaje implements Atacable, Dibujable {
 	private int alto, ancho;
 	private int x, y, sentido, paso = 0;
 	private int xMouse, yMouse;
-	
 
-	public String obtenerRaza(){
+	public String obtenerRaza() {
 		return raza;
 	}
-	
+
 	public void caminar() {
 		if (x == xMouse && y == yMouse)
 			return;
@@ -104,7 +103,6 @@ public abstract class Personaje implements Atacable, Dibujable {
 		return alto;
 	}
 
-	
 	public boolean seSuperPonen(Dibujable d) {
 		// TODO Auto-generated method stub
 		return false;
@@ -143,6 +141,10 @@ public abstract class Personaje implements Atacable, Dibujable {
 	public abstract int calcularPuntosDeAtaque();
 
 	public abstract int obtenerPuntosDeDefensa();
+	
+	//public abstract int calcularPuntosDeHechizos();
+	
+	//public abstract boolean aplicarHechizo(String hechizo,Personaje, afectado);
 
 	// Getters and Setters
 	public int getNivel() {
@@ -242,14 +244,34 @@ public abstract class Personaje implements Atacable, Dibujable {
 		return 0;
 	}
 
+	public int getEnergia() {
+		return energia;
+	}
+
+	public int getInteligencia() {
+		return inteligencia;
+	}
+
+	public void setInteligencia(int inteligencia) {
+		this.inteligencia = inteligencia;
+	}
+
+	public Casta getCasta() {
+		return casta;
+	}
+
+	public void setCasta(Casta casta) {
+		this.casta = casta;
+	}
+
+	public int getMana() {
+		return mana;
+	}
+
 	// Metodos adicionales
 	public void defender() {
 		this.defender = true;
 	}
-	// public abstract int calcularPuntosDeHechizos();
-
-	// public abstract boolean aplicarHechizo(String hechizo,Personaje
-	// afectado);
 
 	public boolean estaVivo() {
 		return this.salud > 0;
@@ -291,7 +313,7 @@ public abstract class Personaje implements Atacable, Dibujable {
 	}
 
 	public void aumentarAtaque(int i) {
-		this.ataqueAfectado += i;
+		this.ataque += i;
 	}
 
 	public void disminuirAtaque(int i) {
