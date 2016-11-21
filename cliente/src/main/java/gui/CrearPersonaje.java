@@ -16,10 +16,19 @@ import razas.Elfo;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 
+import mapa.Mapa;
+
+import com.google.gson.Gson;
+
+import cliente.Mensaje;
 import castas.Brujo;
 import castas.Guerrero;
 import castas.Paladin;
@@ -31,30 +40,19 @@ public class CrearPersonaje extends JFrame {
 	private String raza;
 	private String casta;
 	private boolean eligio=false;
-	private String nombrePersonaje;
-	private JTextField nombre;
+	private String nombrePesrsonaje;
+	private Socket cliente;
+	private Gson gson;
 	private PersonajeDibujable dibujoPersonaje;
+	private Mensaje mensaje = new Mensaje("", "");
+	private DataOutputStream out;
+	private DataInputStream in;
+	private String entrada;
+	private boolean seCerro=false;
+	
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CrearPersonaje frame = new CrearPersonaje();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public CrearPersonaje() {
+	public CrearPersonaje(final String nombrePersonaje,Socket cliente) {
+		this.cliente=cliente;
 		setTitle("Warlords");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,19 +127,13 @@ public class CrearPersonaje extends JFrame {
 		elegirRaza.add(btnBrujo);
 		btnBrujo.setVisible(false);
 		
-		nombre = new JTextField();
-		nombre.setBounds(342, 395, 173, 20);
-		elegirRaza.add(nombre);
-		nombre.setColumns(10);
-		nombre.setVisible(false);
-		
 		final JButton elegirCasta = new JButton("Elegir");
 		elegirCasta.setBounds(384, 426, 89, 23);
 		elegirRaza.add(elegirCasta);
 		elegirCasta.setVisible(false);
 		
 		final JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setBounds(384, 375, 99, 14);
+		lblNombre.setBounds(350, 375, 200, 14);
 		elegirRaza.add(lblNombre);
 		lblNombre.setVisible(false);
 		
@@ -195,7 +187,9 @@ public class CrearPersonaje extends JFrame {
 				
 				btnDeshacerCasta.setVisible(true);
 				lblNombre.setVisible(true);
-				nombre.setVisible(true);
+
+				lblNombre.setText("Nombre de personaje: "+nombrePersonaje);
+		
 				if(raza.compareTo("orco")!=0)
 					btnBrujo.setVisible(true);
 				btnGuerrero.setVisible(true);
@@ -234,23 +228,19 @@ public class CrearPersonaje extends JFrame {
 		
 		elegirCasta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				do{
-					nombrePersonaje=nombre.getText();
-				}while(nombre.getText().compareTo("")==0);// para verificar que haya un nombre valido
-				//FALTA VALIDAR CON BASE DE DATOS SI EL NOMBRE EXISTE.
 				switch(raza){
 					case "Humano":
 						switch(casta){
 							case "paladin":
-								personaje= new Humano(new Paladin());
+								personaje= new Humano(new Paladin(),nombrePersonaje,"humanoP");
 								dibujoPersonaje= new PersonajeDibujable(nombrePersonaje,"humanoP");
 								break;
 							case "guerrero":
-								personaje= new Humano(new Guerrero());
+								personaje= new Humano(new Guerrero(),nombrePersonaje,"humanoG");
 								dibujoPersonaje= new PersonajeDibujable(nombrePersonaje,"humanoG");
 								break;
 							case "brujo":
-								personaje= new Humano(new Brujo());
+								personaje= new Humano(new Brujo(),nombrePersonaje,"humanoB");
 								dibujoPersonaje= new PersonajeDibujable(nombrePersonaje,"humanoB");
 								break;	
 							default:
@@ -260,12 +250,12 @@ public class CrearPersonaje extends JFrame {
 					case "Orco":
 						switch(casta){
 							case "paladin":
-							personaje= new Orco(new Paladin());
+							personaje= new Orco(new Paladin(),nombrePersonaje,"orcoP");
 							dibujoPersonaje= new PersonajeDibujable(nombrePersonaje,"orcoP");
 								break;
 							case "guerrero":
-								personaje= new Orco(new Guerrero());
-								dibujoPersonaje= new PersonajeDibujable(nombrePersonaje,"orcoP");
+								personaje= new Orco(new Guerrero(),nombrePersonaje,"orcoG");
+								dibujoPersonaje= new PersonajeDibujable(nombrePersonaje,"orcoG");
 								break;
 							default:
 								break;		
@@ -275,15 +265,15 @@ public class CrearPersonaje extends JFrame {
 						switch(casta){
 							
 							case "paladin":
-								personaje= new Elfo(new Paladin());
+								personaje= new Elfo(new Paladin(),nombrePersonaje,"elfoP");
 								dibujoPersonaje= new PersonajeDibujable(nombrePersonaje,"elfoP");
 								break;
 							case "guerrero":
-								personaje= new Elfo(new Guerrero());
+								personaje= new Elfo(new Guerrero(),nombrePersonaje,"elfoG");
 								dibujoPersonaje= new PersonajeDibujable(nombrePersonaje,"elfoG");
 								break;
 							case "brujo":
-								personaje= new Elfo(new Brujo());
+								personaje= new Elfo(new Brujo(),nombrePersonaje,"elfoB");
 								dibujoPersonaje= new PersonajeDibujable(nombrePersonaje,"elfoB");
 								break;
 							default:
@@ -294,20 +284,57 @@ public class CrearPersonaje extends JFrame {
 						break;
 				}
 				
+				try {
+					enviarMensaje("GuardarPersonaje");
+					leerRespuesta();
+					enviarMensaje("GuardarPersonajeDibujable");
+					leerRespuesta();
+				} catch (IOException e1) {
+					// poner una ventana emergente para advertir que
+					//no se pudo crear el personaje
+				}
+				seCerro=true;
+				dispose();
 			}
-			
 		});
+	}
+	
+	public boolean seCerro() {
+		return seCerro;
 	}
 	
 	public Personaje obtenerPersonaje(){
 		return personaje;
 	}
 	
-	public String obtenerNombre(){
-		return nombrePersonaje;
-	}
-	
 	public PersonajeDibujable obtenerPersDibujable(){
 		return dibujoPersonaje;
+	}
+	
+	//metodos para solicitar registro de los personajes del jugador
+	
+	public void leerRespuesta() throws IOException {
+		entrada = in.readUTF();
+		mensaje = gson.fromJson(entrada, Mensaje.class);
+	}
+	
+	public void enviar(Mensaje mensj) throws IOException {
+		String msg = gson.toJson(mensj);
+		out.writeUTF(msg);
+		out.flush();
+	}
+
+	public void enviarMensaje(String nombreMensaje) throws IOException {
+		if (nombreMensaje.equals("GuardarPersonajeDibujable")) {
+			String json = gson.toJson(this.obtenerPersDibujable());
+			mensaje.cambiarMensaje(nombreMensaje, json);
+			enviar(mensaje);
+		}
+
+		if (nombreMensaje.equals("GuardarPersonaje")) {
+			String json = gson.toJson(obtenerPersonaje());
+			mensaje.cambiarMensaje(nombreMensaje, json);
+			enviar(mensaje);
+		}
 	}
 }

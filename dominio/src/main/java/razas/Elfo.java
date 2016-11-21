@@ -7,7 +7,7 @@ public class Elfo extends Personaje {
 	
 	int ataquesRecibidos;
 	
-	public Elfo(Casta castaElegida){
+	public Elfo(Casta castaElegida, String nombrePersonaje, String img){
 		this.maxSalud = 85;
 		this.maxEnergia = 120;
 		this.expMax=100;
@@ -22,6 +22,9 @@ public class Elfo extends Personaje {
 		this.nivel=1;
 		this.ataquesRecibidos=0;
 		this.mana=3;
+		this.id=nombrePersonaje;
+		this.img=img;
+		
 	}
 	@Override
 	public void despuesDeAtacar() {

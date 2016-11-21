@@ -43,7 +43,7 @@ public class Mapa2 extends JFrame implements ActionListener {
 				try {
 					Mapa2 frame = new Mapa2();
 					frame.setVisible(true);
-					frame.agregarJugador(new Jugador("pepe", "Elfo", "Guerrero"));
+					//frame.agregarJugador(new Jugador("pepe", "Elfo", "Guerrero"));
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

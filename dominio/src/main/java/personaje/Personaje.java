@@ -28,8 +28,8 @@ public abstract class Personaje implements Atacable, Dibujable {
 	protected String raza;
 
 	//
-	private String iD;
-	private String img;
+	protected String id;
+	protected String img;
 	private int alto, ancho;
 	private int x, y, sentido, paso = 0;
 	private int xMouse, yMouse;
@@ -112,12 +112,12 @@ public abstract class Personaje implements Atacable, Dibujable {
 
 	@Override
 	public String getID() {
-		return iD;
+		return id;
 	}
 
 	@Override
 	public int compareTo(Dibujable d) {
-		return this.iD.compareTo(d.getID());
+		return this.id.compareTo(d.getID());
 	}
 	//
 

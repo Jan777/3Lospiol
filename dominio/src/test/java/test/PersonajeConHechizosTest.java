@@ -15,16 +15,16 @@ public class PersonajeConHechizosTest {
 	
 	@Test
 	public void CrearPersonajeConCasta(){
-		Personaje paladin= new Humano(new Paladin());
-		Personaje guerrero=new Orco(new Guerrero()); 
+		Personaje paladin= new Humano(new Paladin(), null, null);
+		Personaje guerrero=new Orco(new Guerrero(), null, null); 
 		guerrero.atacar(paladin);
 		Assert.assertEquals(91,paladin.getSalud());
 	}
 	
 	@Test
 	public void probarHechizandoOponentes(){
-		Personaje brujo= new Humano(new Brujo());
-		Personaje guerreroAtacado=new Orco(new Guerrero()); 
+		Personaje brujo= new Humano(new Brujo(), null, null);
+		Personaje guerreroAtacado=new Orco(new Guerrero(), null, null); 
 		//probando con mana menor al requerido para lanzar el hechizo
 		Assert.assertFalse("No tiene mana suficiente", brujo.aplicarHechizo("Latigaso mortal", guerreroAtacado));
 		brujo.setMana(50);
@@ -35,7 +35,7 @@ public class PersonajeConHechizosTest {
 	}
 	@Test
 	public void equiparItemsAlPersonaje(){
-		Personaje orco=new Orco(new Guerrero());
+		Personaje orco=new Orco(new Guerrero(), null, null);
 		orco = new ConEspada(orco);
 		Assert.assertEquals(12+5, orco.obtenerPuntosDeAtaque());
 		

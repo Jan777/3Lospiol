@@ -5,7 +5,7 @@ import personaje.Personaje;
 
 public class Humano extends Personaje {
 
-	public Humano(Casta castaElegida) {
+	public Humano(Casta castaElegida, String nombrePersonaje, String img) {
 		this.maxSalud = 100;
 		this.maxEnergia = 100;
 		this.salud = 100;
@@ -18,6 +18,8 @@ public class Humano extends Personaje {
 		this.nivel = 1;
 		this.mana = 0;
 		this.expMax=100;
+		this.id=nombrePersonaje;
+		this.img=img;
 	}
 
 

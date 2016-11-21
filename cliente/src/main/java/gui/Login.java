@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Cursor;
 import java.awt.EventQueue;
+import java.awt.GraphicsConfiguration;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.Socket;
@@ -20,6 +21,7 @@ import com.google.gson.Gson;
 import cliente.Mensaje;
 
 import javax.swing.JCheckBox;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.DataInputStream;
@@ -42,6 +44,8 @@ public class Login extends JFrame {
 	private int puerto;
 	private String ip;
 	private Mensaje mensaje;
+	private String nombreUsuario;
+	private boolean seCerro=false;
 
 	/**
 	 * Launch the application.
@@ -106,6 +110,8 @@ public class Login extends JFrame {
 		JButton btnAceptar = new JButton("Login");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				nombreUsuario=textFieldUsuario.getText();
+				seCerro=true;
 				dispose();
 			}
 		});
@@ -209,5 +215,20 @@ public class Login extends JFrame {
 
 	public Gson getGson() {
 		return this.gson;
+	}
+
+	public String getUsuario() {
+		// TODO Auto-generated method stub
+		return nombreUsuario;
+	}
+
+	public Socket obtenerCliente() {
+		// TODO Auto-generated method stub
+		return cliente;
+	}
+
+	public boolean seCerro() {
+		// TODO Auto-generated method stub
+		return seCerro;
 	}
 }

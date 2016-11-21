@@ -54,9 +54,9 @@ public class PersonajeTest {
 	@Test
 	public void historiaDeUsuarioNº3() {
 
-		Humano humano = new Humano(new Guerrero());
-		Elfo elfo = new Elfo(new Brujo());
-		Orco orco = new Orco(new Paladin());
+		Humano humano = new Humano(new Guerrero(), null, null);
+		Elfo elfo = new Elfo(new Brujo(), null, null);
+		Orco orco = new Orco(new Paladin(), null, null);
 		Assert.assertEquals(10, elfo.calcularPuntosDeAtaque());
 		humano.atacar(elfo);
 		Assert.assertEquals(75, elfo.getSalud());
@@ -71,9 +71,9 @@ public class PersonajeTest {
 	 */
 	@Test
 	public void historiaDeUsuarioNº4() {
-		Humano humano = new Humano(new Guerrero());
-		Orco orco = new Orco(new Guerrero());
-		Elfo elfo = new Elfo(new Guerrero());
+		Humano humano = new Humano(new Guerrero(), null, null);
+		Orco orco = new Orco(new Guerrero(), null, null);
+		Elfo elfo = new Elfo(new Guerrero(), null, null);
 
 		// El humano tendrá mas defensa que las otras razas
 		Assert.assertTrue(humano.obtenerPuntosDeDefensa() > orco.obtenerPuntosDeDefensa()
@@ -97,8 +97,8 @@ public class PersonajeTest {
 	 */
 	@Test
 	public void historiaDeUsuarioNº10() {
-		Personaje humano = new Humano(new Guerrero());
-		Personaje humanoAtacado = new Humano(new Brujo());
+		Personaje humano = new Humano(new Guerrero(), null, null);
+		Personaje humanoAtacado = new Humano(new Brujo(), null, null);
 		humanoAtacado = new ConCascoDeLaMuerte(humanoAtacado);
 		humanoAtacado = new ConEspada(humanoAtacado);
 		humanoAtacado = new ConAnillo(humanoAtacado);
@@ -122,9 +122,9 @@ public class PersonajeTest {
 	 */
 	@Test
 	public void historiaDeUsuarioNº13() {
-		Humano humano = new Humano(new Guerrero());
-		Elfo elfo = new Elfo(new Brujo());
-		Orco orco = new Orco(new Paladin());
+		Humano humano = new Humano(new Guerrero(), null, null);
+		Elfo elfo = new Elfo(new Brujo(), null, null);
+		Orco orco = new Orco(new Paladin(), null, null);
 		
 		while(humano.estaVivo()){
 			orco.atacar(humano);
@@ -145,10 +145,10 @@ public class PersonajeTest {
 	public void queFuncionaLaAlianza() {
 		Alianza FPV = new Alianza();
 		Alianza Cambiemos = new Alianza();
-		Personaje Macri = new Elfo(new Guerrero());
-		Personaje Carrio = new Elfo(new Brujo());
-		Personaje Cristina = new Humano(new Guerrero());
-		Personaje Scioli = new Humano(new Paladin());
+		Personaje Macri = new Elfo(new Guerrero(), null, null);
+		Personaje Carrio = new Elfo(new Brujo(), null, null);
+		Personaje Cristina = new Humano(new Guerrero(), null, null);
+		Personaje Scioli = new Humano(new Paladin(), null, null);
 
 		FPV.agregarAliado(Cristina);
 		FPV.agregarAliado(Scioli);
@@ -164,7 +164,7 @@ public class PersonajeTest {
 	@Test
 	public void quePuedoAgregarYQuitarUnItem() {
 
-		Personaje personaje = new Humano(new Guerrero());
+		Personaje personaje = new Humano(new Guerrero(), null, null);
 		personaje = new ConEspada(personaje);
 		Assert.assertEquals(100, personaje.obtenerPuntosDeSalud());
 		Assert.assertEquals(15, personaje.obtenerPuntosDeAtaque());

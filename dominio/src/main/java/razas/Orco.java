@@ -7,7 +7,7 @@ public class Orco extends Personaje{
 	
 	private int cantidadDeAtaques;
 	
-	public Orco(Casta castaElegida){
+	public Orco(Casta castaElegida, String nombrePersonaje, String img){
 		this.maxSalud = 120;
 		this.maxEnergia = 100;
 		this.salud=120;
@@ -22,6 +22,8 @@ public class Orco extends Personaje{
 		this.cantidadDeAtaques=0;
 		this.mana=0;
 		this.expMax=100;
+		this.id=nombrePersonaje;
+		this.img=img;
 	}
 	
 	@Override

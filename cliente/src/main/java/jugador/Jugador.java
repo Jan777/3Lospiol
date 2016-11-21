@@ -27,7 +27,7 @@ public class Jugador {
 	private Image imagen;
 
 	// Constructores
-	public Jugador(String nombre, String raza, String casta) {
+	/*public Jugador(String nombre, String raza, String casta) {
 		Nombre = nombre;
 		this.casta = casta;
 		this.raza = raza;
@@ -38,13 +38,13 @@ public class Jugador {
 		case "Humano": {
 			switch (casta) {
 			case "Brujo":
-				personaje = new Humano(new Brujo());
+				personaje = new Humano(new Brujo(), casta, casta);
 				break;
 			case "Guerrero":
-				personaje = new Humano(new Guerrero());
+				personaje = new Humano(new Guerrero(), casta, casta);
 				break;
 			case "Paladin":
-				personaje = new Humano(new Paladin());
+				personaje = new Humano(new Paladin(), casta, casta);
 				break;
 			}
 			break;
@@ -52,13 +52,13 @@ public class Jugador {
 		case "Elfo": {
 			switch (casta) {
 			case "Brujo":
-				personaje = new Humano(new Brujo());
+				personaje = new Humano(new Brujo(), casta, casta);
 				break;
 			case "Guerrero":
-				personaje = new Humano(new Guerrero());
+				personaje = new Humano(new Guerrero(), casta, casta);
 				break;
 			case "Paladin":
-				personaje = new Humano(new Paladin());
+				personaje = new Humano(new Paladin(), casta, casta);
 				break;
 			}
 			break;
@@ -80,7 +80,7 @@ public class Jugador {
 		}
 		ImageIcon img = new ImageIcon(this.getClass().getResource("/imagenes/ElfoGuerrero.gif"));
 		imagen = img.getImage();
-	}
+	}*/
 
 	// Getters and Setters
 	public Punto getPosicion() {

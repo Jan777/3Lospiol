@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import conexionSQL.OperacionesBD;
 import mapa.Mapa;
 import mensaje.Mensaje;
+import personaje.Personaje;
 import personaje.PersonajeDibujable;
 
 public class HiloServidor implements Runnable {
@@ -53,6 +54,24 @@ public class HiloServidor implements Runnable {
 			mensaje = new Mensaje("MapaActualizado", respuesta);
 			responder();
 		}
+		
+		if (mensaje.getNombreMensaje().equals("GuardarPersonajeDibujable")) {
+			PersonajeDibujable pers = gson.fromJson(mensaje.getJson(), PersonajeDibujable.class);
+			
+			//REGISTRAR PERSONAJEDIBUJABLE EN BD
+			String respuesta="true";
+			mensaje = new Mensaje("PersonajeDibujableGuardado", respuesta);
+			responder();
+		}
+		
+		if (mensaje.getNombreMensaje().equals("GuardarPersonaje")) {
+			Personaje perso = gson.fromJson(mensaje.getJson(), Personaje.class);
+			
+			//REGISTRAR PERSONAJE EN BD
+			String respuesta="true";
+			mensaje = new Mensaje("PersonajeGuardado", respuesta);
+			responder();
+		}		
 
 		if (mensaje.getNombreMensaje().equals("validarUsuario")) {
 			boolean respuestaValidacion = operaciones.existeUsuario(gson.fromJson(mensaje.getJson(), String.class));
