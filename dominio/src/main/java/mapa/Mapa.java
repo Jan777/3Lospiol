@@ -62,6 +62,19 @@ public class Mapa  {
 		 return true;
 	 }
 	 
+	 public boolean hayBatalla(PersonajeDibujable pers)
+	 {
+		 for (Entry<String, PersonajeDibujable> contrincante : colisionables.entrySet()){
+				
+				if(!(pers.getID().equals(contrincante.getKey())) && pers.seSuperPonen(contrincante.getValue()))
+				{
+					return true;
+				}
+			}
+		 
+		 return false;
+	 }
+	 
 	public void pintarMapa(Graphics g, PersonajeDibujable pers, ImageObserver observer){              
 		Graphics2D g2 = (Graphics2D)g;     
 		int xRelativo = this.xRespectoPersonajeMapa(pers);
@@ -79,6 +92,7 @@ public class Mapa  {
 	    	if(x > xRelativo && x < (xRelativo + this.anchoCuadro) && y > yRelativo && y < (yRelativo + this.altoCuadro))
         	{
         		g2.drawImage(d.getImagen(),d.getPosicionX() - xRelativo - (d.getAncho()/2), d.getPosicionY() - yRelativo - d.getAlto() , observer);
+        		g2.drawString(d.getID(), d.getPosicionX() - xRelativo - (d.getAncho()/2),  d.getPosicionY() - yRelativo - d.getAlto() );
         	}
 		}
 		          

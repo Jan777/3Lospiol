@@ -17,9 +17,7 @@ public class BuscarImagen {
 
 	public Image subImg(String dibujo, int ancho, int alto, int sentido, int paso) {
 		try {
-			img = ImageIO.read(new File(
-					"D:\\Mis Documentos\\Facultad\\Programación Avanzada\\Programación Avanzada\\Proyectos\\jrpg\\dominio\\src\\main\\java\\img\\"
-							+ dibujo));
+			img = ImageIO.read(new File("src/main/java/img/"+ dibujo));
 		} catch (IOException e) {
 		}
 
@@ -29,9 +27,7 @@ public class BuscarImagen {
 
 	public Image subImgMapa(String dibujo, int x, int y, int ancho, int alto) {
 		try {
-			img = ImageIO.read(new File(
-					"D:\\Mis Documentos\\Facultad\\Programación Avanzada\\Programación Avanzada\\Proyectos\\jrpg\\dominio\\src\\main\\java\\img\\"
-							+ dibujo));
+			img = ImageIO.read(new File("src/main/java/img/"+ dibujo));
 		} catch (IOException e) {
 		}
 
@@ -41,9 +37,7 @@ public class BuscarImagen {
 
 	public int ancho(String dibujo) {
 		try {
-			img = ImageIO.read(new File(
-					"D:\\Mis Documentos\\Facultad\\Programación Avanzada\\Programación Avanzada\\Proyectos\\jrpg\\dominio\\src\\main\\java\\img\\"
-							+ dibujo));
+			img = ImageIO.read(new File("src/main/java/img/"+ dibujo));
 		} catch (IOException e) {
 		}
 
@@ -56,9 +50,8 @@ public class BuscarImagen {
 			//String path2 = getClass().getResource("img/" + dibujo).getPath();
 			//URL is = getClass().getResource("/.../img/" + dibujo);
 			//String path3 = "src\\main\\java\\img\\" + dibujo;
-			String path = "D:\\Mis Documentos\\Facultad\\Programación Avanzada\\Programación Avanzada\\Proyectos\\jrpg\\dominio\\src\\main\\java\\img\\"
-					+ dibujo;
-			img = ImageIO.read(new File(path));
+			//String path = "src/main/java/img/"+ dibujo;
+			img = ImageIO.read(new File("src/main/java/img/"+ dibujo));
 		} catch (IOException e) {
 		}
 
@@ -67,7 +60,7 @@ public class BuscarImagen {
 
 	public int anchoMapa(String dibujo) {
 		try {
-			img = ImageIO.read(new File("C:\\Users\\Nico\\Desktop\\dominio\\bin\\img\\" + dibujo));
+			img = ImageIO.read(new File("src/main/java/img/"+ dibujo));
 		} catch (IOException e) {
 		}
 
@@ -76,7 +69,7 @@ public class BuscarImagen {
 
 	public int altoMapa(String dibujo) {
 		try {
-			 img = ImageIO.read(new File("C:\\Users\\Nico\\Desktop\\dominio\\bin\\img\\"+dibujo));
+			 img = ImageIO.read(new File("src/main/java/img/"+ dibujo));
 			// img = ImageIO.read(new File("img\\"+dibujo));
 		} catch (IOException e) {
 		}

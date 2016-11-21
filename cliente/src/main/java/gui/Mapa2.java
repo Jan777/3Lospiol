@@ -21,7 +21,7 @@ import jugador.Jugador;
 import mapa.Obstaculo;
 import mapa.Punto;
 
-public class Mapa extends JFrame implements ActionListener {
+public class Mapa2 extends JFrame implements ActionListener {
 
 	private static final int ANCHO = 1000;
 	private static final int ALTO = 1000;
@@ -41,7 +41,7 @@ public class Mapa extends JFrame implements ActionListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Mapa frame = new Mapa();
+					Mapa2 frame = new Mapa2();
 					frame.setVisible(true);
 					frame.agregarJugador(new Jugador("pepe", "Elfo", "Guerrero"));
 				} catch (Exception e) {
@@ -54,7 +54,7 @@ public class Mapa extends JFrame implements ActionListener {
 	/**
 	 * Create the frame.
 	 */
-	public Mapa() {
+	public Mapa2() {
 
 		obstaculos = new ArrayList<Obstaculo>();
 		jugadores = new ArrayList<Jugador>();

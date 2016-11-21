@@ -1,9 +1,9 @@
 package mapa;
 
-import gui.Mapa;
+import gui.Mapa2;
 import jugador.Jugador;
 
-public class CiudadOrco extends Mapa { // esquina abajo izq
+public class CiudadOrco extends Mapa2 { // esquina abajo izq
 
 	private static final int LARGO = 100;
 	private static final int ALTO = 100;

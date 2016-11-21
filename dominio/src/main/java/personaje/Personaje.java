@@ -104,7 +104,7 @@ public abstract class Personaje implements Atacable, Dibujable {
 		return alto;
 	}
 
-	@Override
+	
 	public boolean seSuperPonen(Dibujable d) {
 		// TODO Auto-generated method stub
 		return false;

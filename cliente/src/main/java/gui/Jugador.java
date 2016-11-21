@@ -28,6 +28,7 @@ public class Jugador extends JPanel implements Runnable {
 	private String ID;
 	private PersonajeDibujable pers;
 	private Personaje persBatalla;
+	private boolean hayBatalla = false;
 	private Mapa map;
 	private Thread hilo;
 	private final int DELAY = 10;
@@ -50,7 +51,7 @@ public class Jugador extends JPanel implements Runnable {
 
 		setBackground(Color.WHITE);
 		setDoubleBuffered(true);
-		//pers = new PersonajeDibujable("Jugador" + num); HAY QE MODIFICARLO 
+		pers = new PersonajeDibujable("Jugador"+num,"elfoP"); 
 		map = new Mapa();
 		enviarMensaje("Cargar");
 		leerRespuesta();
@@ -101,6 +102,11 @@ public class Jugador extends JPanel implements Runnable {
 	}
 	
 
+	public void setHayBatalla(boolean bool)
+	{
+		this.hayBatalla = bool;
+	}
+	
 	public void leerRespuesta() throws IOException {
 		entrada = in.readUTF();
 		mensaje = gson.fromJson(entrada, Mensaje.class);
@@ -151,10 +157,16 @@ public class Jugador extends JPanel implements Runnable {
 	}
 
 	public void ciclo() throws IOException {
-
-		this.pers.caminar();
-		enviarMensaje("ActualizarMapa");
-		leerRespuesta();
+		if(!hayBatalla)
+		{
+			this.pers.caminar();
+			hayBatalla = map.hayBatalla(pers);
+			enviarMensaje("ActualizarMapa");
+			leerRespuesta();
+		}else{
+			System.out.println("batalla");
+		}
+		
 
 		// map.actualizarMapa(pers);
 	}

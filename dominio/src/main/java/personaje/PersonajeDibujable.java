@@ -88,9 +88,10 @@ public class PersonajeDibujable implements Dibujable {
 		return alto;
 	}
 
-	@Override
-	public boolean seSuperPonen(Dibujable d) {
-		// TODO Auto-generated method stub
+	
+	public boolean seSuperPonen(PersonajeDibujable d) {
+		if(Math.abs(this.x - d.getPosicionX()) < this.ancho && Math.abs(this.y - d.getPosicionY()) < this.alto )
+			return true;
 		return false;
 	}
 
@@ -103,5 +104,7 @@ public class PersonajeDibujable implements Dibujable {
 	public int compareTo(Dibujable d) {
 		return this.iD.compareTo(d.getID());
 	}
+
+	
 
 }

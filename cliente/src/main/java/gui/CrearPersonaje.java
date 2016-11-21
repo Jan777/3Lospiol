@@ -64,9 +64,9 @@ public class CrearPersonaje extends JFrame {
 		setContentPane(elegirRaza);
 		elegirRaza.setLayout(null);
 		
-		JButton btnOrco = new JButton("Orco");
-		JButton btnElfo = new JButton("Elfo");
-		JButton btnHumano = new JButton("Humano");
+		final JButton btnOrco = new JButton("Orco");
+		final JButton btnElfo = new JButton("Elfo");
+		final JButton btnHumano = new JButton("Humano");
 		
 		btnElfo.setBounds(384, 320, 89, 23);
 		elegirRaza.add(btnElfo);
@@ -110,21 +110,21 @@ public class CrearPersonaje extends JFrame {
 		});
 		
 		
-		JButton btnElegir = new JButton("Elegir");
+		final JButton btnElegir = new JButton("Elegir");
 		btnElegir.setBounds(384, 426, 89, 23);
 		elegirRaza.add(btnElegir);
 		
-		JButton btnPaladin = new JButton("Paladin");
+		final JButton btnPaladin = new JButton("Paladin");
 		btnPaladin.setBounds(384, 307, 89, 23);
 		elegirRaza.add(btnPaladin);
 		btnPaladin.setVisible(false);
 		
-		JButton btnGuerrero = new JButton("Guerrero");
+		final JButton btnGuerrero = new JButton("Guerrero");
 		btnGuerrero.setBounds(384, 341, 89, 23);
 		elegirRaza.add(btnGuerrero);
 		btnGuerrero.setVisible(false);
 		
-		JButton btnBrujo = new JButton("Brujo");
+		final JButton btnBrujo = new JButton("Brujo");
 		btnBrujo.setBounds(384, 273, 89, 23);
 		elegirRaza.add(btnBrujo);
 		btnBrujo.setVisible(false);
@@ -135,27 +135,27 @@ public class CrearPersonaje extends JFrame {
 		nombre.setColumns(10);
 		nombre.setVisible(false);
 		
-		JButton elegirCasta = new JButton("Elegir");
+		final JButton elegirCasta = new JButton("Elegir");
 		elegirCasta.setBounds(384, 426, 89, 23);
 		elegirRaza.add(elegirCasta);
 		elegirCasta.setVisible(false);
 		
-		JLabel lblNombre = new JLabel("Nombre:");
+		final JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setBounds(384, 375, 99, 14);
 		elegirRaza.add(lblNombre);
 		lblNombre.setVisible(false);
 		
-		JLabel lblEligeUnaRaza = new JLabel("Elige una raza");
+		final JLabel lblEligeUnaRaza = new JLabel("Elige una raza");
 		lblEligeUnaRaza.setBounds(384, 197, 142, 14);
 		elegirRaza.add(lblEligeUnaRaza);
 		
-		JLabel lblEligeUnaCasta = new JLabel("Elige una casta");
+		final JLabel lblEligeUnaCasta = new JLabel("Elige una casta");
 		lblEligeUnaCasta.setBounds(384, 222, 162, 14);
 		elegirRaza.add(lblEligeUnaCasta);
 		lblEligeUnaCasta.setVisible(false);
 		
 		
-		JButton btnDeshacerRaza = new JButton("Deshacer");
+		final JButton btnDeshacerRaza = new JButton("Deshacer");
 		btnDeshacerRaza.setBounds(384, 460, 89, 23);
 		elegirRaza.add(btnDeshacerRaza);
 		
@@ -168,7 +168,7 @@ public class CrearPersonaje extends JFrame {
 			}
 		});
 		
-		JButton btnDeshacerCasta = new JButton("Deshacer");
+		final JButton btnDeshacerCasta = new JButton("Deshacer");
 		btnDeshacerCasta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				eligio=false;
