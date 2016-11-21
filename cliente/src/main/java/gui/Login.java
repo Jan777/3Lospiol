@@ -141,15 +141,6 @@ public class Login extends JFrame {
 		lblFondo.setBounds(0, 0, 434, 261);
 		contentPane.add(lblFondo);
 
-		// ImageIcon icono = new
-		// ImageIcon(getClass().getResource("/Imagenes/fondoInicio.jpg"));
-		// Image imagen = icono.getImage();
-		// ImageIcon iconoEscalonado = new ImageIcon(
-		// imagen.getScaledInstance(lblFondo.getWidth(), lblFondo.getHeight(),
-		// Image.SCALE_DEFAULT));
-		//
-		// lblFondo.setIcon(iconoEscalonado);
-		// this.repaint();
 	}
 
 	public void completarUsuario(String texto) {
@@ -177,15 +168,15 @@ public class Login extends JFrame {
 		entrada = this.dataInputStream.readUTF();
 		mensaje = gson.fromJson(entrada, Mensaje.class);
 
-		if (mensaje.getNombreMensaje().equals("ValidarUsuario")) {
-		}
 	}
 
-	public void enviarMensaje(String nombreMensaje) throws IOException {
-		if (nombreMensaje.equals("Cargar")) {
-			String json = gson.toJson("MensajeUsuario");
-			// CAMBIAR "MensajeUsuario"
-			mensaje.cambiarMensaje(nombreMensaje, json);
+	public void enviarMensaje(Mensaje mensaje) throws IOException {
+		if (mensaje.getNombreMensaje().equals("validarUsuario")) {
+			// String json = gson.toJson(textFieldUsuario.getText());
+			// mensaje.cambiarMensaje(mens, json);
+			enviar(mensaje);
+		}
+		if (mensaje.getNombreMensaje().equals("registrarUsuario")) {
 			enviar(mensaje);
 		}
 
@@ -205,5 +196,18 @@ public class Login extends JFrame {
 		this.puerto = Integer.parseInt(scanner.nextLine().split(":")[1]);
 		scanner.close();
 
+	}
+	
+
+	public Mensaje getMensaje() {
+		return this.mensaje;
+	}
+
+	public void setMensaje(Mensaje mensaje) {
+		this.mensaje = mensaje;
+	}
+
+	public Gson getGson() {
+		return this.gson;
 	}
 }

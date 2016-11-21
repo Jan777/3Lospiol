@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 import com.google.gson.Gson;
 
+import conexionSQL.OperacionesBD;
 import mapa.Mapa;
 import mensaje.Mensaje;
 import personaje.PersonajeDibujable;
@@ -21,6 +22,7 @@ public class HiloServidor implements Runnable {
 	private Mapa map;
 	private Mensaje mensaje;
 	private Gson gson = new Gson();
+	private OperacionesBD operaciones = new OperacionesBD();
 
 	
 	private LinkedList<Socket> usuarios = new LinkedList<Socket>();
@@ -34,6 +36,7 @@ public class HiloServidor implements Runnable {
 	}
 
 	public void interpretarMensaje() throws IOException {
+		operaciones.conectar();
 		if (mensaje.getNombreMensaje().equals("Cargar")) {
 			PersonajeDibujable pers = gson.fromJson(mensaje.getJson(), PersonajeDibujable.class);
 			idCliente = pers.getID();
@@ -50,6 +53,24 @@ public class HiloServidor implements Runnable {
 			mensaje = new Mensaje("MapaActualizado", respuesta);
 			responder();
 		}
+
+		if (mensaje.getNombreMensaje().equals("validarUsuario")) {
+			boolean respuestaValidacion = operaciones.existeUsuario(gson.fromJson(mensaje.getJson(), String.class));
+			String respuesta = gson.toJson(respuestaValidacion);
+			mensaje = new Mensaje("ValidarUsuario", respuesta);
+			responder();
+		}
+		if (mensaje.getNombreMensaje().equals("registrarUsuario")) {
+			
+			String datosUsuario = mensaje.getJson();
+			String usuario = datosUsuario.split(":")[0];
+			String contraseña = datosUsuario.split(":")[1]; 
+			boolean respuestaValidacion = operaciones.insertarUsuario(usuario, contraseña);
+			String respuesta = gson.toJson(respuestaValidacion);
+			mensaje = new Mensaje("registrarUsuario", respuesta);
+			responder();
+		}
+		operaciones.desconectar();
 	}
 
 	public void responder() throws IOException {

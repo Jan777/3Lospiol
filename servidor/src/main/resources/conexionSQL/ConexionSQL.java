@@ -3,37 +3,44 @@ package conexionSQL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-
+import java.sql.Statement;
 
 public class ConexionSQL {
-	private static Connection conn;
-	private static String DRIVER = "org.sqlite.JDBC";
-	private static String URL = "jdbc:sqlite:src/main/resources/WarLords.db";
+	private static Connection conexion;
+	private static String URL = "src/main/resources/WarLords.db";
+	private Statement consulta;
 
-	private ConexionSQL() {
+	public ConexionSQL() {
 
 	}
 
-	public static Connection getConnection() {
+	public void conectar() {
 		try {
-			if (conn == null) {
-				Class.forName(DRIVER);
-				conn = DriverManager.getConnection(URL);
-			}
-		} catch (ClassNotFoundException cnfe) {
-			
-		} catch (SQLException sqle) {
-			
+			Class.forName("org.sqlite.JDBC");
+		} catch (ClassNotFoundException e) {
 		}
-		return conn;
+		try {
+			conexion = DriverManager.getConnection("jdbc:sqlite:" + URL);
+			this.consulta = conexion.createStatement();
+		} catch (SQLException e) {
+		}
 	}
 
-	public static void close() {
+	public void desconectar() {
 		try {
-			if (conn != null) {
-				conn.close();
+			if (conexion != null) {
+				conexion.close();
+				this.consulta.close();
 			}
 		} catch (SQLException sqle) {
 		}
+	}
+
+	public Statement getConsulta() {
+		return this.consulta;
+	}
+
+	public Connection getConexion() {
+		return conexion;
 	}
 }

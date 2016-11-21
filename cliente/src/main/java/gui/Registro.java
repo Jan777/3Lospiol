@@ -29,12 +29,12 @@ public class Registro extends JFrame {
 	private JPasswordField passwordField;
 	private JPasswordField repetirPasswordField;
 	private Login login;
-	private Mensaje mensaje;
 
 	/**
 	 * Create the frame.
 	 */
 	public void run() {
+		login.setMensaje(new Mensaje("", ""));
 		setTitle("WarLords - Registro");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -74,24 +74,60 @@ public class Registro extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyChar() == KeyEvent.VK_ENTER) {
+					textFieldUsuario.setText(textFieldUsuario.getText().toUpperCase());
 					if (validarDatosCompletos() && validarContraseñas()) {
-						escribirUsuario();
-						dispose();
+						try {
+							String respuestaValidacion = validarNombreDeUsuario();
+							if (respuestaValidacion.equals("false")) {
+								if (registrarUsuario(textFieldUsuario.getText(), passwordField.getText()) == "false") {
+									JOptionPane.showMessageDialog(null, "Error al registrar el usuario", "Error",
+											JOptionPane.ERROR_MESSAGE);
+								} else {
+									JOptionPane.showMessageDialog(null, "Registro exitoso!", null,
+											JOptionPane.ERROR_MESSAGE);
+									login.completarUsuario(textFieldUsuario.getText());
+									dispose();
+								}
+
+							} else {
+								JOptionPane.showMessageDialog(null, "Usuario existente", "Error",
+										JOptionPane.ERROR_MESSAGE);
+							}
+						} catch (IOException e1) {
+
+							e1.printStackTrace();
+						}
+
 					}
 				}
 			}
 		});
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				textFieldUsuario.setText(textFieldUsuario.getText().toUpperCase());
 				if (validarDatosCompletos() && validarContraseñas()) {
 					try {
-						validarNombreDeUsuario();
+						String respuestaValidacion = validarNombreDeUsuario();
+						if (respuestaValidacion.equals("false")) {
+							if (registrarUsuario(textFieldUsuario.getText(), passwordField.getText()) == "false") {
+								JOptionPane.showMessageDialog(null, "Error al registrar el usuario", "Error",
+										JOptionPane.ERROR_MESSAGE);
+							} else {
+								JOptionPane.showMessageDialog(null, "Registro exitoso!", null,
+										JOptionPane.ERROR_MESSAGE);
+								login.completarUsuario(textFieldUsuario.getText());
+								dispose();
+							}
+
+						} else {
+							JOptionPane.showMessageDialog(null, "Usuario existente", "Error",
+									JOptionPane.ERROR_MESSAGE);
+						}
 					} catch (IOException e1) {
 
 						e1.printStackTrace();
 					}
 
-					dispose();
 				}
 			}
 		});
@@ -133,13 +169,19 @@ public class Registro extends JFrame {
 		run();
 	}
 
-	private boolean validarNombreDeUsuario() throws IOException {
-		this.mensaje.cambiarMensaje("validarUsuario", "Usuario");
-		this.mensaje.setNombreMensaje(this.textFieldUsuario.getText());
-		this.login.enviarMensaje("ValidaUsuario");
-		// String respuesta = this.login.leerRespuesta();
+	private String validarNombreDeUsuario() throws IOException {
+		login.getMensaje().cambiarMensaje("validarUsuario", this.textFieldUsuario.getText());
+		this.login.enviarMensaje(login.getMensaje());
+		this.login.leerRespuesta();
+		return login.getGson().fromJson(login.getMensaje().getJson(), String.class);
+	}
 
-		return true;
+	private String registrarUsuario(String usuario, String contraseña) throws IOException {
+		String datosUsuario = usuario + ":" + contraseña;
+		login.getMensaje().cambiarMensaje("registrarUsuario", datosUsuario);
+		this.login.enviarMensaje(login.getMensaje());
+		this.login.leerRespuesta();
+		return login.getGson().fromJson(login.getMensaje().getJson(), String.class);
 	}
 
 	@SuppressWarnings("deprecation")
