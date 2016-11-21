@@ -141,10 +141,11 @@ public abstract class Personaje implements Atacable, Dibujable {
 	public abstract int calcularPuntosDeAtaque();
 
 	public abstract int obtenerPuntosDeDefensa();
-	
-	//public abstract int calcularPuntosDeHechizos();
-	
-	//public abstract boolean aplicarHechizo(String hechizo,Personaje, afectado);
+
+	// public abstract int calcularPuntosDeHechizos();
+
+	// public abstract boolean aplicarHechizo(String hechizo,Personaje,
+	// afectado);
 
 	// Getters and Setters
 	public int getNivel() {
@@ -317,7 +318,7 @@ public abstract class Personaje implements Atacable, Dibujable {
 	}
 
 	public void disminuirAtaque(int i) {
-		this.ataqueAfectado -= i;
+		this.ataque -= i;
 
 	}
 

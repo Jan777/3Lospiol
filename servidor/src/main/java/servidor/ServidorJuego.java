@@ -39,8 +39,8 @@ public class ServidorJuego {
 			servidor.close();
         } 
     }
-    
-    public static void main(String[] args) {
+
+	public static void main(String[] args) {
     	ServidorJuego servidor= new ServidorJuego();
         try {
 			servidor.escuchar();
