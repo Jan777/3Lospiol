@@ -22,6 +22,7 @@ public class HiloServidor implements Runnable {
 	private Mensaje mensaje;
 	private Gson gson = new Gson();
 
+	
 	private LinkedList<Socket> usuarios = new LinkedList<Socket>();
 
 	public HiloServidor(Socket soc, LinkedList<Socket> users, Mapa mapa) throws IOException {

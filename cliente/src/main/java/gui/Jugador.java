@@ -50,7 +50,7 @@ public class Jugador extends JPanel implements Runnable {
 
 		setBackground(Color.WHITE);
 		setDoubleBuffered(true);
-		pers = new PersonajeDibujable("Jugador" + num);
+		//pers = new PersonajeDibujable("Jugador" + num); HAY QE MODIFICARLO 
 		map = new Mapa();
 		enviarMensaje("Cargar");
 		leerRespuesta();

@@ -25,6 +25,7 @@ public abstract class Personaje implements Atacable, Dibujable {
 	protected int mana;
 	protected int ataqueAfectado = 0;
 	protected int defensaAfectada = 0;
+	protected String raza;
 
 	//
 	private String iD;
@@ -32,8 +33,12 @@ public abstract class Personaje implements Atacable, Dibujable {
 	private int alto, ancho;
 	private int x, y, sentido, paso = 0;
 	private int xMouse, yMouse;
+	
 
-
+	public String obtenerRaza(){
+		return raza;
+	}
+	
 	public void caminar() {
 		if (x == xMouse && y == yMouse)
 			return;

@@ -13,8 +13,8 @@ public class PersonajeDibujable implements Dibujable {
 	private int x, y, sentido, paso = 0;
 	private int xMouse, yMouse;
 
-	public PersonajeDibujable(String ID) {
-		img = "character1.png";
+	public PersonajeDibujable(String ID,String nombreImagen) {
+		img = nombreImagen+".png";
 		BuscarImagen buscar = new BuscarImagen();
 		alto = buscar.alto(img);
 		ancho = buscar.ancho(img);
