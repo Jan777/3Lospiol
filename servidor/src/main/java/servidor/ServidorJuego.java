@@ -3,13 +3,14 @@ package servidor;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.LinkedList;
 
 import mapa.Mapa;
 
 public class ServidorJuego {
 
-	private final int puerto = 2028;
+	private static int puerto;
 	private final int noConexiones = 20;
 	private ServerSocket servidor;
 	private Mapa map;
@@ -37,13 +38,23 @@ public class ServidorJuego {
 		}
 	}
 
-	public static void main(String[] args) {
-		ServidorJuego servidor = new ServidorJuego();
-		try {
-			servidor.escuchar();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public static void main(String[] args) throws UnknownHostException {
+		
+		InicioServidor inicio= new InicioServidor();
+		do{
+				
+			if(inicio.isSeCerro()==true){
+				puerto =inicio.getPuerto();
+				ServidorJuego servidor = new ServidorJuego();
+				inicio.servidorEnLinea();
+				try {
+					servidor.escuchar();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}while(inicio.isSeCerro()==false);
 	}
+		
 }

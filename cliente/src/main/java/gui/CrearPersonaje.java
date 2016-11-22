@@ -23,6 +23,7 @@ import java.net.Socket;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import mapa.Mapa;
 
@@ -290,8 +291,8 @@ public class CrearPersonaje extends JFrame {
 					enviarMensaje("GuardarPersonajeDibujable");
 					leerRespuesta();
 				} catch (IOException e1) {
-					// poner una ventana emergente para advertir que
-					//no se pudo crear el personaje
+					JOptionPane.showMessageDialog(null, "No se pudo crear el personaje, por favor intente nuevamente",
+						    "Error al crear personaje", JOptionPane.ERROR_MESSAGE);
 				}
 				seCerro=true;
 				dispose();
