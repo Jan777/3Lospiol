@@ -20,6 +20,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
@@ -229,7 +230,7 @@ public class CrearPersonaje extends JFrame {
 		elegirCasta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				switch(raza){
-					case "Humano":
+					case "humano":
 						switch(casta){
 							case "paladin":
 								personaje= new Humano(new Paladin(),nombrePersonaje,"humanoP");
@@ -247,7 +248,7 @@ public class CrearPersonaje extends JFrame {
 								break;		
 						}
 						break;
-					case "Orco":
+					case "orco":
 						switch(casta){
 							case "paladin":
 							personaje= new Orco(new Paladin(),nombrePersonaje,"orcoP");
@@ -261,7 +262,7 @@ public class CrearPersonaje extends JFrame {
 								break;		
 						}
 						break;
-					case "Elfo":
+					case "elfo":
 						switch(casta){
 							
 							case "paladin":
@@ -337,4 +338,27 @@ public class CrearPersonaje extends JFrame {
 			enviar(mensaje);
 		}
 	}
+	
+	public static void main(String args[]) throws UnknownHostException, IOException{
+        
+		
+		Personaje p = null;
+		PersonajeDibujable d = null;
+        
+        Socket cliente = new Socket("localhost", 2028);
+        String id = "jugador1";
+        //new Juego(cliente,id,new PersonajeDibujable(id,"elfoP"),new Elfo(new Paladin(),id,"elfoP"));
+        //*/
+		
+		CrearPersonaje crear= new CrearPersonaje(id, cliente);
+		crear.setVisible(true);
+		do{
+			if(crear.seCerro()==false){
+				
+				p=crear.obtenerPersonaje();
+				d=crear.obtenerPersDibujable();
+			}
+		}while(crear.seCerro()==false);
+		
+    }
 }

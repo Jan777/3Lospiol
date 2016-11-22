@@ -6,8 +6,10 @@ import java.net.UnknownHostException;
 
 import javax.swing.JFrame;
 
+import castas.Paladin;
 import personaje.Personaje;
 import personaje.PersonajeDibujable;
+import razas.Elfo;
 
 public class Juego extends JFrame{
     /**
@@ -42,8 +44,12 @@ public Juego(Socket sock, String id, PersonajeDibujable p, Personaje pb) throws 
     }
     
     public static void main(String args[]) throws UnknownHostException, IOException{
-        new Juego(1);
+        new Juego(2);
         //new Juego(3);
-        
+        /*
+        Socket cliente = new Socket("localhost", 2028);
+        String id = "jugador1";
+        new Juego(cliente,id,new PersonajeDibujable(id,"elfoP"),new Elfo(new Paladin(),id,"elfoP"));
+        //*/
     }
 }

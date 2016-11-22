@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import com.google.gson.Gson;
 
+import batalla.BatallaDibujable;
 import cliente.Mensaje;
 import mapa.Mapa;
 import personaje.Personaje;
@@ -29,6 +30,7 @@ public class Jugador extends JPanel implements Runnable {
 	private PersonajeDibujable pers;
 	private Personaje persBatalla;
 	private boolean hayBatalla = false;
+	private BatallaDibujable batalla;
 	private Mapa map;
 	private Thread hilo;
 	private final int DELAY = 10;
@@ -162,7 +164,10 @@ public class Jugador extends JPanel implements Runnable {
 			hayBatalla = map.hayBatalla(pers);
 			enviarMensaje("ActualizarMapa");
 			leerRespuesta();
-		} else {
+		}else{
+			if(batalla.esMiTurno(ID))
+			enviarMensaje("ActualizarMapa");
+			leerRespuesta();
 			System.out.println("batalla");
 		}
 
