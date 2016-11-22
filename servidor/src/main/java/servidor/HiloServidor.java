@@ -25,7 +25,6 @@ public class HiloServidor implements Runnable {
 	private Gson gson = new Gson();
 	private OperacionesBD operaciones = new OperacionesBD();
 
-	
 	private LinkedList<Socket> usuarios = new LinkedList<Socket>();
 
 	public HiloServidor(Socket soc, LinkedList<Socket> users, Mapa mapa) throws IOException {
@@ -54,24 +53,24 @@ public class HiloServidor implements Runnable {
 			mensaje = new Mensaje("MapaActualizado", respuesta);
 			responder();
 		}
-		
+
 		if (mensaje.getNombreMensaje().equals("GuardarPersonajeDibujable")) {
 			PersonajeDibujable pers = gson.fromJson(mensaje.getJson(), PersonajeDibujable.class);
-			
-			//REGISTRAR PERSONAJEDIBUJABLE EN BD
-			String respuesta="true";
+
+			// REGISTRAR PERSONAJEDIBUJABLE EN BD
+			String respuesta = "true";
 			mensaje = new Mensaje("PersonajeDibujableGuardado", respuesta);
 			responder();
 		}
-		
+
 		if (mensaje.getNombreMensaje().equals("GuardarPersonaje")) {
 			Personaje perso = gson.fromJson(mensaje.getJson(), Personaje.class);
-			
-			//REGISTRAR PERSONAJE EN BD
-			String respuesta="true";
+
+			// REGISTRAR PERSONAJE EN BD
+			String respuesta = "true";
 			mensaje = new Mensaje("PersonajeGuardado", respuesta);
 			responder();
-		}		
+		}
 
 		if (mensaje.getNombreMensaje().equals("validarUsuario")) {
 			boolean respuestaValidacion = operaciones.existeUsuario(gson.fromJson(mensaje.getJson(), String.class));
@@ -80,11 +79,21 @@ public class HiloServidor implements Runnable {
 			responder();
 		}
 		if (mensaje.getNombreMensaje().equals("registrarUsuario")) {
-			
+
 			String datosUsuario = mensaje.getJson();
 			String usuario = datosUsuario.split(":")[0];
-			String contraseña = datosUsuario.split(":")[1]; 
+			String contraseña = datosUsuario.split(":")[1];
 			boolean respuestaValidacion = operaciones.insertarUsuario(usuario, contraseña);
+			String respuesta = gson.toJson(respuestaValidacion);
+			mensaje = new Mensaje("registrarUsuario", respuesta);
+			responder();
+		}
+		if (mensaje.getNombreMensaje().equals("validarCredenciales")) {
+
+			String datosUsuario = mensaje.getJson();
+			String usuario = datosUsuario.split(":")[0];
+			String contraseña = datosUsuario.split(":")[1];
+			boolean respuestaValidacion = operaciones.validarCredenciales(usuario, contraseña);
 			String respuesta = gson.toJson(respuestaValidacion);
 			mensaje = new Mensaje("registrarUsuario", respuesta);
 			responder();

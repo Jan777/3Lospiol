@@ -18,7 +18,7 @@ public class MainCliente {
 		PersonajeDibujable d = null;
 		
 		Login login = new Login();
-		login.setVisible(true);
+		
 		
 		do{
 			if(login.seCerro())

@@ -1,6 +1,7 @@
 package servidorTest;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import conexionSQL.ConexionSQL;
@@ -15,7 +16,7 @@ public class ConexionSQLTest {
 
 	}
 
-	@Test
+	@Ignore
 	public void queConsultaCorrectamente() {
 		OperacionesBD conexion = new OperacionesBD();
 		conexion.conectar();
@@ -26,7 +27,7 @@ public class ConexionSQLTest {
 		conexion.desconectar();
 	}
 
-	@Test
+	@Ignore
 	public void queInsertaUnUsuario() {
 		OperacionesBD conexion = new OperacionesBD();
 		conexion.conectar();
@@ -36,6 +37,20 @@ public class ConexionSQLTest {
 		conexion.insertarUsuario(usuario, contraseña);
 		conexion.existeUsuario(usuario);
 		Assert.assertEquals(true, conexion.existeUsuario(usuario));
+		conexion.desconectar();
+	}
+
+	@Test
+	public void queValidaLaContraseña() {
+		OperacionesBD conexion = new OperacionesBD();
+		conexion.conectar();
+		String usuario = "CIRO";
+		String contraseña = "YLosPersas";
+		Assert.assertEquals(false, conexion.existeUsuario(usuario));
+		conexion.insertarUsuario(usuario, contraseña);
+		Assert.assertEquals(true, conexion.existeUsuario(usuario));
+		Assert.assertEquals(true, conexion.validarCredenciales(usuario, contraseña));
+		Assert.assertEquals(false, conexion.validarCredenciales(usuario, "123456"));
 		conexion.desconectar();
 	}
 }

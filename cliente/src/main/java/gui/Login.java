@@ -5,12 +5,15 @@ import java.awt.EventQueue;
 import java.awt.GraphicsConfiguration;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.net.Socket;
 import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -45,31 +48,11 @@ public class Login extends JFrame {
 	private String ip;
 	private Mensaje mensaje;
 	private String nombreUsuario;
-	private boolean seCerro=false;
+	private boolean seCerro = false;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login frame = new Login();
-
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	@SuppressWarnings("deprecation")
 	public Login() {
-
+		this.mensaje = new Mensaje("", "");
 		setVisible(true);
 		setTitle("WarLords - Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -110,9 +93,29 @@ public class Login extends JFrame {
 		JButton btnAceptar = new JButton("Login");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				nombreUsuario=textFieldUsuario.getText();
-				seCerro=true;
-				dispose();
+				if (validarCredenciales().equals("false")) {
+					JOptionPane.showMessageDialog(null, "Usuario o contraseña inválido", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					nombreUsuario = textFieldUsuario.getText();
+					seCerro = true;
+					dispose();
+				}
+			}
+		});
+		btnAceptar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if (arg0.getKeyChar() == KeyEvent.VK_ENTER) {
+					if (validarCredenciales().equals("false")) {
+						JOptionPane.showMessageDialog(null, "Usuario o contraseña inválido", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						nombreUsuario = textFieldUsuario.getText();
+						seCerro = true;
+						dispose();
+					}
+				}
 			}
 		});
 		btnAceptar.setBounds(97, 172, 89, 23);
@@ -176,15 +179,32 @@ public class Login extends JFrame {
 
 	}
 
+	public String validarCredenciales() {
+		String datosUsuario = textFieldUsuario.getText() + ":" + passwordField.getText();
+		this.mensaje.cambiarMensaje("validarCredenciales", datosUsuario);
+		try {
+			this.enviarMensaje(this.mensaje);
+			this.leerRespuesta();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return gson.fromJson(mensaje.getJson(), String.class);
+	}
+
 	public void enviarMensaje(Mensaje mensaje) throws IOException {
-		if (mensaje.getNombreMensaje().equals("validarUsuario")) {
-			// String json = gson.toJson(textFieldUsuario.getText());
-			// mensaje.cambiarMensaje(mens, json);
-			enviar(mensaje);
-		}
-		if (mensaje.getNombreMensaje().equals("registrarUsuario")) {
-			enviar(mensaje);
-		}
+		// if (mensaje.getNombreMensaje().equals("validarUsuario")) {
+		// // String json = gson.toJson(textFieldUsuario.getText());
+		// // mensaje.cambiarMensaje(mens, json);
+		// enviar(mensaje);
+		// }
+		// if (mensaje.getNombreMensaje().equals("registrarUsuario")) {
+		// enviar(mensaje);
+		// }
+		// if (mensaje.getNombreMensaje().equals("validarCredenciales")) {
+		// enviar(mensaje);
+		// }
+		enviar(mensaje);
 
 	}
 
@@ -195,15 +215,12 @@ public class Login extends JFrame {
 	}
 
 	public void leerConfiguracion() throws FileNotFoundException {
-
 		Scanner scanner = new Scanner(new File("src/main/resources/App.config"));
-
 		this.ip = scanner.nextLine().split(":")[1];
 		this.puerto = Integer.parseInt(scanner.nextLine().split(":")[1]);
 		scanner.close();
 
 	}
-	
 
 	public Mensaje getMensaje() {
 		return this.mensaje;

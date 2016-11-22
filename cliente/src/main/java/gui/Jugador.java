@@ -51,7 +51,7 @@ public class Jugador extends JPanel implements Runnable {
 
 		setBackground(Color.WHITE);
 		setDoubleBuffered(true);
-		pers = new PersonajeDibujable("Jugador"+num,"elfoP"); 
+		pers = new PersonajeDibujable("Jugador" + num, "elfoP");
 		map = new Mapa();
 		enviarMensaje("Cargar");
 		leerRespuesta();
@@ -62,7 +62,8 @@ public class Jugador extends JPanel implements Runnable {
 			public void mouseClicked(MouseEvent arg0) {
 
 				if (arg0.getButton() == MouseEvent.BUTTON3) {
-					System.out.println("Detected Mouse Right Click! " + pers.getPosicionYMouse());
+					// System.out.println("Detected Mouse Right Click! " +
+					// pers.getPosicionYMouse());
 				}
 				pers.setXY(arg0.getX() + map.xRespectoPersonajeMapa(pers),
 						arg0.getY() + map.yRespectoPersonajeMapa(pers));
@@ -70,8 +71,9 @@ public class Jugador extends JPanel implements Runnable {
 		});
 
 	}
-	
-	public Jugador(Socket sock, String id, PersonajeDibujable p, Personaje pb) throws UnknownHostException, IOException {
+
+	public Jugador(Socket sock, String id, PersonajeDibujable p, Personaje pb)
+			throws UnknownHostException, IOException {
 
 		cliente = sock;
 		ID = id;
@@ -100,13 +102,11 @@ public class Jugador extends JPanel implements Runnable {
 		});
 
 	}
-	
 
-	public void setHayBatalla(boolean bool)
-	{
+	public void setHayBatalla(boolean bool) {
 		this.hayBatalla = bool;
 	}
-	
+
 	public void leerRespuesta() throws IOException {
 		entrada = in.readUTF();
 		mensaje = gson.fromJson(entrada, Mensaje.class);
@@ -157,16 +157,14 @@ public class Jugador extends JPanel implements Runnable {
 	}
 
 	public void ciclo() throws IOException {
-		if(!hayBatalla)
-		{
+		if (!hayBatalla) {
 			this.pers.caminar();
 			hayBatalla = map.hayBatalla(pers);
 			enviarMensaje("ActualizarMapa");
 			leerRespuesta();
-		}else{
+		} else {
 			System.out.println("batalla");
 		}
-		
 
 		// map.actualizarMapa(pers);
 	}

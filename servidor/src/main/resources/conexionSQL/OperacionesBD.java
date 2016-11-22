@@ -23,26 +23,6 @@ public class OperacionesBD extends ConexionSQL {
 		}
 	}
 
-	public boolean verificarCredencial(String nombre, String pas) {
-		PreparedStatement pstmt = null;
-		String contrasena = "";
-		String query = "SELECT CONTRASENA FROM USUARIO WHERE NOMBRE=?";
-		Connection conn;
-		try {
-			conn = this.getConexion();
-			pstmt = conn.prepareStatement(query);
-			pstmt.setString(1, nombre.toUpperCase());
-
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				contrasena = rs.getString("CONTRASENA");
-			}
-			return pas.equals(contrasena);
-		} catch (Exception e) {
-		}
-		return false;
-	}
-
 	public boolean existeUsuario(String nombreUsuario) {
 		String query = "SELECT * FROM USUARIO WHERE USUARIO = '" + nombreUsuario + "'";
 		String nombre = "";
@@ -53,6 +33,21 @@ public class OperacionesBD extends ConexionSQL {
 			}
 			if (nombre.equals(nombreUsuario.toUpperCase()))
 				return true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
+
+	public boolean validarCredenciales(String usuario, String password) {
+		String contrasena = "";
+		String query = "SELECT CONTRASENA FROM USUARIO WHERE USUARIO = '" + usuario + "'";
+		try {
+
+			ResultSet resultSet = this.getConsulta().executeQuery(query);
+			while (resultSet.next()) {
+				contrasena = resultSet.getString("CONTRASENA");
+			}
+			return password.equals(contrasena);
 		} catch (Exception e) {
 		}
 		return false;
