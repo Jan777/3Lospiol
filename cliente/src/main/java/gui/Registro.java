@@ -25,7 +25,6 @@ public class Registro extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textFieldUsuario;
-	private JTextField textFieldEmail;
 	private JPasswordField passwordField;
 	private JPasswordField repetirPasswordField;
 	private Login login;
@@ -44,29 +43,20 @@ public class Registro extends JFrame {
 		contentPane.setLayout(null);
 
 		JLabel lblUsuario = new JLabel("Usuario:");
-		lblUsuario.setBounds(115, 11, 62, 14);
+		lblUsuario.setBounds(82, 37, 62, 14);
 		contentPane.add(lblUsuario);
 
 		JLabel lblContraseña = new JLabel("Contrase\u00F1a:");
-		lblContraseña.setBounds(115, 67, 79, 14);
+		lblContraseña.setBounds(82, 93, 79, 14);
 		contentPane.add(lblContraseña);
 
-		JLabel lblEmail = new JLabel("E-Mail:");
-		lblEmail.setBounds(115, 177, 51, 14);
-		contentPane.add(lblEmail);
-
 		textFieldUsuario = new JTextField();
-		textFieldUsuario.setBounds(125, 36, 257, 20);
+		textFieldUsuario.setBounds(92, 62, 257, 20);
 		contentPane.add(textFieldUsuario);
 		textFieldUsuario.setColumns(10);
 
-		textFieldEmail = new JTextField();
-		textFieldEmail.setColumns(10);
-		textFieldEmail.setBounds(125, 202, 257, 20);
-		contentPane.add(textFieldEmail);
-
 		passwordField = new JPasswordField();
-		passwordField.setBounds(125, 92, 257, 20);
+		passwordField.setBounds(92, 118, 257, 20);
 		contentPane.add(passwordField);
 
 		JButton btnAceptar = new JButton("Aceptar");
@@ -135,11 +125,11 @@ public class Registro extends JFrame {
 		contentPane.add(btnAceptar);
 
 		repetirPasswordField = new JPasswordField();
-		repetirPasswordField.setBounds(125, 146, 257, 20);
+		repetirPasswordField.setBounds(92, 172, 257, 20);
 		contentPane.add(repetirPasswordField);
 
 		JLabel lblRepetirContraseña = new JLabel("Repetir contrase\u00F1a:");
-		lblRepetirContraseña.setBounds(115, 123, 96, 14);
+		lblRepetirContraseña.setBounds(82, 149, 96, 14);
 		contentPane.add(lblRepetirContraseña);
 
 		JButton btnCancelar = new JButton("Cancelar");
@@ -196,7 +186,7 @@ public class Registro extends JFrame {
 	@SuppressWarnings("deprecation")
 	public boolean validarDatosCompletos() {
 		if (this.passwordField.getText().length() > 0 && this.repetirPasswordField.getText().length() > 0
-				&& this.textFieldEmail.getText().length() > 0 && this.textFieldUsuario.getText().length() > 0) {
+				&& this.textFieldUsuario.getText().length() > 0) {
 			return true;
 		}
 		JOptionPane.showMessageDialog(null, "Faltan ingresar datos", "Error", JOptionPane.ERROR_MESSAGE);

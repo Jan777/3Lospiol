@@ -49,6 +49,8 @@ public class Login extends JFrame {
 	private Mensaje mensaje;
 	private String nombreUsuario;
 	private boolean seCerro = false;
+	private JTextField textFieldPuerto;
+	private JTextField textFieldIP;
 
 	@SuppressWarnings("deprecation")
 	public Login() {
@@ -61,16 +63,6 @@ public class Login extends JFrame {
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		try {
-			leerConfiguracion();
-			this.cliente = new Socket(this.ip, this.puerto);
-			this.dataOutputStream = new DataOutputStream(cliente.getOutputStream());
-			this.dataInputStream = new DataInputStream(cliente.getInputStream());
-			this.gson = new Gson();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 		JLabel lblUsuario = new JLabel("Usuario:");
 		lblUsuario.setBounds(85, 11, 69, 26);
@@ -93,13 +85,22 @@ public class Login extends JFrame {
 		JButton btnAceptar = new JButton("Login");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (validarCredenciales().equals("false")) {
-					JOptionPane.showMessageDialog(null, "Usuario o contraseña inválido", "Error",
-							JOptionPane.ERROR_MESSAGE);
+				if (validarDatosCompletos()) {
+					if (validarPuertoIP()) {
+						if (validarCredenciales().equals("false")) {
+							JOptionPane.showMessageDialog(null, "Usuario o contraseña inválido", "Error",
+									JOptionPane.ERROR_MESSAGE);
+						} else {
+							nombreUsuario = textFieldUsuario.getText();
+							seCerro = true;
+							dispose();
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "IP o Puerto inválidos.", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
 				} else {
-					nombreUsuario = textFieldUsuario.getText();
-					seCerro = true;
-					dispose();
+					JOptionPane.showMessageDialog(null, "Faltan ingresar datos", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -107,13 +108,24 @@ public class Login extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyChar() == KeyEvent.VK_ENTER) {
-					if (validarCredenciales().equals("false")) {
-						JOptionPane.showMessageDialog(null, "Usuario o contraseña inválido", "Error",
-								JOptionPane.ERROR_MESSAGE);
+					if (validarDatosCompletos()) {
+						if (validarPuertoIP()) {
+							if (validarCredenciales().equals("false")) {
+								JOptionPane.showMessageDialog(null, "Usuario o contraseña inválido", "Error",
+										JOptionPane.ERROR_MESSAGE);
+							} else {
+								conectarCliente();
+								nombreUsuario = textFieldUsuario.getText();
+								seCerro = true;
+								dispose();
+							}
+						} else {
+							JOptionPane.showMessageDialog(null, "IP o Puerto inválidos.", "Error",
+									JOptionPane.ERROR_MESSAGE);
+						}
 					} else {
-						nombreUsuario = textFieldUsuario.getText();
-						seCerro = true;
-						dispose();
+						JOptionPane.showMessageDialog(null, "Faltan ingresar datos", "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -146,10 +158,55 @@ public class Login extends JFrame {
 		lblRegistrese.setBounds(294, 176, 77, 14);
 		contentPane.add(lblRegistrese);
 
-		JLabel lblFondo = new JLabel("");
-		lblFondo.setBounds(0, 0, 434, 261);
-		contentPane.add(lblFondo);
+		textFieldIP = new JTextField();
+		textFieldIP.setBounds(95, 231, 86, 20);
+		contentPane.add(textFieldIP);
+		textFieldIP.setColumns(10);
 
+		textFieldPuerto = new JTextField();
+		textFieldPuerto.setBounds(252, 231, 86, 20);
+		contentPane.add(textFieldPuerto);
+		textFieldPuerto.setColumns(10);
+
+		JLabel lblIp = new JLabel("IP");
+		lblIp.setBounds(95, 217, 46, 14);
+		contentPane.add(lblIp);
+
+		JLabel lblPuerto = new JLabel("Puerto");
+		lblPuerto.setBounds(252, 217, 46, 14);
+		contentPane.add(lblPuerto);
+
+	}
+
+	private void conectarCliente() {
+		try {
+			this.cliente = new Socket(this.ip, this.puerto);
+			this.dataOutputStream = new DataOutputStream(cliente.getOutputStream());
+			this.dataInputStream = new DataInputStream(cliente.getInputStream());
+			this.gson = new Gson();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public boolean validarDatosCompletos() {
+		if (this.textFieldUsuario.getText().length() > 0 && this.passwordField.getText().length() > 0
+				&& this.textFieldIP.getText().length() > 0 && this.textFieldPuerto.getText().length() > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	protected boolean validarPuertoIP() {
+		if (this.textFieldIP.getText().length() > 0 && this.textFieldPuerto.getText().length() > 0
+				&& this.textFieldUsuario.getText().length() > 0) {
+			this.ip = this.textFieldIP.getText();
+			this.puerto = Integer.parseInt(this.textFieldPuerto.getText());
+			conectarCliente();
+			return true;
+		}
+		JOptionPane.showMessageDialog(null, "Faltan ingresar datos", "Error", JOptionPane.ERROR_MESSAGE);
+		return false;
 	}
 
 	public void completarUsuario(String texto) {
@@ -159,10 +216,7 @@ public class Login extends JFrame {
 
 	public void abrirRegistro() {
 		registro = new Registro(this, this.cliente);
-		// this.setEnabled(false);
 		registro.setVisible(true);
-		// this.setEnabled(true);
-
 	}
 
 	public void encriptarDesencriptarContraseña() {
