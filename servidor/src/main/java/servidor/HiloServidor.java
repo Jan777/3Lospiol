@@ -64,7 +64,8 @@ public class HiloServidor implements Runnable {
 		}
 
 		if (mensaje.getNombreMensaje().equals("GuardarPersonaje")) {
-			Personaje perso = gson.fromJson(mensaje.getJson(), Personaje.class);
+			// ACA ME DA UN ERROR. PARA MI ES POR LAS REFERENCIAS DE PERSONAJE, LA CASTA Y LA RAZA.
+			Personaje personaje =  gson.fromJson(mensaje.getJson(), Personaje.class);
 
 			// REGISTRAR PERSONAJE EN BD
 			String respuesta = "true";

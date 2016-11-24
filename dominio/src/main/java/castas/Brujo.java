@@ -8,6 +8,7 @@ public class Brujo extends Casta {
 
 	public Brujo() {
 		this.casta = "Brujo";
+		this.idCasta = 2;
 		this.habilidadCasta = "Poder de Hechizo";
 		this.poderDeHabilidad = 4;
 		this.agregarHechizo("Bola de la oscuridad", new BolaDeLaOscuridad());

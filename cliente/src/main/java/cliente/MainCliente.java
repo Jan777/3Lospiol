@@ -24,7 +24,7 @@ public class MainCliente {
 			if(true)///login.seCerro())
 				if(tienePersonaje()==false){
 					noEntro=false;
-					CrearPersonaje crear= new CrearPersonaje(login.getUsuario(), login.obtenerCliente());
+					CrearPersonaje crear= new CrearPersonaje(login.getUsuario(), login.obtenerCliente(),login);
 					crear.setVisible(true);
 					do{
 						if(crear.seCerro()==false){

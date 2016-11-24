@@ -26,19 +26,18 @@ public abstract class Personaje implements Atacable, Dibujable {
 	protected int ataqueAfectado = 0;
 	protected int defensaAfectada = 0;
 	protected String raza;
-
+	protected int idRaza;
 	//
 	protected String id;
 	protected String img;
 	private int alto, ancho;
 	private int x, y, sentido, paso = 0;
 	private int xMouse, yMouse;
-	
 
-	public String obtenerRaza(){
+	public String obtenerRaza() {
 		return raza;
 	}
-	
+
 	public void caminar() {
 		if (x == xMouse && y == yMouse)
 			return;
@@ -104,7 +103,6 @@ public abstract class Personaje implements Atacable, Dibujable {
 		return alto;
 	}
 
-	
 	public boolean seSuperPonen(Dibujable d) {
 		// TODO Auto-generated method stub
 		return false;
@@ -319,6 +317,22 @@ public abstract class Personaje implements Atacable, Dibujable {
 
 	public Personaje desequiparItemConMayorPrioridad() {
 		return null;
+	}
+
+	public int getMana() {
+		return this.mana;
+	}
+
+	public Casta getCasta() {
+		return this.casta;
+	}
+
+	public int getEnergia() {
+		return this.energia;
+	}
+
+	public int getIdRaza() {
+		return this.idRaza;
 	}
 
 }

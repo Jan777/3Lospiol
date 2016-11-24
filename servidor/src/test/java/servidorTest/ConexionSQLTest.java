@@ -4,12 +4,16 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import castas.Guerrero;
 import conexionSQL.ConexionSQL;
 import conexionSQL.OperacionesBD;
+import personaje.Personaje;
+import personaje.PersonajeDibujable;
+import razas.Humano;
 
 public class ConexionSQLTest {
 
-	@Test
+	@Ignore
 	public void queConectaConLaBaseDeDatos() {
 		ConexionSQL conexion = new ConexionSQL();
 		conexion.conectar();
@@ -40,7 +44,7 @@ public class ConexionSQLTest {
 		conexion.desconectar();
 	}
 
-	@Test
+	@Ignore
 	public void queValidaLaContraseña() {
 		OperacionesBD conexion = new OperacionesBD();
 		conexion.conectar();
@@ -51,6 +55,16 @@ public class ConexionSQLTest {
 		Assert.assertEquals(true, conexion.existeUsuario(usuario));
 		Assert.assertEquals(true, conexion.validarCredenciales(usuario, contraseña));
 		Assert.assertEquals(false, conexion.validarCredenciales(usuario, "123456"));
+		conexion.desconectar();
+	}
+
+	@Test
+	public void queInsertaUnPersonaje() {
+		String nombrePersonaje = "NICO";
+		Personaje personaje = new Humano(new Guerrero(), nombrePersonaje, "humanoG");
+		OperacionesBD conexion = new OperacionesBD();
+		conexion.conectar();
+		Assert.assertEquals(true, conexion.insertarPersonaje(personaje, null));
 		conexion.desconectar();
 	}
 }

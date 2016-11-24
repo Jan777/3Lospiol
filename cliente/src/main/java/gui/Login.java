@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.Cursor;
 import java.awt.EventQueue;
-import java.awt.GraphicsConfiguration;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -93,7 +92,7 @@ public class Login extends JFrame {
 						} else {
 							nombreUsuario = textFieldUsuario.getText();
 							seCerro = true;
-							dispose();
+							abrirCrearPersonaje();
 						}
 					} else {
 						JOptionPane.showMessageDialog(null, "IP o Puerto inválidos.", "Error",
@@ -117,7 +116,8 @@ public class Login extends JFrame {
 								conectarCliente();
 								nombreUsuario = textFieldUsuario.getText();
 								seCerro = true;
-								dispose();
+								abrirCrearPersonaje();
+								// dispose();
 							}
 						} else {
 							JOptionPane.showMessageDialog(null, "IP o Puerto inválidos.", "Error",
@@ -178,6 +178,11 @@ public class Login extends JFrame {
 
 	}
 
+	public void abrirCrearPersonaje() {
+		CrearPersonaje crearPersonaje = new CrearPersonaje(this.textFieldUsuario.getText(), cliente, this);
+		crearPersonaje.setVisible(true);
+	}
+
 	private void conectarCliente() {
 		try {
 			this.cliente = new Socket(this.ip, this.puerto);
@@ -187,6 +192,14 @@ public class Login extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public DataOutputStream getDataOutPutStream() {
+		return this.dataOutputStream;
+	}
+
+	public DataInputStream getDataInputStream() {
+		return this.dataInputStream;
 	}
 
 	public boolean validarDatosCompletos() {
@@ -240,7 +253,6 @@ public class Login extends JFrame {
 			this.enviarMensaje(this.mensaje);
 			this.leerRespuesta();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return gson.fromJson(mensaje.getJson(), String.class);
@@ -289,17 +301,34 @@ public class Login extends JFrame {
 	}
 
 	public String getUsuario() {
-		// TODO Auto-generated method stub
 		return nombreUsuario;
 	}
 
 	public Socket obtenerCliente() {
-		// TODO Auto-generated method stub
 		return cliente;
 	}
 
 	public boolean seCerro() {
-		// TODO Auto-generated method stub
 		return seCerro;
+	}
+
+	/**
+	 * Hice el main en el login porque se facilitaba bastante el funcionamiento
+	 * de los frames.
+	 * 
+	 * @param args
+	 */
+
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Login frame = new Login();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 }

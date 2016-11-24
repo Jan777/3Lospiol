@@ -1,9 +1,10 @@
 package conexionSQL;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import personaje.Personaje;
+import personaje.PersonajeDibujable;
 
 public class OperacionesBD extends ConexionSQL {
 
@@ -53,45 +54,33 @@ public class OperacionesBD extends ConexionSQL {
 		return false;
 	}
 
-	public boolean guardarPersonaje(String username, String raza, String casta) {
-		PreparedStatement pstmt = null;
-		String queryInsert = "insert into personaje (id_usuario,id_raza,id_casta,nivel,experiencia,vida,energia,ataque,defensa,magia,puntos,potencia,destreza,velocidad)"
-				+ "values ((select id_usuario from usuario where nombre=?),(select id_raza from raza ra where ra.raza=?),(select id_casta from casta ca where ca.casta=?),0,0,0,0,0,0,0,0,0,0,0)";
-		Connection conn;
+	public boolean insertarPersonaje(Personaje personaje, PersonajeDibujable personajeDibujable) {
+		String subQuery = "(SELECT ID_USUARIO FROM USUARIO WHERE USUARIO = '" + personaje.getID() + "')";
+		int raza = personaje.getIdRaza();
+		int casta = personaje.getCasta().getIdCasta();
+		int mapa = 1;
+		int nivel = personaje.getNivel();
+		int experiencia = personaje.getExp();
+		int vida = 0;
+		int energia = personaje.getEnergia();
+		int ataque = personaje.getAtaque();
+		int defensa = personaje.getDefensa();
+		int mana = personaje.getMana();
+		int puntos = 0;
+		String values = + raza + ", " + casta + ", " + mapa + ", " + nivel + ", ";
+		values += experiencia + ", " + vida + ", " + energia + ", " + ataque + ", ";
+		values += defensa + ", " + mana + ", " + puntos;
+		String query = "INSERT INTO PERSONAJE VALUES(" + null + ", " + subQuery + ", " + values + ")";
+		
 		try {
-			conn = this.getConexion();
-			pstmt = conn.prepareStatement(queryInsert);
-			pstmt.setString(1, username);
-			pstmt.setString(2, raza);
-			pstmt.setString(3, casta);
-
-			pstmt.executeUpdate();
+			int resultSet = this.getConsulta().executeUpdate(query);
+			if (resultSet == 0)
+				return false;
 			return true;
-		} catch (Exception e) {
-			// Loggin.getInstance().error("Error guardarPersonaje" +
-			// e.getMessage());
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
 		}
-		return false;
 	}
 
-	public boolean actualizarPersonaje(int idUsuario, String raza, String casta) {
-		PreparedStatement pstmt = null;
-		Connection conn;
-		String queryUpdate = "update personaje set id_raza=(select id_raza from raza ra where ra.raza=?),id_casta=(select id_casta from casta ca where ca.casta=?) where id_usuario=?";
-		try {
-			conn = this.getConexion();
-
-			pstmt = conn.prepareStatement(queryUpdate);
-			pstmt.setString(1, raza);
-			pstmt.setString(2, casta);
-			pstmt.setInt(3, idUsuario);
-
-			pstmt.executeUpdate();
-			return true;
-		} catch (Exception e) {
-			// Loggin.getInstance().error("Error actualizarPersonaje" +
-			// e.getMessage());
-		}
-		return false;
-	}
 }
