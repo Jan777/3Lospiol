@@ -191,6 +191,14 @@ public abstract class Personaje implements Atacable, Dibujable {
 		return this.inteligencia;
 	}
 
+	public int getInteligencia() {
+		return inteligencia;
+	}
+
+	public void setInteligencia(int inteligencia) {
+		this.inteligencia = inteligencia;
+	}
+
 	public void setVida(int i) {
 		this.salud += i;
 		if (this.salud < 0)
@@ -289,11 +297,11 @@ public abstract class Personaje implements Atacable, Dibujable {
 	}
 
 	public void aumentarAtaque(int i) {
-		this.ataqueAfectado += i;
+		this.ataque += i;
 	}
 
 	public void disminuirAtaque(int i) {
-		this.ataqueAfectado -= i;
+		this.ataque -= i;
 
 	}
 
