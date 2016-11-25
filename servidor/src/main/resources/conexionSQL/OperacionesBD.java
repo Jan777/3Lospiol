@@ -88,6 +88,51 @@ public class OperacionesBD extends ConexionSQL {
 			return false;
 		}
 	}
+	
+	
+	public boolean insertarPersonaje2() {
+		String subQuery = "(SELECT ID_USUARIO FROM USUARIO WHERE USUARIO = '" + "MILAGROS" + "')";
+		int raza = 0;
+		int casta = 0;
+		int mapa = 1;
+		int nivel = 0;
+		int experiencia = 0;
+		int vida = 0;
+		int energia = 0;
+		int ataque = 0;
+		int defensa = 0;
+		int mana = 0;
+		int puntos = 0;
+		String values = +raza + ", " + casta + ", " + mapa + ", " + nivel + ", ";
+		values += experiencia + ", " + vida + ", " + energia + ", " + ataque + ", ";
+		values += defensa + ", " + mana + ", " + puntos;
+		String query = "INSERT INTO PERSONAJE VALUES(" + null + ", " + subQuery + ", " + values + ")";
+
+		try {
+			int resultSet = this.getConsulta().executeUpdate(query);
+			if (resultSet == 0)
+				return false;
+			return true;
+		} catch (SQLException e) {
+			return false;
+		}
+	}
+
+	public boolean insertarPersonajeDibujable(PersonajeDibujable personajeDibujable) {
+
+		String id = personajeDibujable.getID();
+		String img = personajeDibujable.getImg();
+		String subQuery = "(SELECT ID_USUARIO FROM USUARIO WHERE USUARIO = '" + id + "')";
+		String query = "INSERT INTO PERSONAJEDIBUJABLE VALUES(" + subQuery + ", '" + id + "', '" + img + "')";
+		try {
+			int resultSet = this.getConsulta().executeUpdate(query);
+			if (resultSet == 0)
+				return false;
+			return true;
+		} catch (SQLException e) {
+			return false;
+		}
+	}
 
 	public boolean consultarPersonaje(String nombreUsuario) {
 		String subQuery = "(SELECT ID_USUARIO FROM USUARIO WHERE USUARIO = '" + nombreUsuario + "')";
@@ -103,7 +148,24 @@ public class OperacionesBD extends ConexionSQL {
 		return false;
 	}
 
-	public Personaje obtenerPesonaje(String nombreUsuario) {
+	public String obtenerPersonajeDibujable(String nombreUsuario) {
+		String subQuery = "(SELECT ID_USUARIO FROM USUARIO WHERE USUARIO = '" + nombreUsuario + "')";
+		String query = "SELECT * FROM PERSONAJEDIBUJABLE WHERE ID_USUARIO = " + subQuery;
+		String resultado;
+		try {
+			ResultSet resultSet = this.getConsulta().executeQuery(query);
+			if (resultSet.next()) {
+				resultado = resultSet.getString("USUARIO") + ":" + resultSet.getString("IMAGEN");
+				return resultado;
+			}
+		} catch (Exception e) {
+			return null;
+		}
+		return null;
+	}
+
+	//Da error de casteo
+	public Personaje obtenerPersonaje(String nombreUsuario) {
 		String subQuery = "(SELECT ID_USUARIO FROM USUARIO WHERE USUARIO = '" + nombreUsuario + "')";
 		String query = "SELECT * FROM PERSONAJE WHERE ID_USUARIO = " + subQuery;
 		try {
@@ -120,7 +182,8 @@ public class OperacionesBD extends ConexionSQL {
 				int defensa = resultSet.getInt("DEFENSA");
 				int mana = resultSet.getInt("MANA");
 				int puntos = resultSet.getInt("PUNTOS");
-				return obtenerPersonaje(nombreUsuario, casta, raza,vida,ataque,defensa,energia,experiencia,nivel,mana,raza);
+				return obtenerPersonaje(nombreUsuario, casta, raza, vida, ataque, defensa, energia, experiencia, nivel,
+						mana, raza);
 			}
 		} catch (Exception e) {
 			return null;
@@ -128,13 +191,15 @@ public class OperacionesBD extends ConexionSQL {
 		return null;
 	}
 
-	private Personaje obtenerPersonaje(String nombrePersonaje, String casta, int raza, int salud, int ataque, int defensa, int energia, int experiencia, int nivel, int mana, int idRaza) {
+	private Personaje obtenerPersonaje(String nombrePersonaje, String casta, int raza, int salud, int ataque,
+			int defensa, int energia, int experiencia, int nivel, int mana, int idRaza) {
 		switch (raza) {
 		case 1:
 			switch (casta) {
 			case "paladin":
-				return new Humano(new Paladin(), nombrePersonaje, "humanoP",ataque,salud,defensa,energia,experiencia,nivel,mana,idRaza);
-				
+				return new Humano(new Paladin(), nombrePersonaje, "humanoP", ataque, salud, defensa, energia,
+						experiencia, nivel, mana, idRaza);
+
 			// return new PersonajeDibujable(nombrePersonaje, "humanoP");
 
 			case "guerrero":

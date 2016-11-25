@@ -20,9 +20,11 @@ import javax.swing.border.EmptyBorder;
 
 import com.google.gson.Gson;
 
+import castas.Paladin;
 import cliente.Mensaje;
 import personaje.Personaje;
 import personaje.PersonajeDibujable;
+import razas.Humano;
 
 import javax.swing.JCheckBox;
 
@@ -100,6 +102,7 @@ public class Login extends JFrame {
 								abrirCrearPersonaje();
 							else {
 								personaje = obtenerPersonaje();
+								personajeDibujable = obtenerPersonajeDibujable();
 								abrirJuego(textFieldUsuario.getText());
 							}
 						}
@@ -129,8 +132,7 @@ public class Login extends JFrame {
 									abrirCrearPersonaje();
 								else {
 									personaje = obtenerPersonaje();
-									// personajeDibujable =
-									// obtenerPersonajeDibujable();
+									personajeDibujable = obtenerPersonajeDibujable();
 									abrirJuego(textFieldUsuario.getText());
 								}
 							}
@@ -199,16 +201,32 @@ public class Login extends JFrame {
 		crearPersonaje.setVisible(true);
 	}
 
-	private Personaje obtenerPersonaje() {
-
-		this.mensaje.cambiarMensaje("obtenerPersonaje", textFieldUsuario.getText());
+	public PersonajeDibujable obtenerPersonajeDibujable() {
+		this.mensaje.cambiarMensaje("obtenerPersonajeDibujable", textFieldUsuario.getText());
 		try {
 			this.enviarMensaje(this.mensaje);
 			this.leerRespuesta();
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Error al obtener el Personaje", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-		return gson.fromJson(mensaje.getJson(), Personaje.class);
+		
+		String respuesta = gson.fromJson(mensaje.getJson(), String.class);
+		String id = respuesta.split(":")[0];
+		String imagen = respuesta.split(":")[1];
+		return new PersonajeDibujable(id, imagen);
+	}
+
+	public Personaje obtenerPersonaje() {
+
+		return new Humano(new Paladin(), this.nombreUsuario, "humanoP");
+//		this.mensaje.cambiarMensaje("obtenerPersonaje", textFieldUsuario.getText());
+//		try {
+//			this.enviarMensaje(this.mensaje);
+//			this.leerRespuesta();
+//		} catch (IOException e) {
+//			JOptionPane.showMessageDialog(null, "Error al obtener el Personaje", "Error", JOptionPane.ERROR_MESSAGE);
+//		}
+//		return gson.fromJson(mensaje.getJson(), Personaje.class);
 	}
 
 	protected void conectarCliente() {

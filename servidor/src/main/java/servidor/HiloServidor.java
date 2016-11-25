@@ -55,36 +55,45 @@ public class HiloServidor implements Runnable {
 			responder();
 		}
 
-		if (mensaje.getNombreMensaje().equals("GuardarPersonajeDibujable")) {
+		if (mensaje.getNombreMensaje().equals("guardarPersonajeDibujable")) {
 			PersonajeDibujable pers = gson.fromJson(mensaje.getJson(), PersonajeDibujable.class);
-
-			// REGISTRAR PERSONAJEDIBUJABLE EN BD
-			String respuesta = "true";
+			boolean respuestaInsertar = operaciones.insertarPersonajeDibujable(pers);
+			String respuesta = gson.toJson(respuestaInsertar);
 			mensaje = new Mensaje("PersonajeDibujableGuardado", respuesta);
 			responder();
 		}
-		
+
 		if (mensaje.getNombreMensaje().equals("GuardarPersonaje")) {
-			// ACA ME DA UN ERROR. PARA MI ES POR LAS REFERENCIAS DE PERSONAJE, LA CASTA Y LA RAZA.
-			
-			Atacable personaje = gson.fromJson(mensaje.getJson(), Atacable.class);
-			
+			// ACA ME DA UN ERROR. PARA MI ES POR LAS REFERENCIAS DE PERSONAJE,
+			// LA CASTA Y LA RAZA.
+
+			//Atacable personaje = gson.fromJson(mensaje.getJson(), Atacable.class);
+
 			// REGISTRAR PERSONAJE EN BD
-			boolean respuestaGuardar = operaciones.insertarPersonaje((Personaje)personaje, null);
+			//boolean respuestaGuardar = operaciones.insertarPersonaje((Personaje) personaje, null);
+			boolean respuestaGuardar = operaciones.insertarPersonaje2();
 			String respuesta = gson.toJson(respuestaGuardar);
 			mensaje = new Mensaje("GuardarPersonaje", respuesta);
 			responder();
 		}
-		if(mensaje.getNombreMensaje().equals("consultarPersonaje")){
+		if (mensaje.getNombreMensaje().equals("consultarPersonaje")) {
 			String usuario = gson.fromJson(mensaje.getJson(), String.class);
 			boolean respuestaConsulta = operaciones.consultarPersonaje(usuario);
-			mensaje = new Mensaje("consultarPersonaje",gson.toJson(respuestaConsulta));
+			mensaje = new Mensaje("consultarPersonaje", gson.toJson(respuestaConsulta));
 			responder();
 		}
-		if(mensaje.getNombreMensaje().equals("obtenerPersonaje")){
+		//Da error de casteo
+		if (mensaje.getNombreMensaje().equals("obtenerPersonaje")) {
 			String usuario = gson.fromJson(mensaje.getJson(), String.class);
-			Personaje personaje = operaciones.obtenerPesonaje((usuario));
-			mensaje = new Mensaje("consultarPersonaje",gson.toJson(personaje));
+			Personaje personaje = operaciones.obtenerPersonaje((usuario));
+			mensaje = new Mensaje("consultarPersonaje", gson.toJson(personaje));
+			responder();
+		}
+		
+		if (mensaje.getNombreMensaje().equals("obtenerPersonajeDibujable")) {
+			String usuario = gson.fromJson(mensaje.getJson(), String.class);
+			String  personajeDibujable = operaciones.obtenerPersonajeDibujable((usuario));
+			mensaje = new Mensaje("consultarPersonaje", gson.toJson(personajeDibujable));
 			responder();
 		}
 

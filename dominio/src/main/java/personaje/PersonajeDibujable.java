@@ -59,6 +59,10 @@ public class PersonajeDibujable implements Dibujable {
 		BuscarImagen buscar = new BuscarImagen();
 		return buscar.subImg(img, ancho, alto, sentido, paso);
 	}
+	
+	public String getImg(){
+		return this.img;
+	}
 
 	@Override
 	public int getPosicionX() {

@@ -35,11 +35,12 @@ public class CrearPersonaje extends JFrame {
 	private boolean eligio = false;
 	private String nombrePersonaje;
 	private Gson gson;
-	private PersonajeDibujable dibujoPersonaje;
+	private PersonajeDibujable personajeDibujable;
 	private Mensaje mensaje = new Mensaje("", "");
 	private String entrada;
 	private boolean seCerro = false;
 	private Login login;
+	private String nombreImagen;
 
 	public CrearPersonaje(final String nombrePersonaje, Socket cliente, final Login login) {
 		this.gson = new Gson();
@@ -225,15 +226,18 @@ public class CrearPersonaje extends JFrame {
 					switch (casta) {
 					case "paladin":
 						personaje = new Humano(new Paladin(), nombrePersonaje, "humanoP");
-						dibujoPersonaje = new PersonajeDibujable(nombrePersonaje, "humanoP");
+						personajeDibujable = new PersonajeDibujable(nombrePersonaje, "humanoP");
+						nombreImagen = "humanoP";
 						break;
 					case "guerrero":
 						personaje = new Humano(new Guerrero(), nombrePersonaje, "humanoG");
-						dibujoPersonaje = new PersonajeDibujable(nombrePersonaje, "humanoG");
+						personajeDibujable = new PersonajeDibujable(nombrePersonaje, "humanoG");
+						nombreImagen = "humanoG";
 						break;
 					case "brujo":
 						personaje = new Humano(new Brujo(), nombrePersonaje, "humanoB");
-						dibujoPersonaje = new PersonajeDibujable(nombrePersonaje, "humanoB");
+						personajeDibujable = new PersonajeDibujable(nombrePersonaje, "humanoB");
+						nombreImagen = "humanoB";
 						break;
 					default:
 						break;
@@ -243,11 +247,13 @@ public class CrearPersonaje extends JFrame {
 					switch (casta) {
 					case "paladin":
 						personaje = new Orco(new Paladin(), nombrePersonaje, "orcoP");
-						dibujoPersonaje = new PersonajeDibujable(nombrePersonaje, "orcoP");
+						personajeDibujable = new PersonajeDibujable(nombrePersonaje, "orcoP");
+						nombreImagen = "orcoP";
 						break;
 					case "guerrero":
 						personaje = new Orco(new Guerrero(), nombrePersonaje, "orcoG");
-						dibujoPersonaje = new PersonajeDibujable(nombrePersonaje, "orcoG");
+						personajeDibujable = new PersonajeDibujable(nombrePersonaje, "orcoG");
+						nombreImagen = "orcoG";
 						break;
 					default:
 						break;
@@ -257,15 +263,18 @@ public class CrearPersonaje extends JFrame {
 					switch (casta) {
 					case "paladin":
 						personaje = new Elfo(new Paladin(), nombrePersonaje, "elfoP");
-						dibujoPersonaje = new PersonajeDibujable(nombrePersonaje, "elfoP");
+						personajeDibujable = new PersonajeDibujable(nombrePersonaje, "elfoP");
+						nombreImagen = "elfoP";
 						break;
 					case "guerrero":
 						personaje = new Elfo(new Guerrero(), nombrePersonaje, "elfoG");
-						dibujoPersonaje = new PersonajeDibujable(nombrePersonaje, "elfoG");
+						personajeDibujable = new PersonajeDibujable(nombrePersonaje, "elfoG");
+						nombreImagen = "elfoG";
 						break;
 					case "brujo":
 						personaje = new Elfo(new Brujo(), nombrePersonaje, "elfoB");
-						dibujoPersonaje = new PersonajeDibujable(nombrePersonaje, "elfoB");
+						personajeDibujable = new PersonajeDibujable(nombrePersonaje, "elfoB");
+						nombreImagen = "elfoB";
 						break;
 					default:
 						break;
@@ -281,10 +290,14 @@ public class CrearPersonaje extends JFrame {
 				try {
 					enviarMensaje("GuardarPersonaje");
 					leerRespuesta();
+					enviarMensaje("guardarPersonajeDibujable");
+					leerRespuesta();
 				} catch (IOException e1) {
 					JOptionPane.showMessageDialog(null, "Error al guardar personaje en la BD", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
+				personaje = login.obtenerPersonaje();
+				personajeDibujable = login.obtenerPersonajeDibujable();
 				login.abrirJuego(nombrePersonaje);
 			}
 		});
@@ -299,7 +312,7 @@ public class CrearPersonaje extends JFrame {
 	}
 
 	public PersonajeDibujable obtenerPersDibujable() {
-		return dibujoPersonaje;
+		return personajeDibujable;
 	}
 
 	// metodos para solicitar registro de los personajes del jugador
@@ -317,8 +330,10 @@ public class CrearPersonaje extends JFrame {
 	}
 
 	public void enviarMensaje(String nombreMensaje) throws IOException {
-		if (nombreMensaje.equals("GuardarPersonajeDibujable")) {
-			String json = gson.toJson(this.obtenerPersDibujable());
+		if (nombreMensaje.equals("guardarPersonajeDibujable")) {
+			String datos = this.nombrePersonaje + ":" + this.nombreImagen;
+			//String json = gson.toJson(datos);
+			String json = gson.toJson(personajeDibujable);
 			mensaje.cambiarMensaje(nombreMensaje, json);
 			enviar(mensaje);
 		}
@@ -331,6 +346,7 @@ public class CrearPersonaje extends JFrame {
 			mensaje.cambiarMensaje(nombreMensaje, json);
 			enviar(mensaje);
 		}
+		
 	}
 
 	// public static void main(String args[]) throws UnknownHostException,
