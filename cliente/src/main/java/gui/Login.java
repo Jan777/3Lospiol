@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import javax.swing.JButton;
@@ -50,9 +51,11 @@ public class Login extends JFrame {
 	private boolean seCerro = false;
 	private JTextField textFieldPuerto;
 	private JTextField textFieldIP;
+	private boolean conectado = false;
 
 	@SuppressWarnings("deprecation")
 	public Login() {
+		setResizable(false);
 		this.mensaje = new Mensaje("", "");
 		setVisible(true);
 		setTitle("WarLords - Login");
@@ -92,6 +95,7 @@ public class Login extends JFrame {
 						} else {
 							nombreUsuario = textFieldUsuario.getText();
 							seCerro = true;
+
 							abrirCrearPersonaje();
 						}
 					} else {
@@ -183,14 +187,17 @@ public class Login extends JFrame {
 		crearPersonaje.setVisible(true);
 	}
 
-	private void conectarCliente() {
-		try {
-			this.cliente = new Socket(this.ip, this.puerto);
-			this.dataOutputStream = new DataOutputStream(cliente.getOutputStream());
-			this.dataInputStream = new DataInputStream(cliente.getInputStream());
-			this.gson = new Gson();
-		} catch (Exception e) {
-			e.printStackTrace();
+	protected void conectarCliente() {
+		if (!this.conectado) {
+			try {
+				this.cliente = new Socket(this.ip, this.puerto);
+				this.dataOutputStream = new DataOutputStream(cliente.getOutputStream());
+				this.dataInputStream = new DataInputStream(cliente.getInputStream());
+				this.gson = new Gson();
+				this.conectado = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -202,6 +209,14 @@ public class Login extends JFrame {
 		return this.dataInputStream;
 	}
 
+	public void setIP(String ip) {
+		this.ip = ip;
+	}
+
+	public void setPuerto(int puerto) {
+		this.puerto = puerto;
+	}
+
 	public boolean validarDatosCompletos() {
 		if (this.textFieldUsuario.getText().length() > 0 && this.passwordField.getText().length() > 0
 				&& this.textFieldIP.getText().length() > 0 && this.textFieldPuerto.getText().length() > 0) {
@@ -211,8 +226,7 @@ public class Login extends JFrame {
 	}
 
 	protected boolean validarPuertoIP() {
-		if (this.textFieldIP.getText().length() > 0 && this.textFieldPuerto.getText().length() > 0
-				&& this.textFieldUsuario.getText().length() > 0) {
+		if (this.textFieldIP.getText().length() > 0 && this.textFieldPuerto.getText().length() > 0) {
 			this.ip = this.textFieldIP.getText();
 			this.puerto = Integer.parseInt(this.textFieldPuerto.getText());
 			conectarCliente();
@@ -226,9 +240,14 @@ public class Login extends JFrame {
 		setEnabled(true);
 		textFieldUsuario.setText(texto);
 	}
+	
+	public void completarIPYPuerto(String ip, String puerto){
+		textFieldPuerto.setText(puerto);
+		textFieldIP.setText(ip);
+	}
 
 	public void abrirRegistro() {
-		registro = new Registro(this, this.cliente);
+		registro = new Registro(this);
 		registro.setVisible(true);
 	}
 
@@ -312,6 +331,19 @@ public class Login extends JFrame {
 		return seCerro;
 	}
 
+	public void abrirJuego() {
+		try {
+			new Juego(textFieldUsuario.getText());
+			// juego.setVisible(true);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * Hice el main en el login porque se facilitaba bastante el funcionamiento
 	 * de los frames.
@@ -331,4 +363,5 @@ public class Login extends JFrame {
 			}
 		});
 	}
+
 }

@@ -28,6 +28,8 @@ public class Registro extends JFrame {
 	private JPasswordField passwordField;
 	private JPasswordField repetirPasswordField;
 	private Login login;
+	private JTextField textFieldIP;
+	private JTextField textFieldPuerto;
 
 	/**
 	 * Create the frame.
@@ -43,20 +45,20 @@ public class Registro extends JFrame {
 		contentPane.setLayout(null);
 
 		JLabel lblUsuario = new JLabel("Usuario:");
-		lblUsuario.setBounds(82, 37, 62, 14);
+		lblUsuario.setBounds(81, 11, 62, 14);
 		contentPane.add(lblUsuario);
 
 		JLabel lblContraseña = new JLabel("Contrase\u00F1a:");
-		lblContraseña.setBounds(82, 93, 79, 14);
+		lblContraseña.setBounds(81, 67, 79, 14);
 		contentPane.add(lblContraseña);
 
 		textFieldUsuario = new JTextField();
-		textFieldUsuario.setBounds(92, 62, 257, 20);
+		textFieldUsuario.setBounds(91, 36, 257, 20);
 		contentPane.add(textFieldUsuario);
 		textFieldUsuario.setColumns(10);
 
 		passwordField = new JPasswordField();
-		passwordField.setBounds(92, 118, 257, 20);
+		passwordField.setBounds(91, 92, 257, 20);
 		contentPane.add(passwordField);
 
 		JButton btnAceptar = new JButton("Aceptar");
@@ -64,7 +66,41 @@ public class Registro extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				if (arg0.getKeyChar() == KeyEvent.VK_ENTER) {
-					textFieldUsuario.setText(textFieldUsuario.getText().toUpperCase());
+					if (validarPuertoIP()) {
+						textFieldUsuario.setText(textFieldUsuario.getText().toUpperCase());
+						if (validarDatosCompletos() && validarContraseñas()) {
+							try {
+								String respuestaValidacion = validarNombreDeUsuario();
+								if (respuestaValidacion.equals("false")) {
+									if (registrarUsuario(textFieldUsuario.getText(),
+											passwordField.getText()) == "false") {
+										JOptionPane.showMessageDialog(null, "Error al registrar el usuario", "Error",
+												JOptionPane.ERROR_MESSAGE);
+									} else {
+										JOptionPane.showMessageDialog(null, "Registro exitoso!", null,
+												JOptionPane.ERROR_MESSAGE);
+										login.completarUsuario(textFieldUsuario.getText());
+										dispose();
+									}
+
+								} else {
+									JOptionPane.showMessageDialog(null, "Usuario existente", "Error",
+											JOptionPane.ERROR_MESSAGE);
+								}
+							} catch (IOException e1) {
+
+								e1.printStackTrace();
+							}
+
+						}
+					}
+				}
+			}
+		});
+		btnAceptar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textFieldUsuario.setText(textFieldUsuario.getText().toUpperCase());
+				if (validarPuertoIP()) {
 					if (validarDatosCompletos() && validarContraseñas()) {
 						try {
 							String respuestaValidacion = validarNombreDeUsuario();
@@ -75,6 +111,7 @@ public class Registro extends JFrame {
 								} else {
 									JOptionPane.showMessageDialog(null, "Registro exitoso!", null,
 											JOptionPane.ERROR_MESSAGE);
+									login.completarIPYPuerto(textFieldIP.getText(), textFieldPuerto.getText());
 									login.completarUsuario(textFieldUsuario.getText());
 									dispose();
 								}
@@ -92,44 +129,15 @@ public class Registro extends JFrame {
 				}
 			}
 		});
-		btnAceptar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				textFieldUsuario.setText(textFieldUsuario.getText().toUpperCase());
-				if (validarDatosCompletos() && validarContraseñas()) {
-					try {
-						String respuestaValidacion = validarNombreDeUsuario();
-						if (respuestaValidacion.equals("false")) {
-							if (registrarUsuario(textFieldUsuario.getText(), passwordField.getText()) == "false") {
-								JOptionPane.showMessageDialog(null, "Error al registrar el usuario", "Error",
-										JOptionPane.ERROR_MESSAGE);
-							} else {
-								JOptionPane.showMessageDialog(null, "Registro exitoso!", null,
-										JOptionPane.ERROR_MESSAGE);
-								login.completarUsuario(textFieldUsuario.getText());
-								dispose();
-							}
-
-						} else {
-							JOptionPane.showMessageDialog(null, "Usuario existente", "Error",
-									JOptionPane.ERROR_MESSAGE);
-						}
-					} catch (IOException e1) {
-
-						e1.printStackTrace();
-					}
-
-				}
-			}
-		});
 		btnAceptar.setBounds(115, 227, 89, 23);
 		contentPane.add(btnAceptar);
 
 		repetirPasswordField = new JPasswordField();
-		repetirPasswordField.setBounds(92, 172, 257, 20);
+		repetirPasswordField.setBounds(91, 146, 257, 20);
 		contentPane.add(repetirPasswordField);
 
 		JLabel lblRepetirContraseña = new JLabel("Repetir contrase\u00F1a:");
-		lblRepetirContraseña.setBounds(82, 149, 96, 14);
+		lblRepetirContraseña.setBounds(81, 123, 96, 14);
 		contentPane.add(lblRepetirContraseña);
 
 		JButton btnCancelar = new JButton("Cancelar");
@@ -148,13 +156,32 @@ public class Registro extends JFrame {
 		});
 		btnCancelar.setBounds(244, 227, 89, 23);
 		contentPane.add(btnCancelar);
+
+		JLabel labelIP = new JLabel("IP");
+		labelIP.setBounds(91, 182, 46, 14);
+		contentPane.add(labelIP);
+
+		textFieldIP = new JTextField();
+		textFieldIP.setColumns(10);
+		textFieldIP.setBounds(91, 196, 86, 20);
+		contentPane.add(textFieldIP);
+
+		JLabel labelPuerto = new JLabel("Puerto");
+		labelPuerto.setBounds(248, 182, 46, 14);
+		contentPane.add(labelPuerto);
+
+		textFieldPuerto = new JTextField();
+		textFieldPuerto.setColumns(10);
+		textFieldPuerto.setBounds(248, 196, 86, 20);
+		contentPane.add(textFieldPuerto);
 	}
 
 	public void escribirUsuario() {
 		login.completarUsuario(textFieldUsuario.getText());
 	}
 
-	public Registro(Login login, Socket cliente) {
+	public Registro(Login login) {
+		setResizable(false);
 		this.login = login;
 		run();
 	}
@@ -196,5 +223,16 @@ public class Registro extends JFrame {
 	public void cancelarRegistro() {
 		this.dispose();
 		login.setVisible(true);
+	}
+
+	protected boolean validarPuertoIP() {
+		if (this.textFieldIP.getText().length() > 0 && this.textFieldPuerto.getText().length() > 0) {
+			login.setIP(this.textFieldIP.getText());
+			login.setPuerto(Integer.parseInt(this.textFieldPuerto.getText()));
+			login.conectarCliente();
+			return true;
+		}
+		JOptionPane.showMessageDialog(null, "Debe ingresar el puerto y la IP", "Error", JOptionPane.ERROR_MESSAGE);
+		return false;
 	}
 }

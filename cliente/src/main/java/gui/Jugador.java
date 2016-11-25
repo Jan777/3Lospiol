@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import com.google.gson.Gson;
 
+import batalla.Batalla;
 import batalla.BatallaDibujable;
 import cliente.Mensaje;
 import mapa.Mapa;
@@ -45,7 +46,7 @@ public class Jugador extends JPanel implements Runnable {
 	private Gson gson = new Gson();
 	private String entrada;
 
-	public Jugador(int num) throws UnknownHostException, IOException {
+	public Jugador(String nombreJugador) throws UnknownHostException, IOException {
 
 		cliente = new Socket(host, puerto);
 		in = new DataInputStream(cliente.getInputStream());
@@ -53,7 +54,7 @@ public class Jugador extends JPanel implements Runnable {
 
 		setBackground(Color.WHITE);
 		setDoubleBuffered(true);
-		pers = new PersonajeDibujable("Jugador" + num, "elfoP");
+		pers = new PersonajeDibujable(nombreJugador, "elfoP");
 		map = new Mapa();
 		enviarMensaje("Cargar");
 		leerRespuesta();
@@ -164,7 +165,12 @@ public class Jugador extends JPanel implements Runnable {
 			hayBatalla = map.hayBatalla(pers);
 			enviarMensaje("ActualizarMapa");
 			leerRespuesta();
+			
+			if(hayBatalla)
+				
+				this.batalla = new BatallaDibujable(this.persBatalla,null);
 		}else{
+			
 			if(batalla.esMiTurno(ID))
 			enviarMensaje("ActualizarMapa");
 			leerRespuesta();
