@@ -8,6 +8,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,11 +21,15 @@ import javax.swing.border.EmptyBorder;
 
 import com.google.gson.Gson;
 
+import castas.Brujo;
+import castas.Guerrero;
 import castas.Paladin;
 import cliente.Mensaje;
 import personaje.Personaje;
 import personaje.PersonajeDibujable;
+import razas.Elfo;
 import razas.Humano;
+import razas.Orco;
 
 import javax.swing.JCheckBox;
 
@@ -209,7 +214,7 @@ public class Login extends JFrame {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Error al obtener el Personaje", "Error", JOptionPane.ERROR_MESSAGE);
 		}
-		
+
 		String respuesta = gson.fromJson(mensaje.getJson(), String.class);
 		String id = respuesta.split(":")[0];
 		String imagen = respuesta.split(":")[1];
@@ -218,15 +223,79 @@ public class Login extends JFrame {
 
 	public Personaje obtenerPersonaje() {
 
-		return new Humano(new Paladin(), this.nombreUsuario, "humanoP");
-//		this.mensaje.cambiarMensaje("obtenerPersonaje", textFieldUsuario.getText());
-//		try {
-//			this.enviarMensaje(this.mensaje);
-//			this.leerRespuesta();
-//		} catch (IOException e) {
-//			JOptionPane.showMessageDialog(null, "Error al obtener el Personaje", "Error", JOptionPane.ERROR_MESSAGE);
-//		}
-//		return gson.fromJson(mensaje.getJson(), Personaje.class);
+		// return new Humano(new Paladin(), this.nombreUsuario, "humanoP");
+		this.mensaje.cambiarMensaje("obtenerPersonaje", textFieldUsuario.getText());
+		try {
+			this.enviarMensaje(this.mensaje);
+			this.leerRespuesta();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Error al obtener el Personaje", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		ArrayList<String> personaje = (ArrayList<String>) gson.fromJson(mensaje.getJson(), ArrayList.class);
+		return obtenerPersonaje(textFieldUsuario.getText(), Integer.parseInt(personaje.get(1)), Integer.parseInt(personaje.get(0)), Integer.parseInt(personaje.get(5)),
+				Integer.parseInt(personaje.get(7)), Integer.parseInt(personaje.get(8)), Integer.parseInt(personaje.get(6)), Integer.parseInt(personaje.get(4)), Integer.parseInt(personaje.get(3)),
+				Integer.parseInt(personaje.get(9)));
+
+	}
+
+	private Personaje obtenerPersonaje(String nombrePersonaje, int casta, int raza, int salud, int ataque, int defensa,
+			int energia, int experiencia, int nivel, int mana) {
+		switch (raza) {
+		case 1:
+			switch (casta) {
+			case 3:
+				return new Humano(new Paladin(), nombrePersonaje, "humanoP", ataque, salud, defensa, energia,
+						experiencia, nivel, mana, raza);
+			// return new PersonajeDibujable(nombrePersonaje, "humanoP");
+			case 1:
+				return new Humano(new Guerrero(), nombrePersonaje, "humanoG");
+			// return new PersonajeDibujable(nombrePersonaje, "humanoG");
+			case 2:
+				return new Humano(new Brujo(), nombrePersonaje, "humanoB");
+			// dibujoPersonaje = new PersonajeDibujable(nombrePersonaje,
+			// "humanoB");
+
+			default:
+				break;
+			}
+			break;
+		case 3:
+			switch (casta) {
+			case 3:
+				return new Orco(new Paladin(), nombrePersonaje, "orcoP");
+			// dibujoPersonaje = new PersonajeDibujable(nombrePersonaje,
+			// "orcoP");
+			case 1:
+				return new Orco(new Guerrero(), nombrePersonaje, "orcoG");
+			// dibujoPersonaje = new PersonajeDibujable(nombrePersonaje,
+			// "orcoG");
+			default:
+				break;
+			}
+			break;
+		case 2:
+			switch (casta) {
+			case 3:
+				return new Elfo(new Paladin(), nombrePersonaje, "elfoP");
+			// dibujoPersonaje = new PersonajeDibujable(nombrePersonaje,
+			// "elfoP");
+			case 1:
+				return new Elfo(new Guerrero(), nombrePersonaje, "elfoG");
+			// dibujoPersonaje = new PersonajeDibujable(nombrePersonaje,
+			// "elfoG");
+			case 2:
+				return new Elfo(new Brujo(), nombrePersonaje, "elfoB");
+			// dibujoPersonaje = new PersonajeDibujable(nombrePersonaje,
+			// "elfoB");
+
+			default:
+				break;
+			}
+			break;
+		default:
+			break;
+		}
+		return new Humano(new Paladin(), nombrePersonaje, "humanoP");
 	}
 
 	protected void conectarCliente() {

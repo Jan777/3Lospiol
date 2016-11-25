@@ -37,6 +37,10 @@ public abstract class Personaje implements Atacable, Dibujable {
 	public String obtenerRaza() {
 		return raza;
 	}
+	
+	public Personaje(){
+		
+	}
 
 	public void caminar() {
 		if (x == xMouse && y == yMouse)

@@ -2,6 +2,7 @@ package conexionSQL;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import castas.Brujo;
 import castas.Casta;
@@ -88,8 +89,7 @@ public class OperacionesBD extends ConexionSQL {
 			return false;
 		}
 	}
-	
-	
+
 	public boolean insertarPersonaje2() {
 		String subQuery = "(SELECT ID_USUARIO FROM USUARIO WHERE USUARIO = '" + "MILAGROS" + "')";
 		int raza = 0;
@@ -164,97 +164,40 @@ public class OperacionesBD extends ConexionSQL {
 		return null;
 	}
 
-	//Da error de casteo
-	public Personaje obtenerPersonaje(String nombreUsuario) {
+	// Da error de casteo
+	public ArrayList<String> obtenerPersonaje(String nombreUsuario) {
 		String subQuery = "(SELECT ID_USUARIO FROM USUARIO WHERE USUARIO = '" + nombreUsuario + "')";
 		String query = "SELECT * FROM PERSONAJE WHERE ID_USUARIO = " + subQuery;
+		ArrayList<String> lista = new ArrayList<>();
 		try {
 			ResultSet resultSet = this.getConsulta().executeQuery(query);
 			if (resultSet.next()) {
+
 				int raza = resultSet.getInt("ID_RAZA");
+				lista.add("" + raza);
 				String casta = resultSet.getString("ID_CASTA");
-				int mapa = 1;
+				lista.add(casta);
+				lista.add("" + 1); // ID_MAPA
 				int nivel = resultSet.getInt("NIVEL");
+				lista.add("" + nivel);
 				int experiencia = resultSet.getInt("EXPERIENCIA");
+				lista.add("" + experiencia);
 				int vida = resultSet.getInt("VIDA");
+				lista.add("" + vida);
 				int energia = resultSet.getInt("ENERGIA");
+				lista.add("" + energia);
 				int ataque = resultSet.getInt("ATAQUE");
+				lista.add("" + ataque);
 				int defensa = resultSet.getInt("DEFENSA");
+				lista.add("" + defensa);
 				int mana = resultSet.getInt("MANA");
+				lista.add("" + mana);
 				int puntos = resultSet.getInt("PUNTOS");
-				return obtenerPersonaje(nombreUsuario, casta, raza, vida, ataque, defensa, energia, experiencia, nivel,
-						mana, raza);
+				return lista;
 			}
 		} catch (Exception e) {
 			return null;
 		}
 		return null;
-	}
-
-	private Personaje obtenerPersonaje(String nombrePersonaje, String casta, int raza, int salud, int ataque,
-			int defensa, int energia, int experiencia, int nivel, int mana, int idRaza) {
-		switch (raza) {
-		case 1:
-			switch (casta) {
-			case "paladin":
-				return new Humano(new Paladin(), nombrePersonaje, "humanoP", ataque, salud, defensa, energia,
-						experiencia, nivel, mana, idRaza);
-
-			// return new PersonajeDibujable(nombrePersonaje, "humanoP");
-
-			case "guerrero":
-				return new Humano(new Guerrero(), nombrePersonaje, "humanoG");
-			// return new PersonajeDibujable(nombrePersonaje, "humanoG");
-
-			case "brujo":
-				return new Humano(new Brujo(), nombrePersonaje, "humanoB");
-			// dibujoPersonaje = new PersonajeDibujable(nombrePersonaje,
-			// "humanoB");
-
-			default:
-				break;
-			}
-			break;
-		case 3:
-			switch (casta) {
-			case "paladin":
-				return new Orco(new Paladin(), nombrePersonaje, "orcoP");
-			// dibujoPersonaje = new PersonajeDibujable(nombrePersonaje,
-			// "orcoP");
-
-			case "guerrero":
-				return new Orco(new Guerrero(), nombrePersonaje, "orcoG");
-			// dibujoPersonaje = new PersonajeDibujable(nombrePersonaje,
-			// "orcoG");
-
-			default:
-				break;
-			}
-			break;
-		case 2:
-			switch (casta) {
-			case "paladin":
-				return new Elfo(new Paladin(), nombrePersonaje, "elfoP");
-			// dibujoPersonaje = new PersonajeDibujable(nombrePersonaje,
-			// "elfoP");
-
-			case "guerrero":
-				return new Elfo(new Guerrero(), nombrePersonaje, "elfoG");
-			// dibujoPersonaje = new PersonajeDibujable(nombrePersonaje,
-			// "elfoG");
-
-			case "brujo":
-				return new Elfo(new Brujo(), nombrePersonaje, "elfoB");
-			// dibujoPersonaje = new PersonajeDibujable(nombrePersonaje,
-			// "elfoB");
-
-			default:
-				break;
-			}
-			break;
-		default:
-			break;
-		}
-		return new Humano(new Paladin(), nombrePersonaje, "humanoP");
 	}
 }

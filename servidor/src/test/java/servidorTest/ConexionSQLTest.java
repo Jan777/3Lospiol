@@ -91,8 +91,8 @@ public class ConexionSQLTest {
 		String nombrePersonaje = "NICO";
 		OperacionesBD conexion = new OperacionesBD();
 		conexion.conectar();
-		Personaje personaje = conexion.obtenerPersonaje(nombrePersonaje);
-		Assert.assertEquals(personaje, personaje);
+	//	Personaje personaje = conexion.obtenerPersonaje(nombrePersonaje);
+		//Assert.assertEquals(personaje, personaje);
 		conexion.desconectar();
 	}
 	

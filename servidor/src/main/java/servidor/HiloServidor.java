@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import com.google.gson.Gson;
@@ -67,11 +68,11 @@ public class HiloServidor implements Runnable {
 			// ACA ME DA UN ERROR. PARA MI ES POR LAS REFERENCIAS DE PERSONAJE,
 			// LA CASTA Y LA RAZA.
 
-			//Atacable personaje = gson.fromJson(mensaje.getJson(), Atacable.class);
+			Atacable personaje = gson.fromJson(mensaje.getJson(), Atacable.class);
 
 			// REGISTRAR PERSONAJE EN BD
-			//boolean respuestaGuardar = operaciones.insertarPersonaje((Personaje) personaje, null);
-			boolean respuestaGuardar = operaciones.insertarPersonaje2();
+			boolean respuestaGuardar = operaciones.insertarPersonaje((Personaje) personaje, null);
+		//	boolean respuestaGuardar = operaciones.insertarPersonaje();
 			String respuesta = gson.toJson(respuestaGuardar);
 			mensaje = new Mensaje("GuardarPersonaje", respuesta);
 			responder();
@@ -85,8 +86,8 @@ public class HiloServidor implements Runnable {
 		//Da error de casteo
 		if (mensaje.getNombreMensaje().equals("obtenerPersonaje")) {
 			String usuario = gson.fromJson(mensaje.getJson(), String.class);
-			Personaje personaje = operaciones.obtenerPersonaje((usuario));
-			mensaje = new Mensaje("consultarPersonaje", gson.toJson(personaje));
+			ArrayList<String> personaje = operaciones.obtenerPersonaje((usuario));
+			mensaje = new Mensaje("obtenerPersonaje", gson.toJson(personaje));
 			responder();
 		}
 		
