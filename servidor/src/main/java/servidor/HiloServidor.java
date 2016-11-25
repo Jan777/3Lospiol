@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import com.google.gson.Gson;
 
 import conexionSQL.OperacionesBD;
+import interfaces.Atacable;
 import mapa.Mapa;
 import mensaje.Mensaje;
 import personaje.Personaje;
@@ -65,11 +66,13 @@ public class HiloServidor implements Runnable {
 
 		if (mensaje.getNombreMensaje().equals("GuardarPersonaje")) {
 			// ACA ME DA UN ERROR. PARA MI ES POR LAS REFERENCIAS DE PERSONAJE, LA CASTA Y LA RAZA.
-			Personaje personaje =  gson.fromJson(mensaje.getJson(), Personaje.class);
-
+			
+			Atacable personaje = gson.fromJson(mensaje.getJson(), Atacable.class);
+			
 			// REGISTRAR PERSONAJE EN BD
-			String respuesta = "true";
-			mensaje = new Mensaje("PersonajeGuardado", respuesta);
+			boolean respuestaGuardar = operaciones.insertarPersonaje((Personaje)personaje, null);
+			String respuesta = gson.toJson(respuestaGuardar);
+			mensaje = new Mensaje("GuardarPersonaje", respuesta);
 			responder();
 		}
 

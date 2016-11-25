@@ -35,7 +35,7 @@ public class CrearPersonaje extends JFrame {
 	private String raza;
 	private String casta;
 	private boolean eligio = false;
-	private String nombrePesrsonaje;
+	private String nombrePersonaje;
 	private Gson gson;
 	private PersonajeDibujable dibujoPersonaje;
 	private Mensaje mensaje = new Mensaje("", "");
@@ -47,11 +47,14 @@ public class CrearPersonaje extends JFrame {
 
 	public CrearPersonaje(final String nombrePersonaje, Socket cliente, Login login) {
 		this.gson = new Gson();
+		this.nombrePersonaje = nombrePersonaje;
 		this.login = login;
 		setTitle("Warlords");
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, 450, 300);
+		
 		elegirRaza = new JPanel();
 		elegirRaza.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(elegirRaza);
@@ -61,13 +64,13 @@ public class CrearPersonaje extends JFrame {
 		final JButton btnElfo = new JButton("Elfo");
 		final JButton btnHumano = new JButton("Humano");
 
-		btnElfo.setBounds(384, 320, 89, 23);
+		btnElfo.setBounds(155, 134, 89, 23);
 		elegirRaza.add(btnElfo);
 
-		btnHumano.setBounds(384, 365, 89, 23);
+		btnHumano.setBounds(155, 179, 89, 23);
 		elegirRaza.add(btnHumano);
 
-		btnOrco.setBounds(384, 273, 89, 23);
+		btnOrco.setBounds(155, 87, 89, 23);
 		elegirRaza.add(btnOrco);
 
 		btnOrco.addActionListener(new ActionListener() {
@@ -101,45 +104,45 @@ public class CrearPersonaje extends JFrame {
 		});
 
 		final JButton btnElegir = new JButton("Elegir");
-		btnElegir.setBounds(384, 426, 89, 23);
+		btnElegir.setBounds(155, 213, 89, 23);
 		elegirRaza.add(btnElegir);
 
 		final JButton btnPaladin = new JButton("Paladin");
-		btnPaladin.setBounds(384, 307, 89, 23);
+		btnPaladin.setBounds(155, 121, 89, 23);
 		elegirRaza.add(btnPaladin);
 		btnPaladin.setVisible(false);
 
 		final JButton btnGuerrero = new JButton("Guerrero");
-		btnGuerrero.setBounds(384, 341, 89, 23);
+		btnGuerrero.setBounds(155, 155, 89, 23);
 		elegirRaza.add(btnGuerrero);
 		btnGuerrero.setVisible(false);
 
 		final JButton btnBrujo = new JButton("Brujo");
-		btnBrujo.setBounds(384, 273, 89, 23);
+		btnBrujo.setBounds(155, 87, 89, 23);
 		elegirRaza.add(btnBrujo);
 		btnBrujo.setVisible(false);
 
 		final JButton elegirCasta = new JButton("Elegir");
-		elegirCasta.setBounds(384, 426, 89, 23);
+		elegirCasta.setBounds(155, 213, 89, 23);
 		elegirRaza.add(elegirCasta);
 		elegirCasta.setVisible(false);
 
 		final JLabel lblNombre = new JLabel("Nombre:");
-		lblNombre.setBounds(350, 375, 200, 14);
+		lblNombre.setBounds(121, 189, 200, 14);
 		elegirRaza.add(lblNombre);
 		lblNombre.setVisible(false);
 
 		final JLabel lblEligeUnaRaza = new JLabel("Elige una raza");
-		lblEligeUnaRaza.setBounds(384, 197, 142, 14);
+		lblEligeUnaRaza.setBounds(155, 11, 142, 14);
 		elegirRaza.add(lblEligeUnaRaza);
 
 		final JLabel lblEligeUnaCasta = new JLabel("Elige una casta");
-		lblEligeUnaCasta.setBounds(384, 222, 162, 14);
+		lblEligeUnaCasta.setBounds(155, 36, 162, 14);
 		elegirRaza.add(lblEligeUnaCasta);
 		lblEligeUnaCasta.setVisible(false);
 
 		final JButton btnDeshacerRaza = new JButton("Deshacer");
-		btnDeshacerRaza.setBounds(384, 460, 89, 23);
+		btnDeshacerRaza.setBounds(155, 240, 89, 23);
 		elegirRaza.add(btnDeshacerRaza);
 
 		btnDeshacerRaza.addActionListener(new ActionListener() {
@@ -160,7 +163,7 @@ public class CrearPersonaje extends JFrame {
 				btnGuerrero.setEnabled(true);
 			}
 		});
-		btnDeshacerCasta.setBounds(384, 460, 89, 23);
+		btnDeshacerCasta.setBounds(155, 247, 89, 23);
 		elegirRaza.add(btnDeshacerCasta);
 		btnDeshacerCasta.setVisible(false);
 
@@ -277,8 +280,13 @@ public class CrearPersonaje extends JFrame {
 				}
 				// Comenté esto por un error en el casteo del personaje cuando se va a grabar en la base de datos. 
 				// Así ven como abre el juego una vez que se seleccionan los personajes.
-				// enviarMensaje("GuardarPersonaje");
-				// leerRespuesta();
+				 try {
+					enviarMensaje("GuardarPersonaje");
+					 leerRespuesta();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				// enviarMensaje("GuardarPersonajeDibujable");
 				// leerRespuesta();
 				abrirJuego();
@@ -320,6 +328,9 @@ public class CrearPersonaje extends JFrame {
 		}
 
 		if (nombreMensaje.equals("GuardarPersonaje")) {
+			String raza = this.raza;
+			String casta = this.casta;
+			
 			String json = gson.toJson(this.personaje);
 			mensaje.cambiarMensaje(nombreMensaje, json);
 			enviar(mensaje);
@@ -352,8 +363,8 @@ public class CrearPersonaje extends JFrame {
 
 	public void abrirJuego() {
 		try {
-			Juego juego = new Juego(1);
-			juego.setVisible(true);
+				new Juego(nombrePersonaje);
+			//juego.setVisible(true);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

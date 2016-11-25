@@ -17,7 +17,7 @@ public class Juego extends JFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public Juego(int num) throws UnknownHostException, IOException{
+	public Juego(String nombre) throws UnknownHostException, IOException{
         
         setTitle("Juego 2D con Java ");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,7 +25,7 @@ public class Juego extends JFrame{
         setLocationRelativeTo(null);
         setResizable(false);
        
-        add(new Jugador(num));
+        add(new Jugador(nombre));
        
         setVisible(true);
     }
@@ -44,7 +44,7 @@ public Juego(Socket sock, String id, PersonajeDibujable p, Personaje pb) throws 
     }
     
     public static void main(String args[]) throws UnknownHostException, IOException{
-        new Juego(2);
+        new Juego("Papa");
         //new Juego(3);
         /*
         Socket cliente = new Socket("localhost", 2028);
