@@ -13,13 +13,11 @@ import razas.Elfo;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
 
@@ -39,22 +37,20 @@ public class CrearPersonaje extends JFrame {
 	private Gson gson;
 	private PersonajeDibujable dibujoPersonaje;
 	private Mensaje mensaje = new Mensaje("", "");
-	// private DataOutputStream out;
-	// private DataInputStream in;
 	private String entrada;
 	private boolean seCerro = false;
 	private Login login;
 
-	public CrearPersonaje(final String nombrePersonaje, Socket cliente, Login login) {
+	public CrearPersonaje(final String nombrePersonaje, Socket cliente, final Login login) {
 		this.gson = new Gson();
 		this.nombrePersonaje = nombrePersonaje;
 		this.login = login;
 		setTitle("Warlords");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//		setBounds(100, 100, 800, 600);
+		// setBounds(100, 100, 800, 600);
 		setBounds(100, 100, 450, 300);
-		
+
 		elegirRaza = new JPanel();
 		elegirRaza.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(elegirRaza);
@@ -171,8 +167,8 @@ public class CrearPersonaje extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (!eligio)
 					return;
-//				else
-//					abrirJuego();
+				// else
+				// abrirJuego();
 
 				btnElegir.setVisible(false);
 				btnHumano.setVisible(false);
@@ -278,18 +274,18 @@ public class CrearPersonaje extends JFrame {
 				default:
 					break;
 				}
-				// Comenté esto por un error en el casteo del personaje cuando se va a grabar en la base de datos. 
-				// Así ven como abre el juego una vez que se seleccionan los personajes.
-				 try {
+				// Comenté esto por un error en el casteo del personaje cuando
+				// se va a grabar en la base de datos.
+				// Así ven como abre el juego una vez que se seleccionan los
+				// personajes.
+				try {
 					enviarMensaje("GuardarPersonaje");
-					 leerRespuesta();
+					leerRespuesta();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Error al guardar personaje en la BD", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
-				// enviarMensaje("GuardarPersonajeDibujable");
-				// leerRespuesta();
-				abrirJuego();
+				login.abrirJuego(nombrePersonaje);
 			}
 		});
 	}
@@ -330,7 +326,7 @@ public class CrearPersonaje extends JFrame {
 		if (nombreMensaje.equals("GuardarPersonaje")) {
 			String raza = this.raza;
 			String casta = this.casta;
-			
+
 			String json = gson.toJson(this.personaje);
 			mensaje.cambiarMensaje(nombreMensaje, json);
 			enviar(mensaje);
@@ -360,17 +356,4 @@ public class CrearPersonaje extends JFrame {
 	// } while (crear.seCerro() == false);
 	//
 	// }
-
-	public void abrirJuego() {
-		try {
-				new Juego(nombrePersonaje);
-			//juego.setVisible(true);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 }

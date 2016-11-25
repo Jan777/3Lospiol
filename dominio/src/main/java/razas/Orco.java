@@ -24,6 +24,7 @@ public class Orco extends Personaje{
 		this.expMax=100;
 		this.id=nombrePersonaje;
 		this.img=img;
+		this.idRaza = 3;
 	}
 	
 	@Override

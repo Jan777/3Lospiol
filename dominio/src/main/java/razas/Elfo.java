@@ -24,6 +24,7 @@ public class Elfo extends Personaje {
 		this.mana=3;
 		this.id=nombrePersonaje;
 		this.img=img;
+		this.idRaza = 2;
 		
 	}
 	@Override

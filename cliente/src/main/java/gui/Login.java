@@ -8,7 +8,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,6 +21,8 @@ import javax.swing.border.EmptyBorder;
 import com.google.gson.Gson;
 
 import cliente.Mensaje;
+import personaje.Personaje;
+import personaje.PersonajeDibujable;
 
 import javax.swing.JCheckBox;
 
@@ -29,8 +30,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Login extends JFrame {
@@ -52,6 +51,8 @@ public class Login extends JFrame {
 	private JTextField textFieldPuerto;
 	private JTextField textFieldIP;
 	private boolean conectado = false;
+	private Personaje personaje;
+	private PersonajeDibujable personajeDibujable;
 
 	@SuppressWarnings("deprecation")
 	public Login() {
@@ -95,8 +96,12 @@ public class Login extends JFrame {
 						} else {
 							nombreUsuario = textFieldUsuario.getText();
 							seCerro = true;
-
-							abrirCrearPersonaje();
+							if (!tienePersonaje())
+								abrirCrearPersonaje();
+							else {
+								personaje = obtenerPersonaje();
+								abrirJuego(textFieldUsuario.getText());
+							}
 						}
 					} else {
 						JOptionPane.showMessageDialog(null, "IP o Puerto inválidos.", "Error",
@@ -120,8 +125,14 @@ public class Login extends JFrame {
 								conectarCliente();
 								nombreUsuario = textFieldUsuario.getText();
 								seCerro = true;
-								abrirCrearPersonaje();
-								// dispose();
+								if (!tienePersonaje())
+									abrirCrearPersonaje();
+								else {
+									personaje = obtenerPersonaje();
+									// personajeDibujable =
+									// obtenerPersonajeDibujable();
+									abrirJuego(textFieldUsuario.getText());
+								}
 							}
 						} else {
 							JOptionPane.showMessageDialog(null, "IP o Puerto inválidos.", "Error",
@@ -133,6 +144,7 @@ public class Login extends JFrame {
 					}
 				}
 			}
+
 		});
 		btnAceptar.setBounds(97, 172, 89, 23);
 		contentPane.add(btnAceptar);
@@ -187,6 +199,18 @@ public class Login extends JFrame {
 		crearPersonaje.setVisible(true);
 	}
 
+	private Personaje obtenerPersonaje() {
+
+		this.mensaje.cambiarMensaje("obtenerPersonaje", textFieldUsuario.getText());
+		try {
+			this.enviarMensaje(this.mensaje);
+			this.leerRespuesta();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Error al obtener el Personaje", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+		return gson.fromJson(mensaje.getJson(), Personaje.class);
+	}
+
 	protected void conectarCliente() {
 		if (!this.conectado) {
 			try {
@@ -196,7 +220,7 @@ public class Login extends JFrame {
 				this.gson = new Gson();
 				this.conectado = true;
 			} catch (Exception e) {
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "IP o Puerto Incorrecto.", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -240,8 +264,8 @@ public class Login extends JFrame {
 		setEnabled(true);
 		textFieldUsuario.setText(texto);
 	}
-	
-	public void completarIPYPuerto(String ip, String puerto){
+
+	public void completarIPYPuerto(String ip, String puerto) {
 		textFieldPuerto.setText(puerto);
 		textFieldIP.setText(ip);
 	}
@@ -272,23 +296,13 @@ public class Login extends JFrame {
 			this.enviarMensaje(this.mensaje);
 			this.leerRespuesta();
 		} catch (IOException e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error al validar el usuario y la contraseña", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 		return gson.fromJson(mensaje.getJson(), String.class);
 	}
 
 	public void enviarMensaje(Mensaje mensaje) throws IOException {
-		// if (mensaje.getNombreMensaje().equals("validarUsuario")) {
-		// // String json = gson.toJson(textFieldUsuario.getText());
-		// // mensaje.cambiarMensaje(mens, json);
-		// enviar(mensaje);
-		// }
-		// if (mensaje.getNombreMensaje().equals("registrarUsuario")) {
-		// enviar(mensaje);
-		// }
-		// if (mensaje.getNombreMensaje().equals("validarCredenciales")) {
-		// enviar(mensaje);
-		// }
 		enviar(mensaje);
 
 	}
@@ -297,14 +311,6 @@ public class Login extends JFrame {
 		String msg = gson.toJson(mensj);
 		this.dataOutputStream.writeUTF(msg);
 		this.dataOutputStream.flush();
-	}
-
-	public void leerConfiguracion() throws FileNotFoundException {
-		Scanner scanner = new Scanner(new File("src/main/resources/App.config"));
-		this.ip = scanner.nextLine().split(":")[1];
-		this.puerto = Integer.parseInt(scanner.nextLine().split(":")[1]);
-		scanner.close();
-
 	}
 
 	public Mensaje getMensaje() {
@@ -331,17 +337,30 @@ public class Login extends JFrame {
 		return seCerro;
 	}
 
-	public void abrirJuego() {
+	public void abrirJuego(String nombreUsuario) {
+		//
 		try {
-			new Juego(textFieldUsuario.getText());
-			// juego.setVisible(true);
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+			new Juego(cliente, nombreUsuario, personajeDibujable, personaje);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error al abrir el juego", "Error", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+
+	private boolean tienePersonaje() {
+
+		this.mensaje.cambiarMensaje("consultarPersonaje", textFieldUsuario.getText());
+		try {
+			this.enviarMensaje(this.mensaje);
+			this.leerRespuesta();
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Error al consultar con la base de datos", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+		String respuesta = gson.fromJson(mensaje.getJson(), String.class);
+		if (respuesta == "true")
+			return true;
+		return false;
 	}
 
 	/**
@@ -358,7 +377,8 @@ public class Login extends JFrame {
 					Login frame = new Login();
 					frame.setVisible(true);
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Error al ingresar al juego", "Error",
+							JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

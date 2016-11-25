@@ -12,14 +12,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import com.google.gson.Gson;
-
 import cliente.Mensaje;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.net.Socket;
 
 public class Registro extends JFrame {
 
@@ -89,7 +86,8 @@ public class Registro extends JFrame {
 								}
 							} catch (IOException e1) {
 
-								e1.printStackTrace();
+								JOptionPane.showMessageDialog(null, "Error en el servidor", "Error",
+										JOptionPane.ERROR_MESSAGE);
 							}
 
 						}
@@ -122,7 +120,8 @@ public class Registro extends JFrame {
 							}
 						} catch (IOException e1) {
 
-							e1.printStackTrace();
+							JOptionPane.showMessageDialog(null, "Error en el servidor", "Error",
+									JOptionPane.ERROR_MESSAGE);
 						}
 
 					}

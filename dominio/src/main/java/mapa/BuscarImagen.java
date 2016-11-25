@@ -46,11 +46,6 @@ public class BuscarImagen {
 
 	public int alto(String dibujo) {
 		try {
-			// String path = "dominio/src/main/java/img" + dibujo;
-			//String path2 = getClass().getResource("img/" + dibujo).getPath();
-			//URL is = getClass().getResource("/.../img/" + dibujo);
-			//String path3 = "src\\main\\java\\img\\" + dibujo;
-			//String path = "src/main/java/img/"+ dibujo;
 			img = ImageIO.read(new File("src/main/java/img/"+ dibujo));
 		} catch (IOException e) {
 		}

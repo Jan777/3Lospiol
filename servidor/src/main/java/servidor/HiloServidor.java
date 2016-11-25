@@ -63,7 +63,7 @@ public class HiloServidor implements Runnable {
 			mensaje = new Mensaje("PersonajeDibujableGuardado", respuesta);
 			responder();
 		}
-
+		
 		if (mensaje.getNombreMensaje().equals("GuardarPersonaje")) {
 			// ACA ME DA UN ERROR. PARA MI ES POR LAS REFERENCIAS DE PERSONAJE, LA CASTA Y LA RAZA.
 			
@@ -73,6 +73,18 @@ public class HiloServidor implements Runnable {
 			boolean respuestaGuardar = operaciones.insertarPersonaje((Personaje)personaje, null);
 			String respuesta = gson.toJson(respuestaGuardar);
 			mensaje = new Mensaje("GuardarPersonaje", respuesta);
+			responder();
+		}
+		if(mensaje.getNombreMensaje().equals("consultarPersonaje")){
+			String usuario = gson.fromJson(mensaje.getJson(), String.class);
+			boolean respuestaConsulta = operaciones.consultarPersonaje(usuario);
+			mensaje = new Mensaje("consultarPersonaje",gson.toJson(respuestaConsulta));
+			responder();
+		}
+		if(mensaje.getNombreMensaje().equals("obtenerPersonaje")){
+			String usuario = gson.fromJson(mensaje.getJson(), String.class);
+			Personaje personaje = operaciones.obtenerPesonaje((usuario));
+			mensaje = new Mensaje("consultarPersonaje",gson.toJson(personaje));
 			responder();
 		}
 

@@ -8,7 +8,6 @@ import castas.Guerrero;
 import conexionSQL.ConexionSQL;
 import conexionSQL.OperacionesBD;
 import personaje.Personaje;
-import personaje.PersonajeDibujable;
 import razas.Humano;
 
 public class ConexionSQLTest {
@@ -67,4 +66,23 @@ public class ConexionSQLTest {
 		Assert.assertEquals(true, conexion.insertarPersonaje(personaje, null));
 		conexion.desconectar();
 	}
+	
+	@Test
+	public void queConsultaElPersonaje(){
+		String nombrePersonaje = "NICO";
+		OperacionesBD conexion = new OperacionesBD();
+		conexion.conectar();
+		Assert.assertEquals(true, conexion.consultarPersonaje(nombrePersonaje));
+		conexion.desconectar();
+	}
+	@Test
+	public void queObtieneElPersonaje(){
+		String nombrePersonaje = "NICO";
+		OperacionesBD conexion = new OperacionesBD();
+		conexion.conectar();
+		Personaje personaje = conexion.obtenerPesonaje(nombrePersonaje);
+		Assert.assertEquals(personaje, personaje);
+		conexion.desconectar();
+	}
+	
 }

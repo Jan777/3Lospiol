@@ -20,6 +20,25 @@ public class Humano extends Personaje {
 		this.expMax=100;
 		this.id=nombrePersonaje;
 		this.img=img;
+		this.idRaza = 1;
+	}
+	
+	public Humano(Casta casta, String id, String img, int salud, int ataque, int defensa, int energia, int experiencia, int nivel, int mana, int idRaza){
+		this.maxSalud = 100;
+		this.maxEnergia = 100;
+		this.salud = salud;
+		this.ataque = ataque;
+		this.defensa = defensa;
+		this.inteligencia = 10;
+		this.casta = casta;
+		this.energia = energia;
+		this.exp = experiencia;
+		this.nivel = nivel;
+		this.mana = mana;
+		this.expMax=100;
+		this.id=id;
+		this.img=img;
+		this.idRaza = idRaza;
 	}
 
 
