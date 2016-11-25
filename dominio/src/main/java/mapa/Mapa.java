@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 
 import personaje.PersonajeDibujable;
 
-public class Mapa  {
+public  class Mapa  {
 	
 	private String img;
 	 private int ancho,alto;
@@ -62,17 +62,19 @@ public class Mapa  {
 		 return true;
 	 }
 	 
-	 public boolean hayBatalla(PersonajeDibujable pers)
+	 public String hayBatalla(PersonajeDibujable pers)
 	 {
+		 String enemigo ;
 		 for (Entry<String, PersonajeDibujable> contrincante : colisionables.entrySet()){
 				
-				if(!(pers.getID().equals(contrincante.getKey())) && pers.seSuperPonen(contrincante.getValue()))
+				if(!(pers.getID().equals(contrincante.getKey())) && contrincante.getValue().enBatalla() == false && pers.seSuperPonen(contrincante.getValue()))
 				{
-					return true;
+					enemigo = contrincante.getKey();
+					System.out.println("contr: "+enemigo);
+					return enemigo;
 				}
 			}
-		 
-		 return false;
+		 return null;
 	 }
 	 
 	public void pintarMapa(Graphics g, PersonajeDibujable pers, ImageObserver observer){              
@@ -89,7 +91,7 @@ public class Mapa  {
 			d = dibujar.getValue();
 			int x = d.getPosicionX();
 	    	int y = d.getPosicionY();
-	    	if(x > xRelativo && x < (xRelativo + this.anchoCuadro) && y > yRelativo && y < (yRelativo + this.altoCuadro))
+	    	if(d.enBatalla() == false && x > xRelativo && x < (xRelativo + this.anchoCuadro) && y > yRelativo && y < (yRelativo + this.altoCuadro))
         	{
         		g2.drawImage(d.getImagen(),d.getPosicionX() - xRelativo - (d.getAncho()/2), d.getPosicionY() - yRelativo - d.getAlto() , observer);
         		g2.drawString(d.getID(), d.getPosicionX() - xRelativo - (d.getAncho()/2),  d.getPosicionY() - yRelativo - d.getAlto() );
@@ -106,7 +108,7 @@ public class Mapa  {
 		colisionables.remove(id);
 	}
 	
-	public void actualizarMapa(Dibujable d){
+	public synchronized void actualizarMapa(Dibujable d){
 	//	colisionables.replace(d.getID(), (Personaje)d);
 		colisionables.remove(d.getID());
 		colisionables.put(d.getID(), (PersonajeDibujable)d);		

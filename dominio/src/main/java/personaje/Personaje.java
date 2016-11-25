@@ -76,7 +76,7 @@ public abstract class Personaje implements Atacable, Dibujable {
 	@Override
 	public Image getImagen() {
 		BuscarImagen buscar = new BuscarImagen();
-		return buscar.subImg(img, ancho, alto, sentido, paso);
+		return buscar.subImg("elfoP.png", 32, 32, 1, 0);
 	}
 
 	@Override

@@ -4,11 +4,12 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import com.google.gson.Gson;
 
+import batalla.BatallaDibujable;
 import conexionSQL.OperacionesBD;
 import interfaces.Atacable;
 import mapa.Mapa;
@@ -25,16 +26,32 @@ public class HiloServidor implements Runnable {
 	private Mapa map;
 	private Mensaje mensaje;
 	private Gson gson = new Gson();
+	private HashMap<String,Socket> mapId ;
+	private BatallaDibujable batalla;
+	private String entrada;
+	private String enemigo;
+	
 	private OperacionesBD operaciones = new OperacionesBD();
 
 	private LinkedList<Socket> usuarios = new LinkedList<Socket>();
 
-	public HiloServidor(Socket soc, LinkedList<Socket> users, Mapa mapa) throws IOException {
+	public HiloServidor(Socket soc, LinkedList<Socket> users, Mapa mapa, HashMap<String,Socket> hm) throws IOException {
 		socket = soc;
 		usuarios = users;
 		map = mapa;
+		mapId = hm;
 		in = new DataInputStream(socket.getInputStream());
 		out = new DataOutputStream(socket.getOutputStream());
+	}
+	
+	public void leerRespuesta() throws IOException {
+		entrada = in.readUTF();
+		mensaje = gson.fromJson(entrada, Mensaje.class);
+
+		if (mensaje.getNombreMensaje().equals("IDEnemigo")) {
+			enemigo = gson.fromJson(mensaje.getJson(), String.class);
+
+		}
 	}
 
 	public void interpretarMensaje() throws IOException {
@@ -42,6 +59,7 @@ public class HiloServidor implements Runnable {
 		if (mensaje.getNombreMensaje().equals("Cargar")) {
 			PersonajeDibujable pers = gson.fromJson(mensaje.getJson(), PersonajeDibujable.class);
 			idCliente = pers.getID();
+			mapId.put(idCliente, socket);
 			map.agregarDibujable(pers);
 			String respuesta = gson.toJson(map);
 			mensaje = new Mensaje("Cargado", respuesta);
@@ -54,6 +72,26 @@ public class HiloServidor implements Runnable {
 			String respuesta = gson.toJson(map);
 			mensaje = new Mensaje("MapaActualizado", respuesta);
 			responder();
+		}
+		
+		if (mensaje.getNombreMensaje().equals("batallaNueva")) {
+			String bat = mensaje.getJson();
+			System.out.println(entrada);
+			mensaje = new Mensaje("pasameIDEnemigo", "nada");
+			responder();
+			this.leerRespuesta();
+			Socket soc = mapId.get(enemigo);
+			System.out.println(entrada);
+			mensaje = new Mensaje("teAtacan", bat);
+			this.mensajeASocket(soc, mensaje);
+			entrada = gson.toJson(out);
+			mensaje = new Mensaje("outputStream", entrada);
+			
+			/*DataInputStream cliIn = new DataInputStream(soc.getInputStream());
+			entrada = cliIn.readUTF();
+			out.writeUTF(entrada);
+			out.flush();	*/		
+			
 		}
 
 		if (mensaje.getNombreMensaje().equals("guardarPersonajeDibujable")) {
@@ -108,8 +146,8 @@ public class HiloServidor implements Runnable {
 
 			String datosUsuario = mensaje.getJson();
 			String usuario = datosUsuario.split(":")[0];
-			String contraseña = datosUsuario.split(":")[1];
-			boolean respuestaValidacion = operaciones.insertarUsuario(usuario, contraseña);
+			String contraseï¿½a = datosUsuario.split(":")[1];
+			boolean respuestaValidacion = operaciones.insertarUsuario(usuario, contraseï¿½a);
 			String respuesta = gson.toJson(respuestaValidacion);
 			mensaje = new Mensaje("registrarUsuario", respuesta);
 			responder();
@@ -118,8 +156,8 @@ public class HiloServidor implements Runnable {
 
 			String datosUsuario = mensaje.getJson();
 			String usuario = datosUsuario.split(":")[0];
-			String contraseña = datosUsuario.split(":")[1];
-			boolean respuestaValidacion = operaciones.validarCredenciales(usuario, contraseña);
+			String contraseï¿½a = datosUsuario.split(":")[1];
+			boolean respuestaValidacion = operaciones.validarCredenciales(usuario, contraseï¿½a);
 			String respuesta = gson.toJson(respuestaValidacion);
 			mensaje = new Mensaje("registrarUsuario", respuesta);
 			responder();
@@ -131,6 +169,15 @@ public class HiloServidor implements Runnable {
 		String salida = gson.toJson(mensaje);
 		out.writeUTF(salida);
 		out.flush();
+	}
+	
+	public void mensajeASocket(Socket cli, Mensaje mens) throws IOException {
+		
+		DataOutputStream cliOut = new DataOutputStream(cli.getOutputStream());
+		
+		String salida = gson.toJson(mens);
+		cliOut.writeUTF(salida);
+		cliOut.flush();
 	}
 
 	@Override

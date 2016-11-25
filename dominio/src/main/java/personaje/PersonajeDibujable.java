@@ -1,6 +1,7 @@
 package personaje;
 
 import java.awt.Image;
+import java.util.Random;
 
 import mapa.BuscarImagen;
 import mapa.Dibujable;
@@ -8,6 +9,7 @@ import mapa.Dibujable;
 public class PersonajeDibujable implements Dibujable {
 
 	private String iD;
+	private boolean enBatalla = false;
 	private String img;
 	private int alto, ancho;
 	private int x, y, sentido, paso = 0;
@@ -18,8 +20,9 @@ public class PersonajeDibujable implements Dibujable {
 		BuscarImagen buscar = new BuscarImagen();
 		alto = buscar.alto(img);
 		ancho = buscar.ancho(img);
-		xMouse = x = 72;
-		yMouse = y = 200;
+		Random ran = new Random();
+		xMouse = x = (12 + ran.nextInt(40)) * 4;
+		yMouse = y = (12 + ran.nextInt(40)) * 4;
 		this.iD = ID;
 	}
 
@@ -103,7 +106,15 @@ public class PersonajeDibujable implements Dibujable {
 	public String getID() {
 		return iD;
 	}
+	
+	public boolean enBatalla() {
+		return enBatalla;
+	}
 
+	public void setEnBatalla(boolean bool) {
+		enBatalla = bool;
+	}
+	
 	@Override
 	public int compareTo(Dibujable d) {
 		return this.iD.compareTo(d.getID());

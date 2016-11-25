@@ -3,6 +3,7 @@ package servidor;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import mapa.Mapa;
@@ -14,6 +15,7 @@ public class ServidorJuego {
 	private ServerSocket servidor;
 	private Mapa map;
 	private LinkedList<Socket> usuarios = new LinkedList<Socket>();
+	private HashMap<String,Socket> mapId = new HashMap<String,Socket>();
 
 	public void escuchar() throws IOException {
 		try {
@@ -25,7 +27,7 @@ public class ServidorJuego {
 				Socket cliente = servidor.accept();
 				usuarios.add(cliente);
 
-				Runnable run = new HiloServidor(cliente, usuarios, map);
+				Runnable run = new HiloServidor(cliente, usuarios, map,mapId);
 				Thread hilo = new Thread(run);
 				hilo.start();
 
