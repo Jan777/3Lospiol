@@ -74,8 +74,6 @@ public class Jugador extends JPanel implements Runnable {
 			public void mouseClicked(MouseEvent arg0) {
 
 				if (arg0.getButton() == MouseEvent.BUTTON3) {
-					// System.out.println("Detected Mouse Right Click! " +
-					// pers.getPosicionYMouse());
 				}
 				pers.setXY(arg0.getX() + map.xRespectoPersonajeMapa(pers),
 						arg0.getY() + map.yRespectoPersonajeMapa(pers));
@@ -112,7 +110,6 @@ public class Jugador extends JPanel implements Runnable {
 			public void mouseClicked(MouseEvent arg0) {
 
 				if (arg0.getButton() == MouseEvent.BUTTON3) {
-					System.out.println("Detected Mouse Right Click! " + pers.getPosicionYMouse());
 				}
 				if (!hayBatalla) {
 					pers.setXY(arg0.getX() + map.xRespectoPersonajeMapa(pers),
@@ -120,7 +117,6 @@ public class Jugador extends JPanel implements Runnable {
 				} else {
 					xMenu = arg0.getX();
 					yMenu = arg0.getY();
-					System.out.println(xMenu);
 				}
 			}
 		});
@@ -136,7 +132,6 @@ public class Jugador extends JPanel implements Runnable {
 		try {
 			entrada = in.readUTF();
 
-			System.out.println(entrada);
 			mensaje = gson.fromJson(entrada, Mensaje.class);
 
 			if (mensaje.getNombreMensaje().equals("Cargado")) {
@@ -154,7 +149,6 @@ public class Jugador extends JPanel implements Runnable {
 
 			if (mensaje.getNombreMensaje().equals("BatallaActualizada")) {
 				batalla = gson.fromJson(mensaje.getJson(), BatallaDibujable.class);
-				System.out.println(mensaje.getJson());
 			}
 
 			if (mensaje.getNombreMensaje().equals("teAtacan")) {
@@ -165,22 +159,20 @@ public class Jugador extends JPanel implements Runnable {
 				 * batalla.agregarContrincante(this.persBatalla, bando);
 				 * this.leerRespuesta(); DataOutputStream cliOut =
 				 * gson.fromJson(mensaje.getJson(), DataOutputStream.class);
-				 * salida = gson.toJson(batalla); System.out.println("Saida " +
-				 * salida); mensaje.cambiarMensaje("BatallaActualizada",
-				 * salida); String msg = gson.toJson(mensaje);
-				 * cliOut.writeUTF(msg);
+				 * salida = gson.toJson(batalla);
+				 * mensaje.cambiarMensaje("BatallaActualizada", salida); String
+				 * msg = gson.toJson(mensaje); cliOut.writeUTF(msg);
 				 */
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Error al leer la respuesta", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 
 	}
 
 	public void enviar(Mensaje mensj) throws IOException {
 		String msg = gson.toJson(mensj);
-		System.out.println(msg);
 		out.writeUTF(msg);
 		out.flush();
 	}
@@ -231,7 +223,6 @@ public class Jugador extends JPanel implements Runnable {
 		} else {
 			// map.pintarMapa(g, pers, this);
 			batalla.pintarBatalla(g, this);
-			// System.out.println(batalla);
 		}
 
 		Toolkit.getDefaultToolkit().sync();
@@ -258,7 +249,6 @@ public class Jugador extends JPanel implements Runnable {
 					while (hayBatalla && enemigo.getPersonaje().getSalud() != 0) {
 						persBatalla.atacar(enemigo.getPersonaje());
 						if (enemigo.getPersonaje().getSalud() == 0) {
-							System.out.println("MURIO");
 							hayBatalla = false;
 						}
 					}
@@ -279,15 +269,16 @@ public class Jugador extends JPanel implements Runnable {
 			try {
 				ciclo();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Error del servidor. ", "Error",
+						JOptionPane.ERROR_MESSAGE);
 			}
 			// if(!hayBatalla)
 			repaint();
 			try {
 				Thread.sleep(DELAY);
 			} catch (InterruptedException err) {
-				System.out.println(err);
+				JOptionPane.showMessageDialog(null, "Error del servidor", "Error",
+						JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -314,15 +305,12 @@ public class Jugador extends JPanel implements Runnable {
 		g2.drawImage(boton, 15, 460, this);
 		g2.drawString("defender", 18, 465);
 
-		System.out.println("menu");
 		while (opcion == null) {
 			if (this.xMenu > 15 && this.xMenu < 200 && this.yMenu > 490 && this.yMenu < 520) {
 				opcion = "atacar";
-				System.out.println("atacar");
 			}
 			if (this.xMenu > 15 && this.xMenu < 200 && this.yMenu > 460 && this.yMenu < 480) {
 				opcion = "defender";
-				System.out.println("defender");
 			}
 		}
 
@@ -333,14 +321,11 @@ public class Jugador extends JPanel implements Runnable {
 		g2.drawString("enemigo2", 18, 465);
 		while (opcion == "atacar") {
 
-			System.out.println(xMenu);
 			if (this.xMenu > 15 && this.xMenu < 200 && this.yMenu > 490 && this.yMenu < 520) {
 				opcion = "atacar";
-				System.out.println("atacar");
 			}
 			if (this.xMenu > 15 && this.xMenu < 200 && this.yMenu > 460 && this.yMenu < 480) {
 				opcion = "defender";
-				System.out.println("defender");
 			}
 		}
 

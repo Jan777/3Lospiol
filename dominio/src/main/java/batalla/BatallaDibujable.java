@@ -40,7 +40,7 @@ public class BatallaDibujable {
 		bando = "R";
 	}
 
-	public void agregarContrincante(Personaje ataca, String bando) {
+	public void agregarContrincante(PersonajeDibujable ataca, String bando) {
 		contrincante.put(ataca.getID(), ataca);
 		bando = "C";
 	}
@@ -100,7 +100,6 @@ public class BatallaDibujable {
 
 		int x;
 		int y;
-		System.out.println("menu");
 
 		g.dispose();
 

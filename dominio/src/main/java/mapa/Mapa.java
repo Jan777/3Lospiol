@@ -67,7 +67,6 @@ public class Mapa {
 			if (!(pers.getID().equals(contrincante.getKey())) && contrincante.getValue().enBatalla() == false
 					&& pers.seSuperPonen(contrincante.getValue())) {
 				enemigo = contrincante.getValue();
-				System.out.println("contr: " + enemigo);
 				return enemigo;
 			}
 		}

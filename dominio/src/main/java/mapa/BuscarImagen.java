@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+
 import java.net.URL;
 
 public class BuscarImagen {
@@ -19,6 +21,8 @@ public class BuscarImagen {
 		try {
 			img = ImageIO.read(new File("src/main/java/img/"+ dibujo));
 		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Error al buscar la imagen", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 
 		return img.getSubimage(ancho * sentido, alto * paso, ancho, alto);

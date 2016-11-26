@@ -80,12 +80,10 @@ public class HiloServidor implements Runnable {
 
 		if (mensaje.getNombreMensaje().equals("batallaNueva")) {
 			String bat = mensaje.getJson();
-			System.out.println(entrada);
 			mensaje = new Mensaje("pasameIDEnemigo", "nada");
 			responder();
 			this.leerRespuesta();
 			Socket soc = mapId.get(enemigo);
-			System.out.println(entrada);
 			mensaje = new Mensaje("teAtacan", bat);
 			this.mensajeASocket(soc, mensaje);
 			entrada = gson.toJson(out);
@@ -197,7 +195,8 @@ public class HiloServidor implements Runnable {
 		try {
 			socket.close();
 		} catch (IOException e1) {
-		
+			JOptionPane.showMessageDialog(null, "Error al eliminar el cliente", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 
 	}

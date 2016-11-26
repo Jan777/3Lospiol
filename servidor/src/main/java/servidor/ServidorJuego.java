@@ -35,6 +35,8 @@ public class ServidorJuego {
 
 			}
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error al conectar el cliente", "Error",
+					JOptionPane.ERROR_MESSAGE);
 
 		} finally {
 			servidor.close();
@@ -46,7 +48,8 @@ public class ServidorJuego {
 		try {
 			servidor.escuchar();
 		} catch (IOException e) {
-
+			JOptionPane.showMessageDialog(null, "Error al levantar el servidor", "Error",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 }

@@ -35,23 +35,6 @@ public class Mapa2 extends JFrame implements ActionListener {
 	private JPanel contentPane;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Mapa2 frame = new Mapa2();
-					frame.setVisible(true);
-					//frame.agregarJugador(new Jugador("pepe", "Elfo", "Guerrero"));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public Mapa2() {
