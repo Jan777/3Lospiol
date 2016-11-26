@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import mapa.BuscarImagen;
 import mapa.Dibujable;

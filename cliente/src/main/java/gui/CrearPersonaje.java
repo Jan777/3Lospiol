@@ -15,6 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -49,7 +50,6 @@ public class CrearPersonaje extends JFrame {
 		setTitle("Warlords");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		// setBounds(100, 100, 800, 600);
 		setBounds(100, 100, 450, 300);
 
 		elegirRaza = new JPanel();
@@ -283,12 +283,8 @@ public class CrearPersonaje extends JFrame {
 				default:
 					break;
 				}
-				// Comenté esto por un error en el casteo del personaje cuando
-				// se va a grabar en la base de datos.
-				// Así ven como abre el juego una vez que se seleccionan los
-				// personajes.
 				try {
-					enviarMensaje("GuardarPersonaje");
+					enviarMensaje("guardarPersonaje");
 					leerRespuesta();
 					enviarMensaje("guardarPersonajeDibujable");
 					leerRespuesta();
@@ -296,8 +292,8 @@ public class CrearPersonaje extends JFrame {
 					JOptionPane.showMessageDialog(null, "Error al guardar personaje en la BD", "Error",
 							JOptionPane.ERROR_MESSAGE);
 				}
-				personaje = login.obtenerPersonaje();
-				personajeDibujable = login.obtenerPersonajeDibujable();
+				login.setPersonaje(login.obtenerPersonaje());
+				login.setPersonajeDibujable(login.obtenerPersonajeDibujable());
 				login.abrirJuego(nombrePersonaje);
 			}
 		});
@@ -331,45 +327,26 @@ public class CrearPersonaje extends JFrame {
 
 	public void enviarMensaje(String nombreMensaje) throws IOException {
 		if (nombreMensaje.equals("guardarPersonajeDibujable")) {
-			String datos = this.nombrePersonaje + ":" + this.nombreImagen;
-			//String json = gson.toJson(datos);
 			String json = gson.toJson(personajeDibujable);
 			mensaje.cambiarMensaje(nombreMensaje, json);
 			enviar(mensaje);
 		}
 
-		if (nombreMensaje.equals("GuardarPersonaje")) {
-			String raza = this.raza;
-			String casta = this.casta;
-
-			String json = gson.toJson(this.personaje);
+		if (nombreMensaje.equals("guardarPersonaje")) {
+			ArrayList<String> personaje = new ArrayList<>();
+			personaje.add(this.personaje.getID());
+			personaje.add("" + this.personaje.getIdRaza());
+			personaje.add("" + this.personaje.getCasta().getIdCasta());
+			personaje.add("" + this.personaje.getNivel());
+			personaje.add("" + this.personaje.getExp());
+			personaje.add("" + this.personaje.getSalud());
+			personaje.add("" + this.personaje.getEnergia());
+			personaje.add("" + this.personaje.getAtaque());
+			personaje.add("" + this.personaje.getDefensa());
+			personaje.add("" + this.personaje.getMana());
+			String json = gson.toJson(personaje);
 			mensaje.cambiarMensaje(nombreMensaje, json);
 			enviar(mensaje);
 		}
-		
 	}
-
-	// public static void main(String args[]) throws UnknownHostException,
-	// IOException {
-	//
-	// Personaje p = null;
-	// PersonajeDibujable d = null;
-	//
-	// Socket cliente = new Socket("localhost", 2028);
-	// String id = "jugador1";
-	// // new Juego(cliente,id,new PersonajeDibujable(id,"elfoP"),new Elfo(new
-	// // Paladin(),id,"elfoP"));
-	// // */
-	//
-	// //CrearPersonaje crear = new CrearPersonaje(id, cliente);
-	// crear.setVisible(true);
-	// do {
-	// if (crear.seCerro() == false) {
-	//
-	// p = crear.obtenerPersonaje();
-	// d = crear.obtenerPersDibujable();
-	// }
-	// } while (crear.seCerro() == false);
-	//
-	// }
 }

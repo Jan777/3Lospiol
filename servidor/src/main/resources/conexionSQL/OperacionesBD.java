@@ -4,15 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import castas.Brujo;
-import castas.Casta;
-import castas.Guerrero;
-import castas.Paladin;
-import personaje.Personaje;
 import personaje.PersonajeDibujable;
-import razas.Elfo;
-import razas.Humano;
-import razas.Orco;
 
 public class OperacionesBD extends ConexionSQL {
 
@@ -62,46 +54,18 @@ public class OperacionesBD extends ConexionSQL {
 		}
 	}
 
-	public boolean insertarPersonaje(Personaje personaje, PersonajeDibujable personajeDibujable) {
-		String subQuery = "(SELECT ID_USUARIO FROM USUARIO WHERE USUARIO = '" + personaje.getID() + "')";
-		int raza = personaje.getIdRaza();
-		int casta = personaje.getCasta().getIdCasta();
+	public boolean insertarPersonaje(ArrayList<String> personaje) {
+		String subQuery = "(SELECT ID_USUARIO FROM USUARIO WHERE USUARIO = '" + personaje.get(0) + "')";
+		int raza = Integer.parseInt(personaje.get(1));
+		int casta = Integer.parseInt(personaje.get(2));
 		int mapa = 1;
-		int nivel = personaje.getNivel();
-		int experiencia = personaje.getExp();
-		int vida = 0;
-		int energia = personaje.getEnergia();
-		int ataque = personaje.getAtaque();
-		int defensa = personaje.getDefensa();
-		int mana = personaje.getMana();
-		int puntos = 0;
-		String values = +raza + ", " + casta + ", " + mapa + ", " + nivel + ", ";
-		values += experiencia + ", " + vida + ", " + energia + ", " + ataque + ", ";
-		values += defensa + ", " + mana + ", " + puntos;
-		String query = "INSERT INTO PERSONAJE VALUES(" + null + ", " + subQuery + ", " + values + ")";
-
-		try {
-			int resultSet = this.getConsulta().executeUpdate(query);
-			if (resultSet == 0)
-				return false;
-			return true;
-		} catch (SQLException e) {
-			return false;
-		}
-	}
-
-	public boolean insertarPersonaje2() {
-		String subQuery = "(SELECT ID_USUARIO FROM USUARIO WHERE USUARIO = '" + "MILAGROS" + "')";
-		int raza = 0;
-		int casta = 0;
-		int mapa = 1;
-		int nivel = 0;
-		int experiencia = 0;
-		int vida = 0;
-		int energia = 0;
-		int ataque = 0;
-		int defensa = 0;
-		int mana = 0;
+		int nivel = Integer.parseInt(personaje.get(3));
+		int experiencia = Integer.parseInt(personaje.get(4));
+		int vida = Integer.parseInt(personaje.get(5));
+		int energia = Integer.parseInt(personaje.get(6));
+		int ataque = Integer.parseInt(personaje.get(7));
+		int defensa = Integer.parseInt(personaje.get(8));
+		int mana = Integer.parseInt(personaje.get(9));
 		int puntos = 0;
 		String values = +raza + ", " + casta + ", " + mapa + ", " + nivel + ", ";
 		values += experiencia + ", " + vida + ", " + energia + ", " + ataque + ", ";
@@ -164,7 +128,6 @@ public class OperacionesBD extends ConexionSQL {
 		return null;
 	}
 
-	// Da error de casteo
 	public ArrayList<String> obtenerPersonaje(String nombreUsuario) {
 		String subQuery = "(SELECT ID_USUARIO FROM USUARIO WHERE USUARIO = '" + nombreUsuario + "')";
 		String query = "SELECT * FROM PERSONAJE WHERE ID_USUARIO = " + subQuery;
@@ -192,7 +155,6 @@ public class OperacionesBD extends ConexionSQL {
 				lista.add("" + defensa);
 				int mana = resultSet.getInt("MANA");
 				lista.add("" + mana);
-				int puntos = resultSet.getInt("PUNTOS");
 				return lista;
 			}
 		} catch (Exception e) {

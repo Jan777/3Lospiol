@@ -107,15 +107,9 @@ public class HiloServidor implements Runnable {
 			responder();
 		}
 
-		if (mensaje.getNombreMensaje().equals("GuardarPersonaje")) {
-			// ACA ME DA UN ERROR. PARA MI ES POR LAS REFERENCIAS DE PERSONAJE,
-			// LA CASTA Y LA RAZA.
-
-			Atacable personaje = gson.fromJson(mensaje.getJson(), Atacable.class);
-
-			// REGISTRAR PERSONAJE EN BD
-			boolean respuestaGuardar = operaciones.insertarPersonaje((Personaje) personaje, null);
-			// boolean respuestaGuardar = operaciones.insertarPersonaje();
+		if (mensaje.getNombreMensaje().equals("guardarPersonaje")) {
+			ArrayList<String> personaje = gson.fromJson(mensaje.getJson(), ArrayList.class);
+			boolean respuestaGuardar = operaciones.insertarPersonaje(personaje);
 			String respuesta = gson.toJson(respuestaGuardar);
 			mensaje = new Mensaje("GuardarPersonaje", respuesta);
 			responder();
@@ -126,7 +120,6 @@ public class HiloServidor implements Runnable {
 			mensaje = new Mensaje("consultarPersonaje", gson.toJson(respuestaConsulta));
 			responder();
 		}
-		// Da error de casteo
 		if (mensaje.getNombreMensaje().equals("obtenerPersonaje")) {
 			String usuario = gson.fromJson(mensaje.getJson(), String.class);
 			ArrayList<String> personaje = operaciones.obtenerPersonaje((usuario));
@@ -140,7 +133,6 @@ public class HiloServidor implements Runnable {
 			mensaje = new Mensaje("consultarPersonaje", gson.toJson(personajeDibujable));
 			responder();
 		}
-
 		if (mensaje.getNombreMensaje().equals("validarUsuario")) {
 			boolean respuestaValidacion = operaciones.existeUsuario(gson.fromJson(mensaje.getJson(), String.class));
 			String respuesta = gson.toJson(respuestaValidacion);

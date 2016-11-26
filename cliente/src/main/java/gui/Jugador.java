@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.google.gson.Gson;
@@ -128,6 +129,7 @@ public class Jugador extends JPanel implements Runnable {
 
 	public void setHayBatalla(boolean bool) {
 		this.hayBatalla = bool;
+		pers.setPersonaje(persBatalla);
 	}
 
 	public synchronized void leerRespuesta() throws IOException {
@@ -252,10 +254,14 @@ public class Jugador extends JPanel implements Runnable {
 				 * 
 				 * leerRespuesta(); leerRespuesta();
 				 */
-				persBatalla.atacar(enemigo.getPersonaje());
-				if (enemigo.getPersonaje().getSalud() == 0) {
-					System.out.println("MURIO");
-					hayBatalla = false;
+				if (enemigo.getPersonaje() != null) {
+					while (hayBatalla && enemigo.getPersonaje().getSalud() != 0) {
+						persBatalla.atacar(enemigo.getPersonaje());
+						if (enemigo.getPersonaje().getSalud() == 0) {
+							System.out.println("MURIO");
+							hayBatalla = false;
+						}
+					}
 				}
 
 			}

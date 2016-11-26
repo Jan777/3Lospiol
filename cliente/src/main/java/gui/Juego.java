@@ -16,68 +16,70 @@ import personaje.Personaje;
 import personaje.PersonajeDibujable;
 import razas.Elfo;
 
-public class Juego extends JFrame{
-    /**
+public class Juego extends JFrame {
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public Juego(String nombre) throws UnknownHostException, IOException{
-        
-        setTitle("Juego 2D con Java ");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800,600);
-        setLocationRelativeTo(null);
-        setResizable(false);
-       
-        add(new Jugador(nombre));
-       
-        setVisible(true);
-    }
-	
-public Juego(Socket sock, String id, PersonajeDibujable p, Personaje pb) throws UnknownHostException, IOException{
-        
-        setTitle("Juego 2D con Java ");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(800,600);
-        setLocationRelativeTo(null);
-        this.setLayout(new BorderLayout());
-        setResizable(false);
-       JPanel pane = new JPanel();
-        pane.setBounds(0, 600, 800, 100);
+	public Juego(String nombre) throws UnknownHostException, IOException {
+
+		setTitle("Juego 2D con Java ");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(800, 600);
+		setLocationRelativeTo(null);
+		setResizable(false);
+
+		add(new Jugador(nombre));
+
+		setVisible(true);
+	}
+
+	public Juego(Socket sock, String id, PersonajeDibujable p, Personaje pb) throws UnknownHostException, IOException {
+
+		setTitle("Juego 2D con Java ");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setSize(800, 600);
+		setLocationRelativeTo(null);
+		this.setLayout(new BorderLayout());
+		setResizable(false);
+		JPanel pane = new JPanel();
+		pane.setBounds(0, 600, 800, 100);
 		pane.setBackground(Color.GREEN);
 		pane.setVisible(true);
 		pane.setFocusable(true);
 		pane.setSize(800, 200);
-		pane.setMinimumSize(new Dimension(800,200));
-		
+		pane.setMinimumSize(new Dimension(800, 200));
+
 		JButton boton = new JButton("boton");
 		boton.setBackground(Color.BLUE);
 		boton.setBounds(0, 0, 100, 100);
 		boton.setVisible(true);
 		pane.add(boton);
+
+		Jugador ju = new Jugador(sock, id, p, pb);
+		// ju.setSize(800, 600);
+		add(ju);
+		// this.add(pane, BorderLayout.SOUTH);
+		// add(boton);
+
+		setVisible(true);
+	}
+
+	public static void main(String args[]) throws UnknownHostException, IOException {
+		// new Juego(2);
+		// new Juego(3);
+
+		Socket cliente = new Socket("localhost", 2028);
+		String id = "jugador1";
+		String id2 = "jugador2";
 		
-        Jugador ju = new Jugador( sock,  id,  p,  pb);
-        //ju.setSize(800, 600);
-        add(ju);
-        //this.add(pane, BorderLayout.SOUTH);
-        //add(boton);
-       
-        setVisible(true);
-    }
-    
-    public static void main(String args[]) throws UnknownHostException, IOException{
-        //new Juego(2);
-        //new Juego(3);
-        
-        Socket cliente = new Socket("localhost", 2028);
-        String id = "jugador1";
-        String id2 = "jugador2";
-        PersonajeDibujable personajeDibujable1 = new PersonajeDibujable(id,"elfoP");
-        Personaje personaje1 = new Elfo(new Paladin(),id,"elfoP");
-        personajeDibujable1.setPersonaje(personaje1);
-        new Juego(cliente,id,personajeDibujable1,personaje1);
-        //new Juego(cliente,id2,new PersonajeDibujable(id2,"elfoP"),new Elfo(new Paladin(),id2,"elfoP"));
-        //*/
-    }
+		PersonajeDibujable personajeDibujable1 = new PersonajeDibujable(id, "elfoP");
+		Personaje personaje1 = new Elfo(new Paladin(), id, "elfoP");
+		new Juego(cliente, id, personajeDibujable1, personaje1);
+		
+		//PersonajeDibujable personajeDibujable2 = new PersonajeDibujable(id2, "elfoP");
+		//Personaje personaje2 = new Elfo(new Paladin(), id2, "elfoP");
+		//new Juego(cliente, id2, personajeDibujable2, personaje2);
+	}
 }
