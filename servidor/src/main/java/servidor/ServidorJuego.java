@@ -35,7 +35,7 @@ public class ServidorJuego {
 
 			}
 		} catch (Exception e) {
-			
+
 		} finally {
 			servidor.close();
 		}
@@ -46,7 +46,7 @@ public class ServidorJuego {
 		try {
 			servidor.escuchar();
 		} catch (IOException e) {
-			
+
 		}
 	}
 }

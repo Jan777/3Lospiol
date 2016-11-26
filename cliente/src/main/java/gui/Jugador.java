@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.google.gson.Gson;
@@ -128,6 +129,7 @@ public class Jugador extends JPanel implements Runnable {
 
 	public void setHayBatalla(boolean bool) {
 		this.hayBatalla = bool;
+		pers.setPersonaje(persBatalla);
 	}
 
 	public synchronized void leerRespuesta() throws IOException {
@@ -157,17 +159,17 @@ public class Jugador extends JPanel implements Runnable {
 
 			if (mensaje.getNombreMensaje().equals("teAtacan")) {
 				this.ciclo();
-				/*batalla = gson.fromJson(mensaje.getJson(), BatallaDibujable.class);
-				System.out.println("ELIAS: " + mensaje.getJson());
-				this.setHayBatalla(true);
-				batalla.agregarContrincante(this.persBatalla, bando);
-				this.leerRespuesta();
-				DataOutputStream cliOut = gson.fromJson(mensaje.getJson(), DataOutputStream.class);
-				salida = gson.toJson(batalla);
-				System.out.println("Saida " + salida);
-				mensaje.cambiarMensaje("BatallaActualizada", salida);
-				String msg = gson.toJson(mensaje);
-				cliOut.writeUTF(msg);*/
+				/*
+				 * batalla = gson.fromJson(mensaje.getJson(),
+				 * BatallaDibujable.class); this.setHayBatalla(true);
+				 * batalla.agregarContrincante(this.persBatalla, bando);
+				 * this.leerRespuesta(); DataOutputStream cliOut =
+				 * gson.fromJson(mensaje.getJson(), DataOutputStream.class);
+				 * salida = gson.toJson(batalla); System.out.println("Saida " +
+				 * salida); mensaje.cambiarMensaje("BatallaActualizada",
+				 * salida); String msg = gson.toJson(mensaje);
+				 * cliOut.writeUTF(msg);
+				 */
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -205,7 +207,7 @@ public class Jugador extends JPanel implements Runnable {
 			mensaje.cambiarMensaje(nombreMensaje, json);
 			enviar(mensaje);
 		}
-		if(nombreMensaje.equals("Atacar")){
+		if (nombreMensaje.equals("Atacar")) {
 			String json = gson.toJson(enemigo);
 			mensaje.cambiarMensaje(nombreMensaje, json);
 			enviar(mensaje);
@@ -247,10 +249,20 @@ public class Jugador extends JPanel implements Runnable {
 
 				batalla = new BatallaDibujable(this.persBatalla, bando, enemigo);
 				enviarMensaje("Atacar");
-				/*enviarMensaje("batallaNueva");
-
-				leerRespuesta();
-				leerRespuesta();*/
+				/*
+				 * enviarMensaje("batallaNueva");
+				 * 
+				 * leerRespuesta(); leerRespuesta();
+				 */
+				if (enemigo.getPersonaje() != null) {
+					while (hayBatalla && enemigo.getPersonaje().getSalud() != 0) {
+						persBatalla.atacar(enemigo.getPersonaje());
+						if (enemigo.getPersonaje().getSalud() == 0) {
+							System.out.println("MURIO");
+							hayBatalla = false;
+						}
+					}
+				}
 
 			}
 

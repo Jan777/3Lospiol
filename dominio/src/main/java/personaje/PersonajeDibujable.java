@@ -15,6 +15,7 @@ public class PersonajeDibujable implements Dibujable {
 	private int alto, ancho;
 	private int x, y, sentido, paso = 0;
 	private int xMouse, yMouse;
+	private Personaje personaje;
 
 	public PersonajeDibujable(String ID,String nombreImagen) {
 		img = nombreImagen+".png";
@@ -64,7 +65,6 @@ public class PersonajeDibujable implements Dibujable {
 		BuscarImagen buscar = new BuscarImagen();
 		return buscar.subImg(img, ancho, alto, sentido, paso);
 	}
-	
 	public String getImg(){
 		return this.imagenSinExtension;
 	}
@@ -97,9 +97,8 @@ public class PersonajeDibujable implements Dibujable {
 		return alto;
 	}
 
-	
 	public boolean seSuperPonen(PersonajeDibujable d) {
-		if(Math.abs(this.x - d.getPosicionX()) < this.ancho && Math.abs(this.y - d.getPosicionY()) < this.alto )
+		if (Math.abs(this.x - d.getPosicionX()) < this.ancho && Math.abs(this.y - d.getPosicionY()) < this.alto)
 			return true;
 		return false;
 	}
@@ -108,7 +107,7 @@ public class PersonajeDibujable implements Dibujable {
 	public String getID() {
 		return iD;
 	}
-	
+
 	public boolean enBatalla() {
 		return enBatalla;
 	}
@@ -116,12 +115,17 @@ public class PersonajeDibujable implements Dibujable {
 	public void setEnBatalla(boolean bool) {
 		enBatalla = bool;
 	}
-	
+
 	@Override
 	public int compareTo(Dibujable d) {
 		return this.iD.compareTo(d.getID());
 	}
 
-	
+	public Personaje getPersonaje() {
+		return personaje;
+	}
 
+	public void setPersonaje(Personaje personaje) {
+		this.personaje = personaje;
+	}
 }
