@@ -51,7 +51,7 @@ public class Jugador extends JPanel implements Runnable {
 	private Gson gson = new Gson();
 	private String entrada;
 	private String salida;
-	private String enemigo = "ene";
+	private PersonajeDibujable enemigo;// = "ene";
 	private String bando;
 
 	public Jugador(String nombreJugador) throws UnknownHostException, IOException {
@@ -98,7 +98,7 @@ public class Jugador extends JPanel implements Runnable {
 		map = new Mapa();
 		enviarMensaje("Cargar");
 		leerRespuesta();
-		
+
 		pane.setBounds(400, 400, 200, 200);
 		pane.setBackground(Color.GREEN);
 		pane.setVisible(true);
@@ -113,11 +113,10 @@ public class Jugador extends JPanel implements Runnable {
 				if (arg0.getButton() == MouseEvent.BUTTON3) {
 					System.out.println("Detected Mouse Right Click! " + pers.getPosicionYMouse());
 				}
-				if(!hayBatalla)
-				{
-				pers.setXY(arg0.getX() + map.xRespectoPersonajeMapa(pers),
-						arg0.getY() + map.yRespectoPersonajeMapa(pers));
-				}else{
+				if (!hayBatalla) {
+					pers.setXY(arg0.getX() + map.xRespectoPersonajeMapa(pers),
+							arg0.getY() + map.yRespectoPersonajeMapa(pers));
+				} else {
 					xMenu = arg0.getX();
 					yMenu = arg0.getY();
 					System.out.println(xMenu);
@@ -134,7 +133,7 @@ public class Jugador extends JPanel implements Runnable {
 	public synchronized void leerRespuesta() throws IOException {
 		try {
 			entrada = in.readUTF();
-			
+
 			System.out.println(entrada);
 			mensaje = gson.fromJson(entrada, Mensaje.class);
 
@@ -146,34 +145,35 @@ public class Jugador extends JPanel implements Runnable {
 			if (mensaje.getNombreMensaje().equals("MapaActualizado")) {
 				map = gson.fromJson(mensaje.getJson(), Mapa.class);
 			}
-			
+
 			if (mensaje.getNombreMensaje().equals("pasameIDEnemigo")) {
 				enviarMensaje("IDEnemigo");
 			}
-			
+
 			if (mensaje.getNombreMensaje().equals("BatallaActualizada")) {
 				batalla = gson.fromJson(mensaje.getJson(), BatallaDibujable.class);
 				System.out.println(mensaje.getJson());
 			}
-			
+
 			if (mensaje.getNombreMensaje().equals("teAtacan")) {
-				batalla = gson.fromJson(mensaje.getJson(), BatallaDibujable.class);
-				System.out.println(mensaje.getJson());
+				this.ciclo();
+				/*batalla = gson.fromJson(mensaje.getJson(), BatallaDibujable.class);
+				System.out.println("ELIAS: " + mensaje.getJson());
 				this.setHayBatalla(true);
 				batalla.agregarContrincante(this.persBatalla, bando);
 				this.leerRespuesta();
 				DataOutputStream cliOut = gson.fromJson(mensaje.getJson(), DataOutputStream.class);
 				salida = gson.toJson(batalla);
-				System.out.println("Saida "+ salida);
+				System.out.println("Saida " + salida);
 				mensaje.cambiarMensaje("BatallaActualizada", salida);
 				String msg = gson.toJson(mensaje);
-				cliOut.writeUTF(msg);
+				cliOut.writeUTF(msg);*/
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void enviar(Mensaje mensj) throws IOException {
@@ -205,6 +205,11 @@ public class Jugador extends JPanel implements Runnable {
 			mensaje.cambiarMensaje(nombreMensaje, json);
 			enviar(mensaje);
 		}
+		if(nombreMensaje.equals("Atacar")){
+			String json = gson.toJson(enemigo);
+			mensaje.cambiarMensaje(nombreMensaje, json);
+			enviar(mensaje);
+		}
 	}
 
 	@Override
@@ -217,16 +222,16 @@ public class Jugador extends JPanel implements Runnable {
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		if(!hayBatalla){
-			
+		if (!hayBatalla) {
+
 			map.pintarMapa(g, pers, this);
 
-		}else{
-			//map.pintarMapa(g, pers, this);
+		} else {
+			// map.pintarMapa(g, pers, this);
 			batalla.pintarBatalla(g, this);
-			//System.out.println(batalla);
+			// System.out.println(batalla);
 		}
-		
+
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose();
 	}
@@ -237,19 +242,20 @@ public class Jugador extends JPanel implements Runnable {
 			enemigo = map.hayBatalla(pers);
 			enviarMensaje("ActualizarMapa");
 			leerRespuesta();
-			if(enemigo != null)
-			{
+			if (enemigo != null) {
 				hayBatalla = true;
-				batalla = new BatallaDibujable(this.persBatalla,bando);
-				enviarMensaje("batallaNueva");
-				
+
+				batalla = new BatallaDibujable(this.persBatalla, bando, enemigo);
+				enviarMensaje("Atacar");
+				/*enviarMensaje("batallaNueva");
+
 				leerRespuesta();
-				leerRespuesta();
-				
+				leerRespuesta();*/
+
 			}
-			
-		}else{
-			
+
+		} else {
+
 		}
 
 		// map.actualizarMapa(pers);
@@ -264,8 +270,8 @@ public class Jugador extends JPanel implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//if(!hayBatalla)
-			  repaint();
+			// if(!hayBatalla)
+			repaint();
 			try {
 				Thread.sleep(DELAY);
 			} catch (InterruptedException err) {
@@ -273,22 +279,20 @@ public class Jugador extends JPanel implements Runnable {
 			}
 		}
 	}
-	
-	public void elegirOpcionBatalla()
-	{
-		
+
+	public void elegirOpcionBatalla() {
+
 		this.persBatalla.atacar(this.persBatalla);
-		this.persBatalla.aplicarHechizo(this.persBatalla.casta.habilidadCasta, this.persBatalla);
+		this.persBatalla.aplicarHechizo(this.persBatalla.casta.getHabilidadCasta(), this.persBatalla);
 	}
-	public void elegirAtacado()
-	{
-		
+
+	public void elegirAtacado() {
+
 	}
-	
-	public void dibujarMenu(boolean op)
-	{
-		
-		Graphics2D g2 = (Graphics2D)this.getGraphics(); 
+
+	public void dibujarMenu(boolean op) {
+
+		Graphics2D g2 = (Graphics2D) this.getGraphics();
 		Image menu = new ImageIcon("src/main/java/img/menu.png").getImage();
 		Image boton = new ImageIcon("src/main/java/img/botonMenu.png").getImage();
 		g2.drawImage(menu, 10, 500, this);
@@ -297,47 +301,39 @@ public class Jugador extends JPanel implements Runnable {
 		g2.drawString("atacar", 18, 495);
 		g2.drawImage(boton, 15, 460, this);
 		g2.drawString("defender", 18, 465);
-		
+
 		System.out.println("menu");
-		while(opcion == null)
-		{
-			if(this.xMenu > 15 && this.xMenu < 200 && this.yMenu > 490 && this.yMenu < 520)
-			{
+		while (opcion == null) {
+			if (this.xMenu > 15 && this.xMenu < 200 && this.yMenu > 490 && this.yMenu < 520) {
 				opcion = "atacar";
 				System.out.println("atacar");
 			}
-			if(this.xMenu > 15 && this.xMenu < 200 && this.yMenu > 460 && this.yMenu < 480)
-			{
+			if (this.xMenu > 15 && this.xMenu < 200 && this.yMenu > 460 && this.yMenu < 480) {
 				opcion = "defender";
 				System.out.println("defender");
 			}
 		}
-		
+
 		batalla.pintarBatalla(g2, this);
 		g2.drawImage(boton, 15, 490, this);
 		g2.drawString("enemigo1", 18, 495);
 		g2.drawImage(boton, 15, 460, this);
 		g2.drawString("enemigo2", 18, 465);
-		while(opcion == "atacar")
-		{
-			
+		while (opcion == "atacar") {
+
 			System.out.println(xMenu);
-			if(this.xMenu > 15 && this.xMenu < 200 && this.yMenu > 490 && this.yMenu < 520)
-			{
+			if (this.xMenu > 15 && this.xMenu < 200 && this.yMenu > 490 && this.yMenu < 520) {
 				opcion = "atacar";
 				System.out.println("atacar");
 			}
-			if(this.xMenu > 15 && this.xMenu < 200 && this.yMenu > 460 && this.yMenu < 480)
-			{
+			if (this.xMenu > 15 && this.xMenu < 200 && this.yMenu > 460 && this.yMenu < 480) {
 				opcion = "defender";
 				System.out.println("defender");
 			}
 		}
-		
+
 		g2.dispose();
-	
-		
-	
+
 	}
 
 }

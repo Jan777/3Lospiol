@@ -4,8 +4,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+
+import javax.swing.JOptionPane;
 
 import com.google.gson.Gson;
 
@@ -26,16 +29,17 @@ public class HiloServidor implements Runnable {
 	private Mapa map;
 	private Mensaje mensaje;
 	private Gson gson = new Gson();
-	private HashMap<String,Socket> mapId ;
+	private HashMap<String, Socket> mapId;
 	private BatallaDibujable batalla;
 	private String entrada;
 	private String enemigo;
-	
+
 	private OperacionesBD operaciones = new OperacionesBD();
 
 	private LinkedList<Socket> usuarios = new LinkedList<Socket>();
 
-	public HiloServidor(Socket soc, LinkedList<Socket> users, Mapa mapa, HashMap<String,Socket> hm) throws IOException {
+	public HiloServidor(Socket soc, LinkedList<Socket> users, Mapa mapa, HashMap<String, Socket> hm)
+			throws IOException {
 		socket = soc;
 		usuarios = users;
 		map = mapa;
@@ -43,7 +47,7 @@ public class HiloServidor implements Runnable {
 		in = new DataInputStream(socket.getInputStream());
 		out = new DataOutputStream(socket.getOutputStream());
 	}
-	
+
 	public void leerRespuesta() throws IOException {
 		entrada = in.readUTF();
 		mensaje = gson.fromJson(entrada, Mensaje.class);
@@ -73,7 +77,7 @@ public class HiloServidor implements Runnable {
 			mensaje = new Mensaje("MapaActualizado", respuesta);
 			responder();
 		}
-		
+
 		if (mensaje.getNombreMensaje().equals("batallaNueva")) {
 			String bat = mensaje.getJson();
 			System.out.println(entrada);
@@ -86,12 +90,13 @@ public class HiloServidor implements Runnable {
 			this.mensajeASocket(soc, mensaje);
 			entrada = gson.toJson(out);
 			mensaje = new Mensaje("outputStream", entrada);
-			
-			/*DataInputStream cliIn = new DataInputStream(soc.getInputStream());
-			entrada = cliIn.readUTF();
-			out.writeUTF(entrada);
-			out.flush();	*/		
-			
+
+			/*
+			 * DataInputStream cliIn = new
+			 * DataInputStream(soc.getInputStream()); entrada = cliIn.readUTF();
+			 * out.writeUTF(entrada); out.flush();
+			 */
+
 		}
 
 		if (mensaje.getNombreMensaje().equals("guardarPersonajeDibujable")) {
@@ -110,7 +115,7 @@ public class HiloServidor implements Runnable {
 
 			// REGISTRAR PERSONAJE EN BD
 			boolean respuestaGuardar = operaciones.insertarPersonaje((Personaje) personaje, null);
-		//	boolean respuestaGuardar = operaciones.insertarPersonaje();
+			// boolean respuestaGuardar = operaciones.insertarPersonaje();
 			String respuesta = gson.toJson(respuestaGuardar);
 			mensaje = new Mensaje("GuardarPersonaje", respuesta);
 			responder();
@@ -121,17 +126,17 @@ public class HiloServidor implements Runnable {
 			mensaje = new Mensaje("consultarPersonaje", gson.toJson(respuestaConsulta));
 			responder();
 		}
-		//Da error de casteo
+		// Da error de casteo
 		if (mensaje.getNombreMensaje().equals("obtenerPersonaje")) {
 			String usuario = gson.fromJson(mensaje.getJson(), String.class);
 			ArrayList<String> personaje = operaciones.obtenerPersonaje((usuario));
 			mensaje = new Mensaje("obtenerPersonaje", gson.toJson(personaje));
 			responder();
 		}
-		
+
 		if (mensaje.getNombreMensaje().equals("obtenerPersonajeDibujable")) {
 			String usuario = gson.fromJson(mensaje.getJson(), String.class);
-			String  personajeDibujable = operaciones.obtenerPersonajeDibujable((usuario));
+			String personajeDibujable = operaciones.obtenerPersonajeDibujable((usuario));
 			mensaje = new Mensaje("consultarPersonaje", gson.toJson(personajeDibujable));
 			responder();
 		}
@@ -146,8 +151,8 @@ public class HiloServidor implements Runnable {
 
 			String datosUsuario = mensaje.getJson();
 			String usuario = datosUsuario.split(":")[0];
-			String contraseï¿½a = datosUsuario.split(":")[1];
-			boolean respuestaValidacion = operaciones.insertarUsuario(usuario, contraseï¿½a);
+			String contraseña = datosUsuario.split(":")[1];
+			boolean respuestaValidacion = operaciones.insertarUsuario(usuario, contraseña);
 			String respuesta = gson.toJson(respuestaValidacion);
 			mensaje = new Mensaje("registrarUsuario", respuesta);
 			responder();
@@ -156,8 +161,8 @@ public class HiloServidor implements Runnable {
 
 			String datosUsuario = mensaje.getJson();
 			String usuario = datosUsuario.split(":")[0];
-			String contraseï¿½a = datosUsuario.split(":")[1];
-			boolean respuestaValidacion = operaciones.validarCredenciales(usuario, contraseï¿½a);
+			String contraseña = datosUsuario.split(":")[1];
+			boolean respuestaValidacion = operaciones.validarCredenciales(usuario, contraseña);
 			String respuesta = gson.toJson(respuestaValidacion);
 			mensaje = new Mensaje("registrarUsuario", respuesta);
 			responder();
@@ -170,11 +175,11 @@ public class HiloServidor implements Runnable {
 		out.writeUTF(salida);
 		out.flush();
 	}
-	
+
 	public void mensajeASocket(Socket cli, Mensaje mens) throws IOException {
-		
+
 		DataOutputStream cliOut = new DataOutputStream(cli.getOutputStream());
-		
+
 		String salida = gson.toJson(mens);
 		cliOut.writeUTF(salida);
 		cliOut.flush();
@@ -200,8 +205,7 @@ public class HiloServidor implements Runnable {
 		try {
 			socket.close();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		
 		}
 
 	}

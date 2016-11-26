@@ -8,7 +8,7 @@ import personaje.Personaje;
 
 public class Casta {
 	protected String casta;
-	protected String habilidadCasta;
+	private String habilidadCasta;
 	protected int poderDeHabilidad;
 	protected int idCasta;
 
@@ -37,7 +37,7 @@ public class Casta {
 	}
 
 	public String nombreHabilidad() {
-		return habilidadCasta;
+		return getHabilidadCasta();
 	}
 
 	public int poderHabilidad() {
@@ -46,5 +46,13 @@ public class Casta {
 
 	public int getIdCasta() {
 		return this.idCasta;
+	}
+
+	public String getHabilidadCasta() {
+		return habilidadCasta;
+	}
+
+	public void setHabilidadCasta(String habilidadCasta) {
+		this.habilidadCasta = habilidadCasta;
 	}
 }
