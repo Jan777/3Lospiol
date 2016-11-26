@@ -7,9 +7,20 @@ import batalla.Batalla;
 import castas.Brujo;
 import castas.Guerrero;
 import castas.Paladin;
+import habDeGuerrero.AumentarAtaque;
+import habDeGuerrero.Desgarrar;
+import habDeGuerrero.Ejecutar;
+import hechizosDeBrujo.BolaDeLaOscuridad;
+import hechizosDeBrujo.DisminuirAtaque;
+import hechizosDeBrujo.LatigazoMortal;
+import hechizosYHabPaladin.GolpeHeroico;
+import hechizosYHabPaladin.Sanar;
+import hechizosYHabPaladin.TormentaDivina;
+import mapa.BuscarImagen;
 //import login.Login;
 import personaje.Alianza;
 import personaje.Personaje;
+import personaje.PersonajeDibujable;
 import personajeEquipado.ConAnillo;
 import personajeEquipado.ConArmadura;
 import personajeEquipado.ConCascoDeLaMuerte;
@@ -27,24 +38,24 @@ public class PersonajeTest {
 	 * 
 	 * @throws InterruptedException
 	 */
-//	@Test
-//	public void historiaDeUsuarioNº1() {
-//
-//		Login login = new Login();
-//		login.main(null);
-//	}
+	// @Test
+	// public void historiaDeUsuarioNº1() {
+	//
+	// Login login = new Login();
+	// login.main(null);
+	// }
 
 	/**
 	 * 2_** Como jugador quiero poder crear un personaje pudiendo elegir la
 	 * casta que prefiera y ponerle un nombre a mi personaje.
 	 */
-//	@Test
-//	public void historiaDeUsuarioNº2() {
-//
-//		Jugador jugador = new Jugador("pepe", "Humano", "Brujo");
-//		Assert.assertEquals("pepe", jugador.getNombre());
-//		Assert.assertEquals(100, jugador.getPersonaje().obtenerPuntosDeSalud());
-//	}
+	// @Test
+	// public void historiaDeUsuarioNº2() {
+	//
+	// Jugador jugador = new Jugador("pepe", "Humano", "Brujo");
+	// Assert.assertEquals("pepe", jugador.getNombre());
+	// Assert.assertEquals(100, jugador.getPersonaje().obtenerPuntosDeSalud());
+	// }
 
 	/**
 	 * Como jugador quiero que haya 3 razas para elegir, las cuales seran
@@ -125,18 +136,18 @@ public class PersonajeTest {
 		Humano humano = new Humano(new Guerrero(), null, null);
 		Elfo elfo = new Elfo(new Brujo(), null, null);
 		Orco orco = new Orco(new Paladin(), null, null);
-		
-		while(humano.estaVivo()){
+
+		while (humano.estaVivo()) {
 			orco.atacar(humano);
 			orco.serEnergizado();
 		}
 		orco.atacar(humano);
-		while(elfo.estaVivo()){
+		while (elfo.estaVivo()) {
 			orco.atacar(elfo);
 			orco.serEnergizado();
 		}
 		orco.atacar(elfo);
-		//el orco mato a 2 jugadores y sube un nivel
+		// el orco mato a 2 jugadores y sube un nivel
 		Assert.assertEquals(2, orco.getNivel());
 
 	}
@@ -188,6 +199,39 @@ public class PersonajeTest {
 		Assert.assertEquals(3, personaje.getCantidadDeItems());
 		//
 
+	}
+
+	@Test
+	public void queBuscaLasImagenes() {
+		BuscarImagen buscar = new BuscarImagen();
+		String imagen = "orcoP.png";
+		Assert.assertEquals(32, buscar.alto(imagen));
+		Assert.assertEquals(32, buscar.ancho(imagen));
+		String mapa = "stage2";
+		Assert.assertEquals(128, buscar.altoMapa(mapa));
+		Assert.assertEquals(96, buscar.anchoMapa(mapa));
+
+	}
+
+	@Test
+	public void queCaminaElPersonaje() {
+		PersonajeDibujable personaje = new PersonajeDibujable("Nombre", "orcoP");
+		personaje.caminar();
+	}
+
+	@Test
+	public void quePuedoCrearHabilidades() {
+		AumentarAtaque a = new AumentarAtaque();
+		Desgarrar d = new Desgarrar();
+		Ejecutar e = new Ejecutar();
+
+		BolaDeLaOscuridad b = new BolaDeLaOscuridad();
+		DisminuirAtaque di = new DisminuirAtaque();
+		LatigazoMortal l = new LatigazoMortal();
+
+		GolpeHeroico g = new GolpeHeroico();
+		Sanar s = new Sanar();
+		TormentaDivina t = new TormentaDivina();
 	}
 
 }
