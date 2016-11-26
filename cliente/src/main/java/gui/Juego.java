@@ -73,8 +73,11 @@ public Juego(Socket sock, String id, PersonajeDibujable p, Personaje pb) throws 
         Socket cliente = new Socket("localhost", 2028);
         String id = "jugador1";
         String id2 = "jugador2";
-        //new Juego(cliente,id,new PersonajeDibujable(id,"elfoP"),new Elfo(new Paladin(),id,"elfoP"));
-        new Juego(cliente,id2,new PersonajeDibujable(id2,"elfoP"),new Elfo(new Paladin(),id2,"elfoP"));
+        PersonajeDibujable personajeDibujable1 = new PersonajeDibujable(id,"elfoP");
+        Personaje personaje1 = new Elfo(new Paladin(),id,"elfoP");
+        personajeDibujable1.setPersonaje(personaje1);
+        new Juego(cliente,id,personajeDibujable1,personaje1);
+        //new Juego(cliente,id2,new PersonajeDibujable(id2,"elfoP"),new Elfo(new Paladin(),id2,"elfoP"));
         //*/
     }
 }
