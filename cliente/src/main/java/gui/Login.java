@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -422,6 +421,14 @@ public class Login extends JFrame {
 
 	public boolean seCerro() {
 		return seCerro;
+	}
+	
+	public void setPersonaje(Personaje personaje){
+		this.personaje = personaje;
+	}
+	
+	public void setPersonajeDibujable(PersonajeDibujable personajeDibujable){
+		this.personajeDibujable = personajeDibujable;
 	}
 
 	public void abrirJuego(String nombreUsuario) {

@@ -58,15 +58,15 @@ public class ConexionSQLTest {
 		conexion.desconectar();
 	}
 
-	@Test
-	public void queInsertaUnPersonaje() {
-		String nombrePersonaje = "NICO";
-		Personaje personaje = new Humano(new Guerrero(), nombrePersonaje, "humanoG");
-		OperacionesBD conexion = new OperacionesBD();
-		conexion.conectar();
-		Assert.assertEquals(true, conexion.insertarPersonaje(personaje, null));
-		conexion.desconectar();
-	}
+//	@Test
+//	public void queInsertaUnPersonaje() {
+//		String nombrePersonaje = "NICO";
+//		Personaje personaje = new Humano(new Guerrero(), nombrePersonaje, "humanoG");
+//		OperacionesBD conexion = new OperacionesBD();
+//		conexion.conectar();
+//		Assert.assertEquals(true, conexion.insertarPersonaje(personaje, null));
+//		conexion.desconectar();
+//	}
 	
 //	@Test
 //	public void queInsertaUnPersonajeDibujable() {

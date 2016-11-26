@@ -11,12 +11,14 @@ public class PersonajeDibujable implements Dibujable {
 	private String iD;
 	private boolean enBatalla = false;
 	private String img;
+	private String imagenSinExtension;
 	private int alto, ancho;
 	private int x, y, sentido, paso = 0;
 	private int xMouse, yMouse;
 
 	public PersonajeDibujable(String ID,String nombreImagen) {
 		img = nombreImagen+".png";
+		imagenSinExtension = nombreImagen;
 		BuscarImagen buscar = new BuscarImagen();
 		alto = buscar.alto(img);
 		ancho = buscar.ancho(img);
@@ -64,7 +66,7 @@ public class PersonajeDibujable implements Dibujable {
 	}
 	
 	public String getImg(){
-		return this.img;
+		return this.imagenSinExtension;
 	}
 
 	@Override
